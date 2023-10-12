@@ -473,7 +473,7 @@ func _on_Next_pressed() -> void:
 			rpc_id(p, "next_round")
 
 	# get new dominos from deck
-	if center_num <= 5:
+	if center_num <= 9:
 		setup_dominos()
 		$NextSound.playing = true
 
