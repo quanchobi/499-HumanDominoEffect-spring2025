@@ -33,6 +33,7 @@ func _on_host_pressed():
 		set_error_text("Invalid name!")
 		return
 
+	#Connects to the server after hitting the host button
 	$Connect.hide()
 	$TitleBox/Title.visible = false
 	$LevelSelect/Popup.visible = true
@@ -45,6 +46,7 @@ func _on_join_pressed():
 		set_error_text("Invalid name!")
 		return
 
+	#Connects the user to the host using IP
 	var ip = $Connect/JoinBox/IPAddress.text
 	if not ip.is_valid_ip_address():
 		set_error_text("Invalid IP address!")
