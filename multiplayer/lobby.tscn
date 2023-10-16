@@ -6,7 +6,7 @@
 [ext_resource path="res://UI/Font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://sprites/Domino Effect Logo.png" type="Texture" id=5]
 [ext_resource path="res://Nunito/Nunito-Regular.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://levels/Scenes/LevelSelect.tscn" type="PackedScene" id=7]
+[ext_resource path="res://levels/LevelSelect.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Theme" id=2]
 
@@ -203,6 +203,7 @@ size_flags_vertical = 2
 text = "Join"
 
 [node name="ErrorDialog" type="AcceptDialog" parent="."]
+visible = true
 margin_right = 55.0
 margin_bottom = 58.0
 size_flags_horizontal = 2
@@ -213,6 +214,7 @@ stream = ExtResource( 2 )
 autoplay = true
 
 [node name="LevelSelect" parent="." instance=ExtResource( 7 )]
+visible = false
 
 [node name="Node" type="Node" parent="."]
 
