@@ -169,6 +169,7 @@ remotesync func register_player(new_player_name):
 	emit_signal("player_list_changed")
 
 
+
 func unregister_player(id):
 	players.erase(id)
 	emit_signal("player_list_changed")
@@ -187,7 +188,7 @@ remote func pre_start_game():
 
 remote func post_start_game():
 	gamestate.players_ready = []
-	var world = load("res://levels/Scenes/Manager.tscn")
+	var world = load("res://levels/Manager.tscn")
 	
 			
 	if get_tree().get_network_unique_id() != 1:
@@ -226,11 +227,22 @@ func host_game(new_player_name):
 	rpc("register_player", player_name)
 
 
-func join_game(ip, new_player_name):
-	player_name = new_player_name
-	peer = NetworkedMultiplayerENet.new()
-	peer.create_client(ip, DEFAULT_PORT)
-	get_tree().set_network_peer(peer)
+func join_game(host_name, new_player_name):#func join_game(ip, new_player_name):
+	for id in players:
+		if players[id] == host_name:
+			player_name=new_player_name
+			peer = NetworkedMultiplayerENet.new()
+			peer.create_client(id, DEFAULT_PORT) #peer.create_client(ip, DEFAULT_PORT)
+			get_tree().set_network_peer(peer)
+			rpc("register_player", player_name)
+			break
+	if peer==null:
+		emit_signal("connection_failed")
+	#if player_name == host_name:
+		#rpc_id(1, "register_player_by_name", host_name, player_name)
+		#return
+	#rpc_id(1, "register_player_by_name", host_name, player_name)
+
 	
 # host sends level to player who asked
 remote func get_level():
@@ -284,31 +296,4 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_connected_ok")
 	get_tree().connect("connection_failed", self, "_connected_fail")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
-	
-var SavePath = "res://Saves/Save1.json"
-var SaveFile
-
-var Save = {
-		0: {
-			"Players": players,
-			"Points": total_points,
-			"lydia_lion": lydia_lion,
-			"alloys": alloys,
-			"footprint_tiles": footprint_tiles,
-			"bully_particles": bully_particles,
-			"elcitraps": elcitraps,
-			"hair": hair,
-			"body": body,
-			"clothes": clothes,
-			"Current_Level": 2,
-			"Current_Round": 5
-		}
-	}
-	
-func _process(delta):
-	#TO-DO setup json files to save when a button is hit and Figure out how to change current level.
-	if(Input.is_action_just_pressed("Save_Load")):
-		SaveFile = File.new()
-		SaveFile.open(SavePath, File.WRITE)
-		SaveFile.store_string(JSON.print(Save))
 	
