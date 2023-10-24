@@ -206,10 +206,10 @@ layer = -2
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -3280.0
-margin_top = -2136.0
-margin_right = -3280.0
-margin_bottom = -1736.0
+margin_left = -2990.0
+margin_top = -1685.0
+margin_right = -2990.0
+margin_bottom = -1285.0
 rect_scale = Vector2( 8, 5 )
 mouse_filter = 2
 texture = ExtResource( 2 )

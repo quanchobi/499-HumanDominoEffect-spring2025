@@ -20,7 +20,7 @@ export var dominos = []
 # Consts for footprint tiles
 const num_outer_tiles = 36
 const num_inner_tiles = 24
-const tiles_per_round = (num_outer_tiles + num_inner_tiles) / num_domino_rounds
+const tiles_per_round = (num_outer_tiles + num_inner_tiles) / 6
 
 var peer = null
 

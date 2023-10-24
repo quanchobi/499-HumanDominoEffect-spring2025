@@ -445,7 +445,6 @@ remote func next_round():
 
 	# remove center domino from deck
 	dominos.erase([center_num, center_num])
-
 	# reset domino paths
 	path_ends = []
 	for _i in range(8):
@@ -507,6 +506,7 @@ func _close_WellnessBead_popup() -> void:
 
 func _close_Alloy_popup() -> void:
 	$AlloyPopup.visible = false
+
 
 func _close_FootprintTile_popup():
 	$FootprintTilePopup.visible = false
