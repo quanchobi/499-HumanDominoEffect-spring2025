@@ -427,7 +427,7 @@ remote func next_round():
 	for domino in group_dominos:
 		domino.queue_free()
 
-	# if we've completed round 9, end game
+	# if we've completed round 5, end game
 	if center_num >= 9:
 		$Turn.text = "Game\nOver!"
 		$End.text = "Winner: " + determine_winner() + "\n(Hover over faces to see stats.)"
@@ -445,6 +445,7 @@ remote func next_round():
 
 	# remove center domino from deck
 	dominos.erase([center_num, center_num])
+
 	# reset domino paths
 	path_ends = []
 	for _i in range(8):
@@ -506,7 +507,6 @@ func _close_WellnessBead_popup() -> void:
 
 func _close_Alloy_popup() -> void:
 	$AlloyPopup.visible = false
-
 
 func _close_FootprintTile_popup():
 	$FootprintTilePopup.visible = false

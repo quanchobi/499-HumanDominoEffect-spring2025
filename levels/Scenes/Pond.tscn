@@ -20,6 +20,7 @@
 [ext_resource path="res://sprites/pond/y_stone.png" type="Texture" id=18]
 [ext_resource path="res://sprites/pond/b_stone.png" type="Texture" id=19]
 
+
 [sub_resource type="CircleShape2D" id=1]
 radius = 900.0
 
@@ -52,19 +53,9 @@ animations = [ {
 "name": "b",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 14 ) ],
-"loop": true,
-"name": "br",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "default",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 13 ) ],
-"loop": true,
-"name": "r",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 18 ) ],
@@ -72,9 +63,19 @@ animations = [ {
 "name": "y",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 17 ) ],
+"frames": [ ExtResource( 13 ) ],
 "loop": true,
-"name": "yb",
+"name": "r",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 16 ) ],
+"loop": true,
+"name": "yr",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 14 ) ],
+"loop": true,
+"name": "br",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 15 ) ],
@@ -82,9 +83,9 @@ animations = [ {
 "name": "ybr",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 16 ) ],
+"frames": [ ExtResource( 17 ) ],
 "loop": true,
-"name": "yr",
+"name": "yb",
 "speed": 5.0
 } ]
 
@@ -183,8 +184,8 @@ margin_left = -2456.0
 margin_top = -1336.0
 margin_right = -1627.0
 margin_bottom = -1158.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Yellow Choice"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -195,8 +196,8 @@ margin_left = -200.0
 margin_top = -912.0
 margin_right = 224.0
 margin_bottom = -734.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Yellow"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -207,8 +208,8 @@ margin_left = -1040.0
 margin_top = 600.0
 margin_right = -624.0
 margin_bottom = 778.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Blue"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -219,8 +220,8 @@ margin_left = 504.0
 margin_top = 600.0
 margin_right = 1123.0
 margin_bottom = 778.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Red"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -231,8 +232,8 @@ margin_left = 1568.0
 margin_top = 352.0
 margin_right = 2397.0
 margin_bottom = 530.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Correct:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -243,8 +244,8 @@ margin_left = 2048.0
 margin_top = 360.0
 margin_right = 2352.0
 margin_bottom = 538.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -255,8 +256,8 @@ margin_left = 1544.0
 margin_top = 688.0
 margin_right = 2473.0
 margin_bottom = 1047.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Make some
 healthy choices!"
 __meta__ = {
@@ -318,7 +319,6 @@ volume_db = -10.0
 [node name="IncorrectSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 11 )
 volume_db = -10.0
-
 [connection signal="input_event" from="y_area" to="." method="_on_y_area_input_event"]
 [connection signal="mouse_entered" from="y_area" to="." method="_on_y_area_mouse_entered"]
 [connection signal="mouse_exited" from="y_area" to="." method="_on_y_area_mouse_exited"]

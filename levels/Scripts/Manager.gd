@@ -6,7 +6,6 @@ var current_level = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print(gamestate.first_level)
 	current_level = load("res://levels/Scenes/"+gamestate.first_level+".tscn").instance()
 	add_child(current_level)
 	
