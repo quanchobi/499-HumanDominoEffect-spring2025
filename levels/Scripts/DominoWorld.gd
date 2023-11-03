@@ -3,6 +3,8 @@ class_name DominoWorld
 
 extends Node2D
 
+
+
 export(PackedScene) var Domino
 const FootprintTile = preload("res://Scripts/FootprintTile.gd")
 var footprint_tile_ring = null
@@ -31,7 +33,7 @@ func _ready() -> void:
 	$Next.visible = false
 	_init_players()
 	dominos.erase([0, 0])
-
+	
 
 #  Sets up and resolves players and their resulting nodes
 func _init_players() -> void:
@@ -112,6 +114,7 @@ func _init_players() -> void:
 
 
 func _on_Start_pressed() -> void:
+	SaveManager.Save[0].Current_Round = 0
 	setup_dominos()
 	$Start.queue_free()
 	$Next.visible = true
@@ -306,6 +309,7 @@ func place_domino(num):
 func increment_total(num):
 	var path = "Character Bubble" + str(num) + "/Score/Button/PopupDialog/Lydia_number"
 	get_node(path).text = str(int(get_node(path).text) + 1)
+	gamestate.lydia_lion[num] = int(get_node(path).text)
 	$Acquire.playing = true
 
 
@@ -321,6 +325,7 @@ func display_wellness_prompt():
 remote func increment_wellness_beads(num):
 	var path = "Character Bubble" + str(num) + "/Score/Button/PopupDialog/Wellness_number"
 	get_node(path).text = str(int(get_node(path).text) + 1)
+	gamestate.wellness_beads[num] = get_node(path).text
 	increment_total(num)
 
 
@@ -328,6 +333,7 @@ remote func increment_wellness_beads(num):
 remote func increment_alloys(num, alloy):
 	var path = "Character Bubble" + str(num) + "/Score/Button/PopupDialog/Alloy_number"
 	get_node(path).text = str(int(get_node(path).text) + 1)
+	gamestate.alloys[num] = int(get_node(path).text)
 	increment_total(num)
 	
 	$AlloyPopup/Title.text = "Alloy Acquired!"
@@ -340,6 +346,7 @@ remote func increment_alloys(num, alloy):
 remote func increment_footprint_tiles(player_num, round_num, footprint_num):
 	var path = "Character Bubble" + str(player_num) + "/Score/Button/PopupDialog/Footprint_number"
 	get_node(path).text = str(int(get_node(path).text) + 1)
+	gamestate.footprint_tiles[player_num] = int(get_node(path).text)
 	increment_total(player_num)
 	display_footprint_tile(round_num, footprint_num)
 	# ensure the tile is visible on the board
@@ -442,7 +449,7 @@ remote func next_round():
 
 	# increment round number
 	center_num += 1
-
+	SaveManager.Save[0].Current_Round += 1
 	# remove center domino from deck
 	dominos.erase([center_num, center_num])
 

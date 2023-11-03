@@ -36,7 +36,7 @@ export var total_points = {}
 export var lydia_lion = {}
 export var alloys = {}
 export var footprint_tiles = {}
-export var bully_particles = {}
+export var wellness_beads = {}
 export var elcitraps = {}
 export var hair = {}
 export var clothes = {}
@@ -284,31 +284,3 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_connected_ok")
 	get_tree().connect("connection_failed", self, "_connected_fail")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
-	
-var SavePath = "res://Saves/Save1.json"
-var SaveFile
-
-var Save = {
-		0: {
-			"Players": players,
-			"Points": total_points,
-			"lydia_lion": lydia_lion,
-			"alloys": alloys,
-			"footprint_tiles": footprint_tiles,
-			"bully_particles": bully_particles,
-			"elcitraps": elcitraps,
-			"hair": hair,
-			"body": body,
-			"clothes": clothes,
-			"Current_Level": 2,
-			"Current_Round": 5
-		}
-	}
-	
-func _process(delta):
-	#TO-DO setup json files to save when a button is hit and Figure out how to change current level.
-	if(Input.is_action_just_pressed("Save_Load")):
-		SaveFile = File.new()
-		SaveFile.open(SavePath, File.WRITE)
-		SaveFile.store_string(JSON.print(Save))
-	

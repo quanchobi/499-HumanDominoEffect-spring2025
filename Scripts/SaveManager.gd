@@ -1,0 +1,58 @@
+extends Node
+
+var ShowButtons
+
+var SavePath = "res://Saves/Save1.json"
+var SaveFile
+var Save = {
+		0: {
+			"Players": {},
+			"Points": {},
+			"lydia_lion": {},
+			"alloys": {},
+			"footprint_tiles": {},
+			"wellness_beads": {},
+			"elcitraps": {},
+			"hair": {},
+			"body": {},
+			"clothes": {},
+			"Current_Level": -1,
+			"Current_Round": -1
+		}
+	}
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = "text"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+# Function to run after the Save Button is pressed to manage the Data
+func save_button_pressed():
+	print("Save Button Pressed")
+	Save[0] = {
+			"Players": gamestate.players,
+			"Points": gamestate.total_points,
+			"lydia_lion": gamestate.lydia_lion,
+			"alloys": gamestate.alloys,
+			"footprint_tiles": gamestate.footprint_tiles,
+			"wellness_beads": gamestate.wellness_beads,
+			"elcitraps": gamestate.elcitraps,
+			"hair": gamestate.hair,
+			"body": gamestate.body,
+			"clothes": gamestate.clothes,
+			"Current_Level": Save[0].Current_Level,
+			"Current_Round": Save[0].Current_Round
+		}
+	SaveFile = File.new()
+	SaveFile.open(SavePath, File.WRITE)
+	SaveFile.store_string(JSON.print(Save))
+	SaveFile.close()
