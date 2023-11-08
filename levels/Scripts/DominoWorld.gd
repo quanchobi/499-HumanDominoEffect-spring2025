@@ -427,7 +427,7 @@ remote func next_round():
 	for domino in group_dominos:
 		domino.queue_free()
 
-	# if we've completed round 5, end game
+	# if we've completed round 9, end game
 	if center_num >= 9:
 		$Turn.text = "Game\nOver!"
 		$End.text = "Winner: " + determine_winner() + "\n(Hover over faces to see stats.)"
