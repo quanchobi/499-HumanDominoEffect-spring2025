@@ -15,3 +15,6 @@ func _ready():
 #func _process(delta):
 #	pass
 
+func add_tower1(round_num):
+	print(round_num)
+	$Script/Diamond.visible = true
