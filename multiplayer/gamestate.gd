@@ -24,6 +24,9 @@ const tiles_per_round = (num_outer_tiles + num_inner_tiles) / num_domino_rounds
 
 var peer = null
 
+#Array to store dictionary keys for loaded data
+var keys = []
+
 # Name for my player.
 var player_name = "Player"
 
@@ -159,13 +162,38 @@ func _connected_fail():
 # Lobby management functions.
 remotesync func register_player(new_player_name):
 	var id = get_tree().get_rpc_sender_id()
+	var CharacterFound = false
 	players[id] = new_player_name
-	total_points[id] = 0
-	elcitraps[id] = []
-	hair[id] = 0
-	clothes[id] = 0
-	body[id] = 0
-	
+	if(SaveManager.loaded_data):
+		keys = SaveManager.Save["0"].Players.keys()
+		for i in range(len(keys)):
+			if(SaveManager.Save["0"].Players[keys[i]] == new_player_name):
+				CharacterFound = true
+				total_points[id] = SaveManager.Save["0"].Points[keys[i]]
+				elcitraps[id] = SaveManager.Save["0"].elcitraps[keys[i]]
+				hair[id] = SaveManager.Save["0"].hair[keys[i]]
+				clothes[id] = SaveManager.Save["0"].clothes[keys[i]]
+				body[id] = SaveManager.Save["0"].body[keys[i]]
+				if(SaveManager.Save["0"].lydia_lion.keys().find(keys[i]) != -1):
+					lydia_lion[id] = SaveManager.Save["0"].lydia_lion[keys[i]]
+				if(SaveManager.Save["0"].alloys.keys().find(keys[i]) != -1):
+					alloys[id] = SaveManager.Save["0"].alloys[keys[i]]
+				if(SaveManager.Save["0"].footprint_tiles.keys().find(keys[i]) != -1):
+					footprint_tiles[id] = SaveManager.Save["0"].footprint_tiles[keys[i]]
+				if(SaveManager.Save["0"].wellness_beads.keys().find(keys[i]) != -1):
+					wellness_beads[id] = SaveManager.Save["0"].wellness_beads[keys[i]]
+		if(not CharacterFound):
+			total_points[id] = 0
+			elcitraps[id] = []
+			hair[id] = 0
+			clothes[id] = 0
+			body[id] = 0
+	else:
+		total_points[id] = 0
+		elcitraps[id] = []
+		hair[id] = 0
+		clothes[id] = 0
+		body[id] = 0
 	emit_signal("player_list_changed")
 
 

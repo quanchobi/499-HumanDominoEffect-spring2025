@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://multiplayer/lobby.gd" type="Script" id=1]
 [ext_resource path="res://audio/background/main.ogg" type="AudioStream" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://sprites/Domino Effect Logo.png" type="Texture" id=5]
 [ext_resource path="res://Nunito/Nunito-Regular.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://levels/Scenes/LevelSelect.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/LoadButton.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Theme" id=2]
 
@@ -213,6 +214,10 @@ stream = ExtResource( 2 )
 autoplay = true
 
 [node name="LevelSelect" parent="." instance=ExtResource( 7 )]
+
+[node name="LoadButton" parent="LevelSelect/Popup" index="5" instance=ExtResource( 8 )]
+position = Vector2( 715, 30 )
+scale = Vector2( 1.5, 1.5 )
 
 [node name="Node" type="Node" parent="."]
 

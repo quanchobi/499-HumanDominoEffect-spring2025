@@ -30,6 +30,11 @@ var prev_domino_size = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	footprint_tile_ring = preload("res://Scripts/FootprintTileRing.gd").new(self)
+	if(SaveManager.loaded_data):
+		center_num = SaveManager.Save["0"].Current_Round
+		for i in range(0,center_num):
+			footprint_tile_ring.show_round(i)
 	$Next.visible = false
 	_init_players()
 	dominos.erase([0, 0])
@@ -38,7 +43,7 @@ func _ready() -> void:
 #  Sets up and resolves players and their resulting nodes
 func _init_players() -> void:
 	# initialize footprint tile ring
-	footprint_tile_ring = preload("res://Scripts/FootprintTileRing.gd").new(self)
+	#footprint_tile_ring = preload("res://Scripts/FootprintTileRing.gd").new(self)
 	footprint_tile_ring.position = $Board.position
 	add_child(footprint_tile_ring)
 	
@@ -48,7 +53,6 @@ func _init_players() -> void:
 	for p in gamestate.players:
 		sorted_players.append(p)
 	sorted_players.sort()
-
 	# setup each player one by one
 	for player_id in sorted_players:
 		# initialize hair and face for board view
@@ -70,16 +74,19 @@ func _init_players() -> void:
 		get_node(current + "/Score/Button/PopupDialog/back_hair").set_texture(
 			load("res://sprites/character_sprites/back_hair/" + str(gamestate.hair[player_id]) + ".png")
 		)
+		print(gamestate.hair[player_id])
 		get_node(current + "/Score/Button/PopupDialog/body").set_texture(
 			load(
 				"res://sprites/character_sprites/bodies/" + str(gamestate.body[player_id]) + ".png"
 			)
 		)
+		print(gamestate.body[player_id])
 		get_node(current + "/Score/Button/PopupDialog/clothes").set_texture(
 			load(
 				"res://sprites/character_sprites/clothes/" + str(gamestate.clothes[player_id]) + ".png"
 			)
 		)
+		print(gamestate.clothes[player_id])
 		get_node(current + "/Score/Button/PopupDialog/Name_text").set_text(
 			gamestate.players[player_id]
 		)
@@ -90,6 +97,26 @@ func _init_players() -> void:
 				(gamestate.elcitraps[player_id])[i]
 			)
 
+		# initalize loaded scores if data is loaded
+		if(SaveManager.loaded_data):
+			var path = current + "/Score/Button/PopupDialog/"
+			print(gamestate.lydia_lion.keys().find(player_id))
+			if(gamestate.lydia_lion.keys().find(player_id) == -1):
+				get_node(path + "Lydia_number").text == "0"
+			else:
+				get_node(path + "Lydia_number").text = str(gamestate.lydia_lion[player_id])
+			if(gamestate.wellness_beads.keys().find(player_id) == -1):
+				get_node(path + "Wellness_number").text == "0"
+			else:
+				get_node(path + "Wellness_number").text = str(gamestate.wellness_beads[player_id])
+			if(gamestate.alloys.keys().find(player_id) == -1):
+				get_node(path + "Alloy_number").text = "0"
+			else:
+				get_node(path + "Alloy_number").text = str(gamestate.alloys[player_id])
+			if(gamestate.footprint_tiles.keys().find(player_id) == -1):
+				get_node(path + "Footprint_number").text = "0"
+			else:
+				get_node(path + "Footprint_number").text = str(gamestate.footprint_tiles[player_id])
 		# set self number and make own path bubble visible
 		if player_id == get_tree().get_network_unique_id():
 			self_num = ind - 1
@@ -114,7 +141,11 @@ func _init_players() -> void:
 
 
 func _on_Start_pressed() -> void:
-	SaveManager.Save[0].Current_Round = 0
+	if(SaveManager.loaded_data):
+		center_num -= 1
+		next_round()
+	else:
+		SaveManager.Save["0"].Current_Round = 0
 	setup_dominos()
 	$Start.queue_free()
 	$Next.visible = true
@@ -434,7 +465,7 @@ remote func next_round():
 	for domino in group_dominos:
 		domino.queue_free()
 
-	# if we've completed round 5, end game
+	# if we've completed round 9, end game
 	if center_num >= 9:
 		$Turn.text = "Game\nOver!"
 		$End.text = "Winner: " + determine_winner() + "\n(Hover over faces to see stats.)"
@@ -449,8 +480,9 @@ remote func next_round():
 
 	# increment round number
 	center_num += 1
-	SaveManager.Save[0].Current_Round += 1
+	SaveManager.Save["0"].Current_Round += 1
 	# remove center domino from deck
+	print(center_num, center_num)
 	dominos.erase([center_num, center_num])
 
 	# reset domino paths

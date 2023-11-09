@@ -10,7 +10,7 @@ func _ready():
 	gamestate.connect("player_list_changed", self, "refresh_lobby")
 	gamestate.connect("game_ended", self, "_on_game_ended")
 	gamestate.connect("game_error", self, "_on_game_error")
-
+	SaveManager.connect("load_save_scene", self, "handle_level")
 	# Set the player name according to the system username. Fallback to the path.
 	if OS.has_environment("USERNAME"):
 		set_name_text(OS.get_environment("USERNAME"))
@@ -29,8 +29,6 @@ func _ready():
 
 
 func _on_host_pressed():
-	SaveManager.ShowButtons = true
-	
 	if get_name_text() == "":
 		set_error_text("Invalid name!")
 		return
@@ -44,8 +42,6 @@ func _on_host_pressed():
 
 
 func _on_join_pressed():
-	SaveManager.ShowButtons = false
-	
 	if get_name_text() == "":
 		set_error_text("Invalid name!")
 		return
