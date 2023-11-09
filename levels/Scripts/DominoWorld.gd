@@ -483,9 +483,31 @@ func _on_Next_pressed() -> void:
 		setup_dominos()
 		$NextSound.playing = true
 
+
+# Display tower
 func add_tower(round_num):
+	
 	if round_num > 5:
-		$Tower.visible = true
+		$Tower/Sprite/Energy.visible = true
+		$Tower/Sprite/Stability.visible = true
+		$Tower/Sprite/Prepared_Enviroment.visible = true
+	elif round_num > 6:
+		$Tower/Sprite/Ability.visible = true
+		$Tower/Sprite/Responsibility.visible = true
+		$Tower/Sprite/Perception.visible = true
+	elif round_num > 7:
+		$Tower/Sprite/Resilience.visible = true
+		$Tower/Sprite/Relationship.visible = true
+		$Tower/Sprite/Discernment.visible = true
+	elif round_num > 8:
+		$Tower/Sprite/Arts.visible = true
+		$Tower/Sprite/Sciences.visible = true
+		$Tower/Sprite/Humanities.visible = true
+	elif round_num > 9:
+		$Tower/Sprite/Diamond.visible = true
+
+
+
 # if player cannot play a domino on their paths
 func _on_Help_pressed() -> void:
 	if turn == self_num:

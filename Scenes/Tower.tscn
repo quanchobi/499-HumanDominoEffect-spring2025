@@ -22,54 +22,54 @@ script = ExtResource( 14 )
 position = Vector2( 96.0001, 85.0001 )
 scale = Vector2( 0.75, 0.75 )
 
-[node name="Img-1728" type="Sprite" parent="Sprite"]
+[node name="Prepared_Enviroment" type="Sprite" parent="Sprite"]
 position = Vector2( 39.9994, 59.9994 )
 texture = ExtResource( 2 )
 
-[node name="Img-1729" type="Sprite" parent="Sprite"]
+[node name="Energy" type="Sprite" parent="Sprite"]
 position = Vector2( -0.000671387, 59.9995 )
 texture = ExtResource( 8 )
 
-[node name="Img-1730" type="Sprite" parent="Sprite"]
+[node name="Stability" type="Sprite" parent="Sprite"]
 position = Vector2( -0.000610352, 59.9994 )
 texture = ExtResource( 11 )
 
-[node name="Img-1731" type="Sprite" parent="Sprite"]
+[node name="Ability" type="Sprite" parent="Sprite"]
 position = Vector2( -0.000610352, 69.9994 )
 texture = ExtResource( 1 )
 
-[node name="Img-1732" type="Sprite" parent="Sprite"]
+[node name="Responsibility" type="Sprite" parent="Sprite"]
 position = Vector2( -0.000671387, 59.9994 )
 texture = ExtResource( 4 )
 
-[node name="Img-1733" type="Sprite" parent="Sprite"]
+[node name="Perception" type="Sprite" parent="Sprite"]
 position = Vector2( 39.9994, 59.9994 )
 texture = ExtResource( 12 )
 
-[node name="Img-1734" type="Sprite" parent="Sprite"]
+[node name="Relationship" type="Sprite" parent="Sprite"]
 position = Vector2( -0.000610352, 69.9994 )
 texture = ExtResource( 9 )
 
-[node name="Img-1735" type="Sprite" parent="Sprite"]
+[node name="Discernment" type="Sprite" parent="Sprite"]
 position = Vector2( 39.9993, 69.9995 )
 texture = ExtResource( 6 )
 
-[node name="Img-1736" type="Sprite" parent="Sprite"]
+[node name="Resilience" type="Sprite" parent="Sprite"]
 position = Vector2( -0.000610352, 69.9994 )
 texture = ExtResource( 7 )
 
-[node name="Img-1737" type="Sprite" parent="Sprite"]
+[node name="Humanities" type="Sprite" parent="Sprite"]
 position = Vector2( -0.000610352, 79.9994 )
 texture = ExtResource( 13 )
 
-[node name="Img-1738" type="Sprite" parent="Sprite"]
+[node name="Sciences" type="Sprite" parent="Sprite"]
 position = Vector2( 39.9994, 79.9994 )
 texture = ExtResource( 10 )
 
-[node name="Img-1739" type="Sprite" parent="Sprite"]
+[node name="Diamond" type="Sprite" parent="Sprite"]
 position = Vector2( 17, 85 )
 texture = ExtResource( 5 )
 
-[node name="Img-1740" type="Sprite" parent="Sprite"]
+[node name="Arts" type="Sprite" parent="Sprite"]
 position = Vector2( -0.000610352, 79.9994 )
 texture = ExtResource( 3 )
