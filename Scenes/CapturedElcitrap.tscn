@@ -42,11 +42,6 @@ region_rect = Rect2( 0, 0, 1200, 1200 )
 
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ ExtResource( 9 ) ],
-"loop": true,
-"name": "arts",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 8 ) ],
 "loop": true,
 "name": "humanities",
@@ -56,11 +51,16 @@ animations = [ {
 "loop": true,
 "name": "science",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "arts",
+"speed": 5.0
 } ]
 
 [node name="CapturedElcitrap" type="RigidBody2D"]
-collision_layer = 2
 input_pickable = true
+collision_layer = 2
 gravity_scale = 0.0
 script = ExtResource( 2 )
 __meta__ = {
@@ -112,7 +112,6 @@ volume_db = -11.0
 [node name="Deselect" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
 volume_db = -11.0
-
 [connection signal="input_event" from="." to="." method="_on_CapturedElcitrap_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_CapturedElcitrap_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_CapturedElcitrap_mouse_exited"]
