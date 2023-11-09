@@ -6,7 +6,7 @@ extends Node2D
 export(PackedScene) var Domino
 const FootprintTile = preload("res://Scripts/FootprintTile.gd")
 var footprint_tile_ring = null
-
+var tower = preload("res://Scripts/Tower.gd")
 var sorted_players = []
 
 var turn = 0  # whose turn is it, indexed from 0 on
@@ -29,8 +29,10 @@ var prev_domino_size = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Next.visible = false
+	$Tower.visible = false
 	_init_players()
 	dominos.erase([0, 0])
+
 
 
 #  Sets up and resolves players and their resulting nodes
@@ -113,6 +115,7 @@ func _init_players() -> void:
 
 func _on_Start_pressed() -> void:
 	setup_dominos()
+	
 	$Start.queue_free()
 	$Next.visible = true
 
@@ -440,6 +443,9 @@ remote func next_round():
 	dominos = [] + gamestate.dominos
 	dominos.shuffle()
 
+	# add tower
+	add_tower(center_num)
+	
 	# increment round number
 	center_num += 1
 
@@ -477,7 +483,9 @@ func _on_Next_pressed() -> void:
 		setup_dominos()
 		$NextSound.playing = true
 
-
+func add_tower(round_num):
+	if round_num > 5:
+		$Tower.visible = true
 # if player cannot play a domino on their paths
 func _on_Help_pressed() -> void:
 	if turn == self_num:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://sprites/tower/IMG-1731.PNG" type="Texture" id=1]
 [ext_resource path="res://sprites/tower/IMG-1728.PNG" type="Texture" id=2]
@@ -13,12 +13,14 @@
 [ext_resource path="res://sprites/tower/IMG-1730.PNG" type="Texture" id=11]
 [ext_resource path="res://sprites/tower/IMG-1733.PNG" type="Texture" id=12]
 [ext_resource path="res://sprites/tower/IMG-1737.PNG" type="Texture" id=13]
+[ext_resource path="res://Scripts/Tower.gd" type="Script" id=14]
 
-[node name="Node2D" type="Node2D"]
+[node name="Tower" type="Node2D"]
+script = ExtResource( 14 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 96.0001, 85.0001 )
-scale = Vector2( 0.1, 0.1 )
+scale = Vector2( 0.75, 0.75 )
 
 [node name="Img-1728" type="Sprite" parent="Sprite"]
 position = Vector2( 39.9994, 59.9994 )
