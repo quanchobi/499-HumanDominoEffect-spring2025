@@ -8,7 +8,7 @@ extends Node2D
 export(PackedScene) var Domino
 const FootprintTile = preload("res://Scripts/FootprintTile.gd")
 var footprint_tile_ring = null
-
+const tower = preload("res://Scripts/Tower.gd")
 var sorted_players = []
 
 var turn = 0  # whose turn is it, indexed from 0 on
@@ -36,9 +36,11 @@ func _ready() -> void:
 		for i in range(0,center_num):
 			footprint_tile_ring.show_round(i)
 	$Next.visible = false
+	intialize_tower()
 	_init_players()
 	dominos.erase([0, 0])
 	
+
 
 #  Sets up and resolves players and their resulting nodes
 func _init_players() -> void:
@@ -147,6 +149,7 @@ func _on_Start_pressed() -> void:
 	else:
 		SaveManager.Save["0"].Current_Round = 0
 	setup_dominos()
+	
 	$Start.queue_free()
 	$Next.visible = true
 
@@ -467,6 +470,7 @@ remote func next_round():
 
 	# if we've completed round 9, end game
 	if center_num >= 9:
+		add_tower(center_num + 1)
 		$Turn.text = "Game\nOver!"
 		$End.text = "Winner: " + determine_winner() + "\n(Hover over faces to see stats.)"
 		$End.visible = true
@@ -480,7 +484,14 @@ remote func next_round():
 
 	# increment round number
 	center_num += 1
+
 	SaveManager.Save["0"].Current_Round += 1
+
+
+	# add tower
+	add_tower(center_num)
+	
+
 	# remove center domino from deck
 	print(center_num, center_num)
 	dominos.erase([center_num, center_num])
@@ -515,6 +526,45 @@ func _on_Next_pressed() -> void:
 	if center_num <= 9:
 		setup_dominos()
 		$NextSound.playing = true
+
+#intialize tower as not seen
+func intialize_tower():
+	$Tower/Sprite/Energy.visible = false
+	$Tower/Sprite/Stability.visible = false
+	$Tower/Sprite/Prepared_Enviroment.visible = false
+	$Tower/Sprite/Ability.visible = false
+	$Tower/Sprite/Responsibility.visible = false
+	$Tower/Sprite/Perception.visible = false
+	$Tower/Sprite/Resilience.visible = false
+	$Tower/Sprite/Relationship.visible = false
+	$Tower/Sprite/Discernment.visible = false
+	$Tower/Sprite/Arts.visible = false
+	$Tower/Sprite/Sciences.visible = false
+	$Tower/Sprite/Humanities.visible = false
+	$Tower/Sprite/Diamond.visible = false
+
+
+# Display tower
+func add_tower(round_num):
+	if round_num == 6:
+		$Tower/Sprite/Energy.visible = true
+		$Tower/Sprite/Stability.visible = true
+		$Tower/Sprite/Prepared_Enviroment.visible = true
+	elif round_num == 7:
+		$Tower/Sprite/Ability.visible = true
+		$Tower/Sprite/Responsibility.visible = true
+		$Tower/Sprite/Perception.visible = true
+	elif round_num == 8:
+		$Tower/Sprite/Resilience.visible = true
+		$Tower/Sprite/Relationship.visible = true
+		$Tower/Sprite/Discernment.visible = true
+	elif round_num ==9:
+		$Tower/Sprite/Arts.visible = true
+		$Tower/Sprite/Sciences.visible = true
+		$Tower/Sprite/Humanities.visible = true
+	elif round_num == 10:
+		$Tower/Sprite/Diamond.visible = true
+
 
 
 # if player cannot play a domino on their paths
