@@ -24,6 +24,9 @@ const tiles_per_round = (num_outer_tiles + num_inner_tiles) / num_domino_rounds
 
 var peer = null
 
+#Array to store dictionary keys for loaded data
+var keys = []
+
 # Name for my player.
 var player_name = "Player"
 
@@ -36,7 +39,7 @@ export var total_points = {}
 export var lydia_lion = {}
 export var alloys = {}
 export var footprint_tiles = {}
-export var bully_particles = {}
+export var wellness_beads = {}
 export var elcitraps = {}
 export var hair = {}
 export var clothes = {}
@@ -159,13 +162,38 @@ func _connected_fail():
 # Lobby management functions.
 remotesync func register_player(new_player_name):
 	var id = get_tree().get_rpc_sender_id()
+	var CharacterFound = false
 	players[id] = new_player_name
-	total_points[id] = 0
-	elcitraps[id] = []
-	hair[id] = 0
-	clothes[id] = 0
-	body[id] = 0
-	
+	if(SaveManager.loaded_data):
+		keys = SaveManager.Save["0"].Players.keys()
+		for i in range(len(keys)):
+			if(SaveManager.Save["0"].Players[keys[i]] == new_player_name):
+				CharacterFound = true
+				total_points[id] = SaveManager.Save["0"].Points[keys[i]]
+				elcitraps[id] = SaveManager.Save["0"].elcitraps[keys[i]]
+				hair[id] = SaveManager.Save["0"].hair[keys[i]]
+				clothes[id] = SaveManager.Save["0"].clothes[keys[i]]
+				body[id] = SaveManager.Save["0"].body[keys[i]]
+				if(SaveManager.Save["0"].lydia_lion.keys().find(keys[i]) != -1):
+					lydia_lion[id] = SaveManager.Save["0"].lydia_lion[keys[i]]
+				if(SaveManager.Save["0"].alloys.keys().find(keys[i]) != -1):
+					alloys[id] = SaveManager.Save["0"].alloys[keys[i]]
+				if(SaveManager.Save["0"].footprint_tiles.keys().find(keys[i]) != -1):
+					footprint_tiles[id] = SaveManager.Save["0"].footprint_tiles[keys[i]]
+				if(SaveManager.Save["0"].wellness_beads.keys().find(keys[i]) != -1):
+					wellness_beads[id] = SaveManager.Save["0"].wellness_beads[keys[i]]
+		if(not CharacterFound):
+			total_points[id] = 0
+			elcitraps[id] = []
+			hair[id] = 0
+			clothes[id] = 0
+			body[id] = 0
+	else:
+		total_points[id] = 0
+		elcitraps[id] = []
+		hair[id] = 0
+		clothes[id] = 0
+		body[id] = 0
 	emit_signal("player_list_changed")
 
 
@@ -284,31 +312,3 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_connected_ok")
 	get_tree().connect("connection_failed", self, "_connected_fail")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
-	
-var SavePath = "res://Saves/Save1.json"
-var SaveFile
-
-var Save = {
-		0: {
-			"Players": players,
-			"Points": total_points,
-			"lydia_lion": lydia_lion,
-			"alloys": alloys,
-			"footprint_tiles": footprint_tiles,
-			"bully_particles": bully_particles,
-			"elcitraps": elcitraps,
-			"hair": hair,
-			"body": body,
-			"clothes": clothes,
-			"Current_Level": 2,
-			"Current_Round": 5
-		}
-	}
-	
-func _process(delta):
-	#TO-DO setup json files to save when a button is hit and Figure out how to change current level.
-	if(Input.is_action_just_pressed("Save_Load")):
-		SaveFile = File.new()
-		SaveFile.open(SavePath, File.WRITE)
-		SaveFile.store_string(JSON.print(Save))
-	

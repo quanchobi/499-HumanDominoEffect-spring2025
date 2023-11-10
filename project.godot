@@ -880,6 +880,7 @@ config/icon="res://sprites/gameboard.png"
 
 gamestate="*res://multiplayer/gamestate.gd"
 curriculum="*res://Scripts/curriculum.gd"
+SaveManager="*res://Scripts/SaveManager.gd"
 
 [display]
 

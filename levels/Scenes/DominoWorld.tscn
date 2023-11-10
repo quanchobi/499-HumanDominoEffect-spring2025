@@ -13,7 +13,11 @@
 [ext_resource path="res://audio/effects/select.wav" type="AudioStream" id=11]
 [ext_resource path="res://audio/effects/next.wav" type="AudioStream" id=12]
 [ext_resource path="res://sprites/character_sprites/back_hair/8.png" type="Texture" id=13]
+
+[ext_resource path="res://Scenes/SaveButton.tscn" type="PackedScene" id=14]
+
 [ext_resource path="res://Scenes/Tower.tscn" type="PackedScene" id=14]
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "Zoom In"
@@ -548,8 +552,14 @@ volume_db = -5.0
 stream = ExtResource( 12 )
 volume_db = -10.0
 
+
+[node name="SaveButton" parent="." instance=ExtResource( 14 )]
+position = Vector2( 962, 836 )
+scale = Vector2( 7.5, 7.5 )
+
 [node name="Tower" parent="." instance=ExtResource( 14 )]
 position = Vector2( -2146, -494 )
+
 
 [connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="Help" to="." method="_on_Help_pressed"]
