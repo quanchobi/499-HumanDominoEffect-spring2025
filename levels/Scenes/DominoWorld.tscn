@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://sprites/gameboard.png" type="Texture" id=1]
 [ext_resource path="res://UI/background.png" type="Texture" id=2]
@@ -13,11 +13,8 @@
 [ext_resource path="res://audio/effects/select.wav" type="AudioStream" id=11]
 [ext_resource path="res://audio/effects/next.wav" type="AudioStream" id=12]
 [ext_resource path="res://sprites/character_sprites/back_hair/8.png" type="Texture" id=13]
-
 [ext_resource path="res://Scenes/SaveButton.tscn" type="PackedScene" id=14]
-
-[ext_resource path="res://Scenes/Tower.tscn" type="PackedScene" id=14]
-
+[ext_resource path="res://Scenes/Tower.tscn" type="PackedScene" id=15]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Zoom In"
@@ -211,10 +208,10 @@ layer = -2
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -3367.0
-margin_top = -2334.0
-margin_right = -3367.0
-margin_bottom = -1934.0
+margin_left = -3433.0
+margin_top = -3675.0
+margin_right = -3433.0
+margin_bottom = -3275.0
 rect_scale = Vector2( 8, 5 )
 mouse_filter = 2
 texture = ExtResource( 2 )
@@ -552,14 +549,13 @@ volume_db = -5.0
 stream = ExtResource( 12 )
 volume_db = -10.0
 
+[node name="Tower" parent="." instance=ExtResource( 15 )]
+position = Vector2( -2146, -494 )
+scale = Vector2( 1, 1 )
 
 [node name="SaveButton" parent="." instance=ExtResource( 14 )]
-position = Vector2( 962, 836 )
-scale = Vector2( 7.5, 7.5 )
-
-[node name="Tower" parent="." instance=ExtResource( 14 )]
-position = Vector2( -2146, -494 )
-
+position = Vector2( 350, 844 )
+scale = Vector2( 7, 7 )
 
 [connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="Help" to="." method="_on_Help_pressed"]
