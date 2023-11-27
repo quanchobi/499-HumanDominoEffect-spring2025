@@ -74,7 +74,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/gdUnit3/src/asserts/DefaultValueProvider.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "Domino",
 "language": "GDScript",
 "path": "res://Domino.gd"
@@ -84,7 +84,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://test/node/DominoUnitTest.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "DominoWorld",
 "language": "GDScript",
 "path": "res://levels/DominoWorld.gd"
@@ -885,7 +885,8 @@ config/icon="res://sprites/gameboard.png"
 [autoload]
 
 gamestate="*res://multiplayer/gamestate.gd"
-curriculum="*res://curriculum.gd"
+curriculum="*res://Scripts/curriculum.gd"
+SaveManager="*res://Scripts/SaveManager.gd"
 
 [display]
 
@@ -975,6 +976,11 @@ Break={
 Pause={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+Save_Load={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":96,"unicode":0,"echo":false,"script":null)
  ]
 }
 

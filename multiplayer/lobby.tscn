@@ -25,7 +25,6 @@ script = ExtResource( 9 )
 
 [node name="MenuLayout" type="CanvasLayer" parent="."]
 process_priority = 1
-visible = false
 
 [node name="TextureRect" type="TextureRect" parent="MenuLayout"]
 margin_left = 1.0
@@ -170,6 +169,7 @@ scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 5 )
 
 [node name="Players" type="Panel" parent="Lobby"]
+visible = false
 anchor_left = 0.675
 anchor_top = 0.5
 anchor_right = 0.775
