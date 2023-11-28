@@ -3,10 +3,12 @@ class_name DominoWorld
 
 extends Node2D
 
+
+
 export(PackedScene) var Domino
 const FootprintTile = preload("res://FootprintTile.gd")
 var footprint_tile_ring = null
-
+const tower = preload("res://Tower.gd")
 var sorted_players = []
 
 var turn = 0  # whose turn is it, indexed from 0 on
@@ -28,15 +30,22 @@ var prev_domino_size = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	footprint_tile_ring = preload("res://FootprintTileRing.gd").new(self)
+	if(SaveManager.loaded_data):
+		center_num = SaveManager.Save["0"].Current_Round
+		for i in range(0,center_num):
+			footprint_tile_ring.show_round(i)
 	$Next.visible = false
+	intialize_tower()
 	_init_players()
 	dominos.erase([0, 0])
+	
 
 
 #  Sets up and resolves players and their resulting nodes
 func _init_players() -> void:
 	# initialize footprint tile ring
-	footprint_tile_ring = preload("res://FootprintTileRing.gd").new(self)
+	#footprint_tile_ring = preload("res://Scripts/FootprintTileRing.gd").new(self)
 	footprint_tile_ring.position = $Board.position
 	add_child(footprint_tile_ring)
 	
@@ -46,7 +55,6 @@ func _init_players() -> void:
 	for p in gamestate.players:
 		sorted_players.append(p)
 	sorted_players.sort()
-
 	# setup each player one by one
 	for player_id in sorted_players:
 		# initialize hair and face for board view
@@ -68,16 +76,19 @@ func _init_players() -> void:
 		get_node(current + "/Score/Button/PopupDialog/back_hair").set_texture(
 			load("res://sprites/character_sprites/back_hair/" + str(gamestate.hair[player_id]) + ".png")
 		)
+		print(gamestate.hair[player_id])
 		get_node(current + "/Score/Button/PopupDialog/body").set_texture(
 			load(
 				"res://sprites/character_sprites/bodies/" + str(gamestate.body[player_id]) + ".png"
 			)
 		)
+		print(gamestate.body[player_id])
 		get_node(current + "/Score/Button/PopupDialog/clothes").set_texture(
 			load(
 				"res://sprites/character_sprites/clothes/" + str(gamestate.clothes[player_id]) + ".png"
 			)
 		)
+		print(gamestate.clothes[player_id])
 		get_node(current + "/Score/Button/PopupDialog/Name_text").set_text(
 			gamestate.players[player_id]
 		)
@@ -88,6 +99,26 @@ func _init_players() -> void:
 				(gamestate.elcitraps[player_id])[i]
 			)
 
+		# initalize loaded scores if data is loaded
+		if(SaveManager.loaded_data):
+			var path = current + "/Score/Button/PopupDialog/"
+			print(gamestate.lydia_lion.keys().find(player_id))
+			if(gamestate.lydia_lion.keys().find(player_id) == -1):
+				get_node(path + "Lydia_number").text == "0"
+			else:
+				get_node(path + "Lydia_number").text = str(gamestate.lydia_lion[player_id])
+			if(gamestate.wellness_beads.keys().find(player_id) == -1):
+				get_node(path + "Wellness_number").text == "0"
+			else:
+				get_node(path + "Wellness_number").text = str(gamestate.wellness_beads[player_id])
+			if(gamestate.alloys.keys().find(player_id) == -1):
+				get_node(path + "Alloy_number").text = "0"
+			else:
+				get_node(path + "Alloy_number").text = str(gamestate.alloys[player_id])
+			if(gamestate.footprint_tiles.keys().find(player_id) == -1):
+				get_node(path + "Footprint_number").text = "0"
+			else:
+				get_node(path + "Footprint_number").text = str(gamestate.footprint_tiles[player_id])
 		# set self number and make own path bubble visible
 		if player_id == get_tree().get_network_unique_id():
 			self_num = ind - 1
@@ -112,7 +143,13 @@ func _init_players() -> void:
 
 
 func _on_Start_pressed() -> void:
+	if(SaveManager.loaded_data):
+		center_num -= 1
+		next_round()
+	else:
+		SaveManager.Save["0"].Current_Round = 0
 	setup_dominos()
+	
 	$Start.queue_free()
 	$Next.visible = true
 
@@ -306,6 +343,7 @@ func place_domino(num):
 func increment_total(num):
 	var path = "Character Bubble" + str(num) + "/Score/Button/PopupDialog/Lydia_number"
 	get_node(path).text = str(int(get_node(path).text) + 1)
+	gamestate.lydia_lion[num] = int(get_node(path).text)
 	$Acquire.playing = true
 
 
@@ -321,6 +359,7 @@ func display_wellness_prompt():
 remote func increment_wellness_beads(num):
 	var path = "Character Bubble" + str(num) + "/Score/Button/PopupDialog/Wellness_number"
 	get_node(path).text = str(int(get_node(path).text) + 1)
+	gamestate.wellness_beads[num] = get_node(path).text
 	increment_total(num)
 
 
@@ -328,6 +367,7 @@ remote func increment_wellness_beads(num):
 remote func increment_alloys(num, alloy):
 	var path = "Character Bubble" + str(num) + "/Score/Button/PopupDialog/Alloy_number"
 	get_node(path).text = str(int(get_node(path).text) + 1)
+	gamestate.alloys[num] = int(get_node(path).text)
 	increment_total(num)
 	
 	$AlloyPopup/Title.text = "Alloy Acquired!"
@@ -340,6 +380,7 @@ remote func increment_alloys(num, alloy):
 remote func increment_footprint_tiles(player_num, round_num, footprint_num):
 	var path = "Character Bubble" + str(player_num) + "/Score/Button/PopupDialog/Footprint_number"
 	get_node(path).text = str(int(get_node(path).text) + 1)
+	gamestate.footprint_tiles[player_num] = int(get_node(path).text)
 	increment_total(player_num)
 	display_footprint_tile(round_num, footprint_num)
 	# ensure the tile is visible on the board
@@ -427,8 +468,9 @@ remote func next_round():
 	for domino in group_dominos:
 		domino.queue_free()
 
-	# if we've completed round 5, end game
-	if center_num >= 5:
+	# if we've completed round 9, end game
+	if center_num >= 9:
+		add_tower(center_num + 1)
 		$Turn.text = "Game\nOver!"
 		$End.text = "Winner: " + determine_winner() + "\n(Hover over faces to see stats.)"
 		$End.visible = true
@@ -443,7 +485,15 @@ remote func next_round():
 	# increment round number
 	center_num += 1
 
+	SaveManager.Save["0"].Current_Round += 1
+
+
+	# add tower
+	add_tower(center_num)
+	
+
 	# remove center domino from deck
+	print(center_num, center_num)
 	dominos.erase([center_num, center_num])
 
 	# reset domino paths
@@ -473,9 +523,48 @@ func _on_Next_pressed() -> void:
 			rpc_id(p, "next_round")
 
 	# get new dominos from deck
-	if center_num <= 5:
+	if center_num <= 9:
 		setup_dominos()
 		$NextSound.playing = true
+
+#intialize tower as not seen
+func intialize_tower():
+	$Tower/Sprite/Energy.visible = false
+	$Tower/Sprite/Stability.visible = false
+	$Tower/Sprite/Prepared_Enviroment.visible = false
+	$Tower/Sprite/Ability.visible = false
+	$Tower/Sprite/Responsibility.visible = false
+	$Tower/Sprite/Perception.visible = false
+	$Tower/Sprite/Resilience.visible = false
+	$Tower/Sprite/Relationship.visible = false
+	$Tower/Sprite/Discernment.visible = false
+	$Tower/Sprite/Arts.visible = false
+	$Tower/Sprite/Sciences.visible = false
+	$Tower/Sprite/Humanities.visible = false
+	$Tower/Sprite/Diamond.visible = false
+
+
+# Display tower
+func add_tower(round_num):
+	if round_num == 6:
+		$Tower/Sprite/Energy.visible = true
+		$Tower/Sprite/Stability.visible = true
+		$Tower/Sprite/Prepared_Enviroment.visible = true
+	elif round_num == 7:
+		$Tower/Sprite/Ability.visible = true
+		$Tower/Sprite/Responsibility.visible = true
+		$Tower/Sprite/Perception.visible = true
+	elif round_num == 8:
+		$Tower/Sprite/Resilience.visible = true
+		$Tower/Sprite/Relationship.visible = true
+		$Tower/Sprite/Discernment.visible = true
+	elif round_num ==9:
+		$Tower/Sprite/Arts.visible = true
+		$Tower/Sprite/Sciences.visible = true
+		$Tower/Sprite/Humanities.visible = true
+	elif round_num == 10:
+		$Tower/Sprite/Diamond.visible = true
+
 
 
 # if player cannot play a domino on their paths

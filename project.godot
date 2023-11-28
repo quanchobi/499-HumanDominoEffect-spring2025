@@ -84,7 +84,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://test/node/DominoUnitTest.gd"
 }, {
-"base": "Reference",
+"base": "Node2D",
 "class": "DominoWorld",
 "language": "GDScript",
 "path": "res://levels/DominoWorld.gd"

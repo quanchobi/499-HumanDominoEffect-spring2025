@@ -39,13 +39,15 @@ func _init(parent = null) -> void:
 		i += 1
 
 func show_tile(footprint_num: int, round_num: int) -> void:
-	get_child(footprint_num + gamestate.tiles_per_round * round_num).visible = true
+	if round_num <= 5:
+		get_child(footprint_num + gamestate.tiles_per_round * round_num).visible = true
 	
 func show_round(round_num: int) -> void:
 	var i = 0
-	while i < gamestate.tiles_per_round:
-		self.show_tile(i, round_num)
-		i += 1
+	if round_num <=6:
+		while i < gamestate.tiles_per_round:
+			self.show_tile(i, round_num)
+			i += 1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
