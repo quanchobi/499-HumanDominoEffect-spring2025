@@ -63,6 +63,7 @@ margin_bottom = 601.0
 script = ExtResource( 11 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Checklist"]
+visible = false
 
 [node name="TextureRect" type="TextureRect" parent="Checklist/CanvasLayer"]
 margin_left = 101.0
@@ -338,6 +339,10 @@ autoplay = true
 
 [node name="LevelSelect" parent="Lobby" instance=ExtResource( 7 )]
 visible = false
+
+[node name="LoadButton" parent="Lobby/LevelSelect/Popup" index="5"]
+position = Vector2( 715, 46 )
+scale = Vector2( 1.5, 1.5 )
 
 [node name="Node" type="Node" parent="Lobby"]
 
