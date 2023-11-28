@@ -18,6 +18,9 @@ func _ready():
 		var desktop_path = OS.get_system_dir(0).replace("\\", "/").split("/")
 		set_name_text(desktop_path[desktop_path.size() - 2])
 
+
+	$LevelSelect/LoadButton.visible = false
+	
 	var ips = IP.get_local_addresses()
 	print(ips)
 
@@ -36,6 +39,7 @@ func _on_host_pressed():
 	$Connect.hide()
 	$TitleBox/Title.visible = false
 	$LevelSelect/Popup.visible = true
+	$LevelSelect/LoadButton.visible = true
 	set_error_text("")
 	#$Players/FindPublicIP.text = "IP: " + $Connect/JoinBox/IPAddress.text
 	$Players/FindPublicIP.text = "Host: " + $Connect/StartBox/Name.text
@@ -124,7 +128,7 @@ func handle_level(level):
 	seed(gamestate.random_seed)
 
 	gamestate.dominos.shuffle()
-
+	$LevelSelect/LoadButton.visible = false
 	$LevelSelect/Popup.visible = false
 	$Players.show()
 	$TitleBox/Title.visible = true

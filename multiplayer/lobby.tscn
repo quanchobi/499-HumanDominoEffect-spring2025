@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://multiplayer/lobby.gd" type="Script" id=1]
 [ext_resource path="res://audio/background/main.ogg" type="AudioStream" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Menu/Menu.gd" type="Script" id=9]
 [ext_resource path="res://UI/ChecklistBackgound.jpg" type="Texture" id=10]
 [ext_resource path="res://Menu/Checklist.gd" type="Script" id=11]
+[ext_resource path="res://LoadButton.tscn" type="PackedScene" id=12]
 
 [sub_resource type="Theme" id=2]
 
@@ -63,7 +64,6 @@ margin_bottom = 601.0
 script = ExtResource( 11 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Checklist"]
-visible = false
 
 [node name="TextureRect" type="TextureRect" parent="Checklist/CanvasLayer"]
 margin_left = 101.0
@@ -338,11 +338,9 @@ stream = ExtResource( 2 )
 autoplay = true
 
 [node name="LevelSelect" parent="Lobby" instance=ExtResource( 7 )]
-visible = false
 
-[node name="LoadButton" parent="Lobby/LevelSelect/Popup" index="5"]
-position = Vector2( 715, 46 )
-scale = Vector2( 1.5, 1.5 )
+[node name="LoadButton" parent="Lobby/LevelSelect" instance=ExtResource( 12 )]
+position = Vector2( 771, 50 )
 
 [node name="Node" type="Node" parent="Lobby"]
 
