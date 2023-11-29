@@ -388,19 +388,20 @@ remote func increment_footprint_tiles(player_num, round_num, footprint_num):
 
 func display_footprint_tile(round_num: int, footprint_num: int) -> void:
 	var index = FootprintTile.convert_to_index(footprint_num, round_num)
-	$FootprintTilePopup/Title.text = "Footprint Tile Acquired!"
-	# TODO: <remove the else block and refactor once all 60 footprint tiles have been reimplemented in curriculum.footprint_tile_table>
-	if index < 30: # if one of the tiles reimplemented in footprint_tile_table (the first 30 so far)
-		# use the new implementation
-		$FootprintTilePopup/FootprintTile.text = curriculum.footprint_tile_table[index][0]
-		$FootprintTilePopup/Info.text = ""
-		$FootprintTilePopup/Description.text = curriculum.footprint_tile_table[index][1]
-	else: # otherwise use the old implementation
-		var table_index = str(round_num) + str(footprint_num)
-		$FootprintTilePopup/FootprintTile.text = curriculum.footprint_title_table[table_index]
-		$FootprintTilePopup/Info.text = curriculum.footprint_text_table[table_index]
-		$FootprintTilePopup/Description.text = ""
-	$FootprintTilePopup.visible = true
+	if round_num < 6:
+		$FootprintTilePopup/Title.text = "Footprint Tile Acquired!"
+		# TODO: <remove the else block and refactor once all 60 footprint tiles have been reimplemented in curriculum.footprint_tile_table>
+		if index < 30: # if one of the tiles reimplemented in footprint_tile_table (the first 30 so far)
+			# use the new implementation
+			$FootprintTilePopup/FootprintTile.text = curriculum.footprint_tile_table[index][0]
+			$FootprintTilePopup/Info.text = ""
+			$FootprintTilePopup/Description.text = curriculum.footprint_tile_table[index][1]
+		else: # otherwise use the old implementation
+			var table_index = str(round_num) + str(footprint_num)
+			$FootprintTilePopup/FootprintTile.text = curriculum.footprint_title_table[table_index]
+			$FootprintTilePopup/Info.text = curriculum.footprint_text_table[table_index]
+			$FootprintTilePopup/Description.text = ""
+		$FootprintTilePopup.visible = true
 
 # update domino path for all players after a player places a domino
 remote func update_domino_path(domino_nums, domino_elms, pos, path_num, flip):
