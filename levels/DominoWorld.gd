@@ -30,11 +30,6 @@ var prev_domino_size = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	footprint_tile_ring = preload("res://FootprintTileRing.gd").new(self)
-	if(SaveManager.loaded_data):
-		center_num = SaveManager.Save["0"].Current_Round
-		for i in range(0,center_num):
-			footprint_tile_ring.show_round(i)
 	$Next.visible = false
 	intialize_tower()
 	_init_players()
@@ -45,7 +40,7 @@ func _ready() -> void:
 #  Sets up and resolves players and their resulting nodes
 func _init_players() -> void:
 	# initialize footprint tile ring
-	#footprint_tile_ring = preload("res://Scripts/FootprintTileRing.gd").new(self)
+	footprint_tile_ring = preload("res://FootprintTileRing.gd").new(self)
 	footprint_tile_ring.position = $Board.position
 	add_child(footprint_tile_ring)
 	
@@ -144,10 +139,10 @@ func _init_players() -> void:
 
 func _on_Start_pressed() -> void:
 	if(SaveManager.loaded_data):
-		center_num -= 1
-		next_round()
+		for i in range(0,SaveManager.Save["0"].Current_Round):
+			next_round()
 	else:
-		SaveManager.Save["0"].Current_Round = 0
+		SaveManager.Save["0"].Current_Round = 0	
 	setup_dominos()
 	
 	$Start.queue_free()
