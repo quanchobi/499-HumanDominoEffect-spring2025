@@ -163,3 +163,4 @@ func get_name_text() -> String:
 
 func set_error_text(new_error: String):
 	$Connect/ErrorLabel.set_text(new_error)
+
