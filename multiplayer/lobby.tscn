@@ -345,10 +345,10 @@ autoplay = true
 
 [node name="LevelSelect" parent="Lobby" instance=ExtResource( 7 )]
 
-[node name="LoadButton" parent="Lobby/LevelSelect" instance=ExtResource( 12 )]
-position = Vector2( 771, 50 )
-
 [node name="Node" type="Node" parent="Lobby"]
+
+[node name="LoadButton" parent="Lobby" instance=ExtResource( 12 )]
+position = Vector2( 771, 50 )
 
 [node name="Return" type="Button" parent="."]
 margin_left = 757.0
