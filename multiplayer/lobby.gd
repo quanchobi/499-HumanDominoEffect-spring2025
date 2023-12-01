@@ -19,7 +19,7 @@ func _ready():
 		set_name_text(desktop_path[desktop_path.size() - 2])
 
 	
-	$LevelSelect/LoadButton.visible = false
+	$LoadButton.visible = false
 	
 	var ips = IP.get_local_addresses()
 	print(ips)
@@ -39,7 +39,7 @@ func _on_host_pressed():
 	$Connect.hide()
 	$TitleBox/Title.visible = false
 	$LevelSelect/Popup.visible = true
-	$LevelSelect/LoadButton.visible = true
+	$LoadButton.visible = true
 	set_error_text("")
 	#$Players/FindPublicIP.text = "IP: " + $Connect/JoinBox/IPAddress.text
 	$Players/FindPublicIP.text = "Host: " + $Connect/StartBox/Name.text
