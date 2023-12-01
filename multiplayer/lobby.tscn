@@ -50,12 +50,6 @@ margin_bottom = 600.0
 texture = ExtResource( 8 )
 stretch_mode = 1
 
-[node name="Polygon2D" type="Polygon2D" parent="MenuLayout/TextureRect"]
-position = Vector2( 14.1569, 1.34081 )
-scale = Vector2( 10.0784, 0.997758 )
-color = Color( 0.0862745, 0.282353, 0.388235, 1 )
-polygon = PoolVector2Array( -1.50389, 153.002, 100, 153, 100.198, 596.998, -2, 597 )
-
 [node name="CreateGame" type="Button" parent="MenuLayout/TextureRect"]
 margin_left = 4.0
 margin_top = 159.0
@@ -163,6 +157,8 @@ margin_left = 239.0
 margin_top = 267.0
 margin_right = 354.0
 margin_bottom = 291.0
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.0196078, 0.0156863, 0.0156863, 1 )
 text = "Remove Item"
 
 [node name="Label" type="Label" parent="Checklist/CanvasLayer/Polygon2D"]
@@ -171,6 +167,7 @@ margin_top = 177.0
 margin_right = 852.0
 margin_bottom = 245.0
 size_flags_stretch_ratio = 9.4
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 6 )
 text = "Community Checklist"
 

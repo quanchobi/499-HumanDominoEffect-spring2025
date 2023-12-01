@@ -8,8 +8,8 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Lobby.hide()
-	$Checklist/CanvasLayer.hide()
+	$Lobby.visible = false
+	$Checklist/CanvasLayer.visible = false
 	pass # Replace with function body.
 
 
@@ -19,18 +19,18 @@ func _ready():
 
 
 func _on_gotolobby_pressed():
-	$MenuLayout.hide()
-	$Checklist/CanvasLayer.hide()
-	$Lobby.show()
-	$Lobby/LevelSelect.hide()
+	$MenuLayout.visible = false
+	$Checklist/CanvasLayer.visible = false
+	$Lobby.visible = true
+	$Lobby/LevelSelect.visible = false
 	
 
 
 
 
 func _on_Checklist_pressed():
-	$Lobby.hide()
-	$Checklist/CanvasLayer.show()
+	$Lobby.visible = false
+	$Checklist/CanvasLayer.visible = true
 
 
 func _on_remove_item_pressed():
