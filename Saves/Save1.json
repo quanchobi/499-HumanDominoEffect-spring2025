@@ -1,38 +1,77 @@
 {
 	"0": {
 		"Players": {
-			"1": "jpde237"
+			"1": "colin"
 		},
 		"Points": {
 			"1": 0
 		},
 		"lydia_lion": {
-			"1": 6
+
 		},
 		"alloys": {
-			"1": 5
+
 		},
 		"footprint_tiles": {
-			"1": 1
+
 		},
 		"wellness_beads": {
 
 		},
 		"elcitraps": {
 			"1": [
-
+				[
+					"green",
+					"Math",
+					[
+						400,
+						550
+					]
+				],
+				[
+					"green",
+					"Physics",
+					[
+						580,
+						550
+					]
+				],
+				[
+					"blue",
+					"Speaking",
+					[
+						880,
+						550
+					]
+				],
+				[
+					"red",
+					"Sports",
+					[
+						820,
+						550
+					]
+				],
+				[
+					"red",
+					"Music",
+					[
+						460,
+						550
+					]
+				]
 			]
 		},
 		"hair": {
-			"1": 0
+			"1": 1
 		},
 		"body": {
-			"1": 0
+			"1": 3
 		},
 		"clothes": {
 			"1": 0
 		},
 		"Current_Level": "World",
-		"Current_Round": 7
+		"Current_Round": 16
 	}
 }

@@ -10,6 +10,8 @@ extends Control
 func _ready():
 	$Lobby.visible = false
 	$Checklist/CanvasLayer.visible = false
+	$Lobby/Players.visible = false
+	
 	pass # Replace with function body.
 
 
