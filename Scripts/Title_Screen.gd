@@ -25,5 +25,4 @@ func _input(event):
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	# Switch to lobby screen when animation has finished
-	$TitleBox2.visible = false
-	get_parent().get_node("Lobby").visible = true
+	pass
