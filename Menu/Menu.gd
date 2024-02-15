@@ -77,4 +77,9 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 
 
 func _on_Play_Button_gui_input(event):
-	pass # Replace with function body.
+	if (is_left_click(event)):
+		#Start game logic here
+		pass
+		
+
+
