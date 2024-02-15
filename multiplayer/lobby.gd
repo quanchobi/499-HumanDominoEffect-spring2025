@@ -61,8 +61,8 @@ func _on_join_pressed():
 		return
 
 	set_error_text("")
-	$Connect/Host.disabled = true
-	$Connect/Join.disabled = true
+	$Connect/StartBox/Host.disabled = true
+	$Connect/JoinBox/Join.disabled = true
 
 	var player_name = get_name_text()
 	#$Players/FindPublicIP.text = "IP: " + $Connect/IPAddress.text
