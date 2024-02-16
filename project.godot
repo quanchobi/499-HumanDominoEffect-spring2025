@@ -699,11 +699,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/gdUnit3/src/core/TimeUnit.gd"
 }, {
-"base": "Node",
-"class": "Title_Screen",
-"language": "GDScript",
-"path": "res://Scripts/Title_Screen.gd"
-}, {
 "base": "Reference",
 "class": "ValueProvider",
 "language": "GDScript",
@@ -873,7 +868,6 @@ _global_script_class_icons={
 "SignalHandler": "",
 "StringFuzzer": "",
 "TimeUnit": "",
-"Title_Screen": "",
 "ValueProvider": "",
 "Vector2Fuzzer": "",
 "Vector3Fuzzer": "",
