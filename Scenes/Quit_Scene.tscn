@@ -55,7 +55,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=4]
 resource_name = "rise into place"
-length = 0.4
+length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_position")
 tracks/0/interp = 1
@@ -63,7 +63,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4 ),
+"times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 900 ), Vector2( 0, 334 ) ]
@@ -75,13 +75,13 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.4 ),
+"times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, -500 ), Vector2( 0, 74 ) ]
 }
 
-[node name="Quit_Screen" type="Control"]
+[node name="Quit_Scene" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 7 )
@@ -134,7 +134,7 @@ size_flags_vertical = 3
 custom_constants/separation = 160
 alignment = 1
 
-[node name="TextureButton" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Cancel_Button" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 208.0
 margin_right = 408.0
 margin_bottom = 70.0
@@ -143,9 +143,10 @@ mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 texture_normal = ExtResource( 5 )
 texture_pressed = ExtResource( 3 )
+texture_hover = ExtResource( 3 )
 expand = true
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/TextureButton"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Cancel_Button"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/font = SubResource( 2 )
@@ -153,7 +154,7 @@ text = "Cancel"
 align = 1
 valign = 1
 
-[node name="TextureButton2" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Quit_Button" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 568.0
 margin_right = 768.0
 margin_bottom = 70.0
@@ -162,9 +163,10 @@ mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
 expand = true
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/TextureButton2"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Quit_Button"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/font = SubResource( 3 )
@@ -177,4 +179,5 @@ autoplay = "rise into place"
 anims/RESET = SubResource( 5 )
 "anims/rise into place" = SubResource( 4 )
 
-[connection signal="button_down" from="MarginContainer/VBoxContainer/HBoxContainer/TextureButton2" to="." method="_on_TextureButton2_button_down"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Cancel_Button" to="." method="_on_Cancel_Button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Quit_Button" to="." method="_on_Quit_Button_pressed"]

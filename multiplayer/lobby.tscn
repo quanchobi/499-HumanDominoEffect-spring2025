@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://multiplayer/lobby.gd" type="Script" id=1]
 [ext_resource path="res://audio/background/main.ogg" type="AudioStream" id=2]
@@ -9,10 +9,8 @@
 [ext_resource path="res://levels/LevelSelect.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/gdUnit3/src/update/assets/fonts/RobotoMono-h5.tres" type="DynamicFont" id=8]
 [ext_resource path="res://Menu/Menu.gd" type="Script" id=9]
-[ext_resource path="res://Scenes/Menu_Scene.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Menu/Checklist.gd" type="Script" id=11]
 [ext_resource path="res://LoadButton.tscn" type="PackedScene" id=12]
-[ext_resource path="res://UI/domino_font/human_domino.otf" type="DynamicFontData" id=13]
 
 [sub_resource type="DynamicFontData" id=5]
 font_path = "res://Nunito/VeganStylePersonalUse-5Y58.ttf"
@@ -27,71 +25,6 @@ font_data = SubResource( 5 )
 size = 35
 font_data = ExtResource( 6 )
 
-[sub_resource type="Animation" id=13]
-resource_name = "slide into place"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 800 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-
-[sub_resource type="DynamicFont" id=8]
-size = 30
-font_data = ExtResource( 13 )
-
-[sub_resource type="Animation" id=9]
-resource_name = "Text shine"
-length = 3.0
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1, 1.5, 3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
-}
-
-[sub_resource type="Animation" id=10]
-resource_name = "fade out"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-
 [node name="Menu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -100,10 +33,8 @@ script = ExtResource( 9 )
 
 [node name="MenuLayout" type="CanvasLayer" parent="."]
 process_priority = 1
-visible = false
 
 [node name="Checklist" type="Control" parent="."]
-visible = false
 margin_left = -1.0
 margin_top = 2.0
 margin_right = 1026.0
@@ -190,7 +121,6 @@ custom_fonts/font = SubResource( 6 )
 text = "Community Checklist"
 
 [node name="Lobby" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
@@ -210,7 +140,6 @@ texture = ExtResource( 3 )
 expand = true
 
 [node name="TitleBox" type="Panel" parent="Lobby"]
-visible = false
 anchor_left = 0.26
 anchor_top = 0.5
 anchor_right = 0.5
@@ -227,7 +156,6 @@ scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 5 )
 
 [node name="Players" type="Panel" parent="Lobby"]
-visible = false
 anchor_left = 0.675
 anchor_top = 0.5
 anchor_right = 0.775
@@ -281,7 +209,6 @@ __meta__ = {
 }
 
 [node name="Connect" type="Panel" parent="Lobby"]
-visible = false
 anchor_left = 0.45
 anchor_top = 0.5
 anchor_right = 0.5
@@ -385,6 +312,7 @@ size_flags_vertical = 2
 text = "Join"
 
 [node name="ErrorDialog" type="AcceptDialog" parent="Lobby"]
+visible = true
 margin_left = 511.0
 margin_top = 285.0
 margin_right = 594.0
@@ -397,73 +325,11 @@ stream = ExtResource( 2 )
 autoplay = true
 
 [node name="LevelSelect" parent="Lobby" instance=ExtResource( 7 )]
-visible = false
 
 [node name="Node" type="Node" parent="Lobby"]
 
 [node name="LoadButton" parent="Lobby" instance=ExtResource( 12 )]
-visible = false
 position = Vector2( 771, 50 )
-
-[node name="Title_Container" type="MarginContainer" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 1
-custom_constants/margin_right = 24
-custom_constants/margin_top = 24
-custom_constants/margin_left = 24
-custom_constants/margin_bottom = 24
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Title_Container"]
-margin_left = 24.0
-margin_top = 24.0
-margin_right = 1000.0
-margin_bottom = 576.0
-alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Title_Container/HBoxContainer"]
-margin_right = 976.0
-margin_bottom = 552.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/separation = -20
-alignment = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="Title_Container/HBoxContainer/VBoxContainer"]
-margin_right = 976.0
-margin_bottom = 500.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="TextureRect" type="TextureRect" parent="Title_Container/HBoxContainer/VBoxContainer/MarginContainer"]
-margin_right = 976.0
-margin_bottom = 500.0
-rect_min_size = Vector2( 500, 500 )
-size_flags_horizontal = 3
-size_flags_vertical = 0
-texture = ExtResource( 5 )
-expand = true
-stretch_mode = 6
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Title_Container/HBoxContainer/VBoxContainer/MarginContainer/TextureRect"]
-"anims/slide into place" = SubResource( 13 )
-
-[node name="Label" type="Label" parent="Title_Container/HBoxContainer/VBoxContainer"]
-margin_top = 480.0
-margin_right = 976.0
-margin_bottom = 552.0
-size_flags_horizontal = 7
-size_flags_vertical = 7
-custom_fonts/font = SubResource( 8 )
-text = "Press anywhere to start."
-align = 1
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Title_Container/HBoxContainer/VBoxContainer/Label"]
-"anims/Text shine" = SubResource( 9 )
-"anims/fade out" = SubResource( 10 )
-
-[node name="Menu_Scene" parent="." instance=ExtResource( 10 )]
 
 [connection signal="pressed" from="Checklist/CanvasLayer/Polygon2D/add_item" to="Checklist" method="_on_add_item_pressed"]
 [connection signal="text_changed" from="Checklist/CanvasLayer/Polygon2D/add_item/WindowDialog/MarginContainer/VBoxContainer/LineEdit" to="Checklist" method="_on_LineEdit_text_changed"]
@@ -476,6 +342,5 @@ align = 1
 [connection signal="pressed" from="Lobby/LevelSelect/Popup/Level2" to="Lobby" method="_on_Level2_pressed"]
 [connection signal="pressed" from="Lobby/LevelSelect/Popup/Level3" to="Lobby" method="_on_Level3_pressed"]
 [connection signal="pressed" from="Lobby/LevelSelect/Popup/Level4" to="Lobby" method="_on_Level4_pressed"]
-[connection signal="animation_finished" from="Title_Container/HBoxContainer/VBoxContainer/MarginContainer/TextureRect/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
 [editable path="Lobby/LevelSelect"]

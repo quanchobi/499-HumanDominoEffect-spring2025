@@ -16,14 +16,10 @@ func _ready():
 #	pass
 
 
+func _on_TextureButton_mouse_entered():
+	# Change label outline color to reddish
+	$TextureButton/MarginContainer/Label.add_color_override("font_outline_color", Color(0, 0, 0, 1))
 
-
-
-func _on_Quit_Button_pressed():
-	# Quit to Desktop
-	get_tree().quit()
-
-
-func _on_Cancel_Button_pressed():
-	# Go back to Menu Scene
-	get_tree().change_scene("res://Scenes/Menu_Scene.tscn")
+func _on_TextureButton_mouse_exited():
+	# Change label outline back to default
+	pass

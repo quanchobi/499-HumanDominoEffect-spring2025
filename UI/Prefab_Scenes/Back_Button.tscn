@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://UI/Control/grey_button03.png" type="Texture" id=1]
+[ext_resource path="res://UI/domino_font/human_domino.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://UI/Control/red_button10.png" type="Texture" id=3]
+[ext_resource path="res://UI/Prefab_Scenes/Back_Button.gd" type="Script" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 38
+outline_size = 3
+outline_color = Color( 0.666667, 0.666667, 0.666667, 1 )
+font_data = ExtResource( 2 )
+
+[node name="Back_Button" type="Control"]
+anchor_right = 0.131
+anchor_bottom = 0.088
+margin_right = -0.144012
+margin_bottom = 0.199997
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 4 )
+
+[node name="TextureButton" type="TextureButton" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 100, 50 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource( 1 )
+texture_hover = ExtResource( 3 )
+expand = true
+
+[node name="MarginContainer" type="MarginContainer" parent="TextureButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="TextureButton/MarginContainer"]
+margin_right = 133.0
+margin_bottom = 48.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 1 )
+text = "Back"
+align = 1
+valign = 1
+
+[connection signal="mouse_entered" from="TextureButton" to="." method="_on_TextureButton_mouse_entered"]
+[connection signal="mouse_exited" from="TextureButton" to="." method="_on_TextureButton_mouse_exited"]
