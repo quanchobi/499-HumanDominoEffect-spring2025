@@ -17,6 +17,8 @@ func handleChangeToMenuScene():
 	yield($Title_Container/AnimationPlayer, "animation_finished")
 	get_tree().change_scene("res://Scenes/Menu_Scene.tscn")
 	
+
+	
 	
 
 # Called when the node enters the scene tree for the first time.

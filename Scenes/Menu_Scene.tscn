@@ -6,7 +6,7 @@
 [ext_resource path="res://UI/Control/grey_button_down.png" type="Texture" id=4]
 [ext_resource path="res://UI/Control/red_button10.png" type="Texture" id=5]
 [ext_resource path="res://UI/Control/blue_button13.png" type="Texture" id=6]
-[ext_resource path="res://UI/background.png" type="Texture" id=7]
+[ext_resource path="res://Scenes/Parallax1.tscn" type="PackedScene" id=7]
 [ext_resource path="res://sprites/Domino Effect Logo.png" type="Texture" id=8]
 [ext_resource path="res://UI/domino_font/human_domino.otf" type="DynamicFontData" id=9]
 [ext_resource path="res://Scenes/Menu_Scene.gd" type="Script" id=10]
@@ -72,12 +72,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 10 )
 
-[node name="Background" type="TextureRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource( 7 )
-expand = true
-stretch_mode = 1
+[node name="Parallax1" parent="." instance=ExtResource( 7 )]
 
 [node name="Menu_Container" type="MarginContainer" parent="."]
 anchor_right = 1.0
