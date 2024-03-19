@@ -4,12 +4,13 @@ extends Control
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-
+onready var line_edit = get_node("MenuLayout/TextureRect/LineEdit")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Lobby.visible = false
 	$Checklist/CanvasLayer.visible = false
+	#line_edit.grab_focus()
 	pass # Replace with function body.
 
 
@@ -47,4 +48,11 @@ func _on_Return_pressed():
 	$Lobby/LevelSelect.hide()
 	$Checklist/CanvasLayer.hide()
 	$MenuLayout.show()
+	pass # Replace with function body.
+
+
+func _on_EnterCode_pressed():
+	print(line_edit.text)
+	if (line_edit.text == "12345"):
+		$MenuLayout/TextureRect/RichTextLabel.show()
 	pass # Replace with function body.
