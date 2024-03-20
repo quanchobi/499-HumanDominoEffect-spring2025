@@ -30,6 +30,12 @@ var keys = []
 # Name for my player.
 var player_name = "Player"
 
+
+
+
+
+
+
 # Names for remote players in id:name format.
 var players = {}
 var players_ready = []
@@ -50,6 +56,12 @@ var first_level = "Agency"
 var random_seed = 0
 
 # Traits for elcitraps
+
+
+# Keeping track of previous scene.
+# (For UI purposes mainly, back button etc)
+var prev_scene = "res://Scenes/GAME_START.tscn"
+var title_screen_click_flag = false
 
 
 # Chunk Size/Dimensions
@@ -304,6 +316,12 @@ func end_game():
 
 	emit_signal("game_ended")
 	players.clear()
+	
+	
+# New functions added by Spring 2024 CS-499 Group
+func save_scene_path(scene_path):
+	prev_scene = scene_path
+
 
 
 func _ready():
@@ -312,3 +330,8 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_connected_ok")
 	get_tree().connect("connection_failed", self, "_connected_fail")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
+	
+
+	
+	
+	

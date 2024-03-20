@@ -879,7 +879,7 @@ _global_script_class_icons={
 [application]
 
 config/name="The Domino Effect"
-run/main_scene="res://Scenes/Title_Scene.tscn"
+run/main_scene="res://Scenes/GAME_START.tscn"
 config/icon="res://sprites/gameboard.png"
 
 [autoload]

@@ -5,54 +5,49 @@ extends Control
 # var a = 2
 # var b = "text"
 
+var parallax_backgrounds = [
+	"res://Scenes/Backgrounds/Parallax1.tscn",
+	"res://Scenes/Backgrounds/Parallax2.tscn",
+	"res://Scenes/Backgrounds/Parallax3.tscn"
+]
+
+
+var foreGroundScene
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Menu_Scene.visible = false
-	$Title_Scene.visible = true
-	$Parallax1.visible = true
-	$Quit_Scene.visible = false
+	# Seed the randomizer
+	randomize()
+	# Select random element from list
+	var rand_index = randi() % parallax_backgrounds.size()
+	var bg_path = parallax_backgrounds[rand_index]
+	
+
+	# Load an instance of scene as a child of GAME_START
+	var bg_scene = load(bg_path)
+	var bg_instance = bg_scene.instance()
+	add_child(bg_instance)
+	
+	
+	
+	if gamestate.title_screen_click_flag == false:
+		loadForegroundScene("res://Scenes/Title_Scene.tscn")
+	else:
+		loadForegroundScene("res://Scenes/Menu_Scene.tscn")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+func loadForegroundScene(path_to_scene):
+	# Clear the current foreGroundScene and prepare the next
+	if foreGroundScene:
+		foreGroundScene.queue_free()
+		
+	var scene = load(path_to_scene)
+	foreGroundScene = scene.instance()
+	add_child(foreGroundScene)
 
 
 
-
-### Title Screen Functions ###
-
-var input_flag = false
-
-func handleChangeToMenuScene():
-	if input_flag == true:
-		return
-	
-	input_flag = true
-	# Play animation
-	$Title_Scene/Title_Container/AnimationPlayer.play("Transition")
-	yield($Title_Scene/Title_Container/AnimationPlayer, "animation_finished")
-	# Set title scene to invisible when finished
-	$Title_Scene.visible = false
-	$Menu_Scene.visible = true
-	$Menu_Scene/Menu_Container/AnimationPlayer.play("fall into place")
-	
-
-
-func _input(event):
-	if event is InputEventMouseButton:
-		if event.is_pressed():
-			handleChangeToMenuScene()
-	elif event is InputEventKey:
-		handleChangeToMenuScene()
-	elif event is InputEventScreenTouch:
-		handleChangeToMenuScene()
-
-
-########## Quit Scene Functions ##########
-
-func _on_Quit_Scene_visibility_changed():
-	if $Quit_Scene.visible == true:
-		$Quit_Scene/MarginContainer/VBoxContainer/HBoxContainer/AnimationPlayer.play("rise into place")
-	else:
 		

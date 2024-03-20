@@ -4,11 +4,11 @@ extends Control
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-
+var parent
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	parent = get_parent() # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -24,7 +24,8 @@ func change_scene_with_animation(target_scene):
 	yield($Menu_Container/AnimationPlayer, "animation_finished")
 	
 	# Change scene to 'target_scene'
-	get_tree().change_scene(target_scene)
+	if parent:
+		parent.loadForegroundScene(target_scene)
 
 
 func _on_Quit_Button_pressed():
@@ -34,4 +35,4 @@ func _on_Quit_Button_pressed():
 
 func _on_Play_Button_pressed():
 	# Load lobby scene (for now) on Play Button pressed
-	change_scene_with_animation("res://multiplayer/lobby.tscn")
+	change_scene_with_animation("res://Scenes/Lobby.tscn")
