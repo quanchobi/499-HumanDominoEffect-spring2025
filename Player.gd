@@ -8,9 +8,9 @@ onready var block_outline = $BlockOutline
 var camera_x_rotation = 0
 
 const mouse_sensitivity = 0.3
-const movement_speed = 5
+const movement_speed = 10
 const gravity = 30
-const jump_velocity = 10
+const jump_velocity = 15
 
 var velocity = Vector3()
 
