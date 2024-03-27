@@ -32,6 +32,7 @@ func _input(event):
 	
 	# TODO: [Pause Menu] Create menu interface for player
 	if paused:
+		
 		return
 	
 	if event is InputEventMouseMotion:
