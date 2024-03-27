@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://sprites/Domino Effect Logo.png" type="Texture" id=1]
 [ext_resource path="res://UI/Prefab_Scenes/Back_Button.tscn" type="PackedScene" id=2]
@@ -74,6 +74,10 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 0, -600 ), Vector2( 0, 0 ) ]
 }
+
+[sub_resource type="DynamicFont" id=12]
+size = 22
+font_data = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=10]
 size = 32
@@ -521,6 +525,8 @@ margin_top = 10.0
 margin_right = 332.0
 margin_bottom = 193.0
 theme = ExtResource( 9 )
+custom_colors/font_color = Color( 0.490196, 0.490196, 0.490196, 1 )
+custom_fonts/font = SubResource( 12 )
 
 [node name="Start_Button" type="TextureButton" parent="WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer"]
 margin_left = 76.0

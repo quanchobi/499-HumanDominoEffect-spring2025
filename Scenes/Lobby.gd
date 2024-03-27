@@ -9,6 +9,10 @@ onready var LevelSelectContainer = $LevelSelect_Container
 onready var WaitRoomContainer = $WaitRoom_Container
 
 
+onready var waitroom_host_name = $WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Host_Username
+onready var waitroom_host_ip = $WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Host_IP
+
+
 var local_ip = get_local_ip()
 
 
@@ -17,7 +21,8 @@ func _ready():
 	LevelSelectContainer.visible = false
 	WaitRoomContainer.visible = false
 	
-
+	# gamestate.gd signal event listeners
+	gamestate.connect("player_list_changed", self, "refresh_lobby")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -47,21 +52,24 @@ func _on_Join_Button_pressed():
 		#return
 		
 	#get host name
-	var host_name = $Connect/JoinBox/IPAddress.text
-	if host_name == $Connect/StartBox/Name.text:
+	var host_ip = $Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Join/NinePatchRect/MarginContainer/LineEdit.text
+	if host_ip == $Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Name/NinePatchRect/MarginContainer/LineEdit.text:
 		set_error_label("Host and player can not have the same name.")
 		return
 
 	set_error_label("")
-	$Connect/Host.disabled = true
-	$Connect/Join.disabled = true
+	
+	# Disable Host and Join buttons
+	$Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Host.disabled = true
+	$Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Join/Join_Button.disabled = true
 
 	var player_name = get_name()
-	#$Players/FindPublicIP.text = "IP: " + $Connect/IPAddress.text
-	$Players/FindPublicIP.text = "Host: " + host_name
-
-	#gamestate.join_game(ip, player_name)
-	gamestate.join_game(host_name, player_name)
+	# Set host username and ip address labels
+	waitroom_host_name.set_text("Host: ")
+	waitroom_host_ip.set_text("Host IP: " + host_ip)
+	
+	change_menu_smoothly(LobbyContainer, WaitRoomContainer)
+	gamestate.join_game(host_ip, player_name)
 
 
 func change_menu_smoothly(prev, target):
@@ -87,7 +95,6 @@ func refresh_lobby():
 
 	$WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Start_Button.disabled = not get_tree().is_network_server()
 
-
 # handle which level to begin at / randomize dominos
 func handle_level(level):
 	gamestate.first_level = level
@@ -104,8 +111,8 @@ func handle_level(level):
 	
 	
 	# Set host username and ip address labels
-	$WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Host_Username.set_text("Host: " + get_name())
-	$WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Host_IP.set_text("Host IP: " + local_ip)
+	waitroom_host_name.set_text("Host: " + get_name())
+	waitroom_host_ip.set_text("Host IP: " + local_ip)
 	
 	
 	# Change menu to waiting room
