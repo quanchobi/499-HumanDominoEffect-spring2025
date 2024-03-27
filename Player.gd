@@ -88,8 +88,8 @@ func _physics_process(delta):
 		block_outline.translation = bpos
 		block_outline.visible = true
 
-		if Input.is_action_just_pressed("Break"):
-			emit_signal("break_block", pos)
+		# if Input.is_action_just_pressed("Break"):
+			# emit_signal("break_block", pos)
 		if Input.is_action_just_pressed("Place"):
 			# TODO: [Inventory System] Place whatever is on hand
 			emit_signal("place_block", pos + norm, gamestate.STONE)
