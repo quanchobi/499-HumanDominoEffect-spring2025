@@ -58,7 +58,8 @@ func generate():
 				var global_pos = chunk_position * \
 					Vector2(gamestate.DIMENSION.x, gamestate.DIMENSION.z) + \
 					Vector2(i, k)
-				var height = int((noise.get_noise_2dv(global_pos) + 1) / 2 * gamestate.DIMENSION.y)
+				# var height = int((noise.get_noise_2dv(global_pos) + 1) / 2 * gamestate.DIMENSION.y)
+				var height = 25
 
 				# Create layering for vertical set of blocks
 				var block = gamestate.AIR

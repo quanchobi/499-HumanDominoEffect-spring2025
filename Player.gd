@@ -8,9 +8,9 @@ onready var block_outline = $BlockOutline
 var camera_x_rotation = 0
 
 const mouse_sensitivity = 0.3
-const movement_speed = 5
+const movement_speed = 10
 const gravity = 30
-const jump_velocity = 10
+const jump_velocity = 15
 
 var velocity = Vector3()
 
@@ -32,6 +32,7 @@ func _input(event):
 	
 	# TODO: [Pause Menu] Create menu interface for player
 	if paused:
+		
 		return
 	
 	if event is InputEventMouseMotion:
@@ -87,8 +88,8 @@ func _physics_process(delta):
 		block_outline.translation = bpos
 		block_outline.visible = true
 
-		if Input.is_action_just_pressed("Break"):
-			emit_signal("break_block", pos)
+		# if Input.is_action_just_pressed("Break"):
+			# emit_signal("break_block", pos)
 		if Input.is_action_just_pressed("Place"):
 			# TODO: [Inventory System] Place whatever is on hand
 			emit_signal("place_block", pos + norm, gamestate.STONE)
