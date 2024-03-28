@@ -217,10 +217,10 @@ layer = -2
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -3433.0
-margin_top = -3675.0
-margin_right = -3433.0
-margin_bottom = -3275.0
+margin_left = -3507.0
+margin_top = -3730.0
+margin_right = -3507.0
+margin_bottom = -3330.0
 rect_scale = Vector2( 8, 5 )
 mouse_filter = 2
 texture = ExtResource( 2 )
@@ -250,6 +250,15 @@ margin_bottom = 1244.0
 rect_scale = Vector2( 2, 2 )
 custom_fonts/font = SubResource( 4 )
 text = "Ask For Help"
+
+[node name="Code" type="Button" parent="."]
+margin_left = -950.0
+margin_top = 1150.0
+margin_right = -645.0
+margin_bottom = 1250.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = SubResource( 9 )
+text = "Enter Code"
 
 [node name="Next" type="Button" parent="."]
 margin_left = -1700.0
@@ -565,12 +574,82 @@ position = Vector2( -2146, -494 )
 position = Vector2( 350, 844 )
 scale = Vector2( 7, 7 )
 
+[node name="CodeEnterParent" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CodeEnterParent"]
+margin_left = 2.0
+margin_top = 83.0
+margin_right = 1023.0
+margin_bottom = 583.0
+color = Color( 0.454902, 0.454902, 0.454902, 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CodeEnterParent"]
+margin_left = 3.99991
+margin_top = 85.0
+margin_right = 134.0
+margin_bottom = 115.0
+rect_scale = Vector2( 4, 4 )
+text = "ENTER CODE HERE:"
+
+[node name="Close" type="Button" parent="CodeEnterParent"]
+margin_left = 716.0
+margin_top = 86.0
+margin_right = 1021.0
+margin_bottom = 180.0
+custom_fonts/font = SubResource( 4 )
+text = "Close"
+
+[node name="EnterButton" type="Button" parent="CodeEnterParent"]
+margin_left = 78.0
+margin_top = 232.0
+margin_right = 383.0
+margin_bottom = 326.0
+custom_fonts/font = SubResource( 4 )
+text = "Enter"
+
+[node name="TextEdit" type="TextEdit" parent="CodeEnterParent"]
+margin_left = 17.0
+margin_top = 169.0
+margin_right = 449.0
+margin_bottom = 209.0
+
+[node name="FailText" type="RichTextLabel" parent="CodeEnterParent"]
+visible = false
+margin_left = 3.0
+margin_top = 462.0
+margin_right = 133.0
+margin_bottom = 492.0
+rect_scale = Vector2( 4, 4 )
+text = "Code is not valid... :("
+
+[node name="UsedText" type="RichTextLabel" parent="CodeEnterParent"]
+visible = false
+margin_left = 20.0
+margin_top = 425.0
+margin_right = 208.0
+margin_bottom = 455.0
+rect_scale = Vector2( 4, 4 )
+text = "Code has been used already!"
+
+[node name="AcceptText" type="RichTextLabel" parent="CodeEnterParent"]
+visible = false
+margin_left = 19.9995
+margin_top = 425.0
+margin_right = 150.0
+margin_bottom = 455.0
+rect_scale = Vector2( 4, 4 )
+text = "Code Accepted!"
+
 [connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="Help" to="." method="_on_Help_pressed"]
+[connection signal="pressed" from="Code" to="." method="_on_Code_pressed"]
 [connection signal="pressed" from="Next" to="." method="_on_Next_pressed"]
 [connection signal="pressed" from="AlloyPopup/Close" to="." method="_close_Alloy_popup"]
 [connection signal="pressed" from="WellnessBeadPopup/Close" to="." method="_close_WellnessBead_popup"]
 [connection signal="pressed" from="FootprintTilePopup/Close" to="." method="_close_FootprintTile_popup"]
+[connection signal="pressed" from="CodeEnterParent/Close" to="." method="_on_Close_pressed"]
+[connection signal="pressed" from="CodeEnterParent/EnterButton" to="." method="_on_EnterButton_pressed"]
 
 [editable path="Character Bubble1"]
 [editable path="Character Bubble1/Score"]

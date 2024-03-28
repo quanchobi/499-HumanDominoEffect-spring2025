@@ -28,6 +28,9 @@ var placed_domino_offset = [Vector2(0, 0), Vector2(0, 0), Vector2(0, 0),
 							Vector2(0, 0), Vector2(0, 0)]
 var prev_domino_size = 0
 
+var bonusWords = ["Bonus", "Bonus2"]
+var usedBonus = ["ABC123"]
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Next.visible = false
@@ -522,6 +525,7 @@ func _on_Next_pressed() -> void:
 	if center_num <= 9:
 		setup_dominos()
 		$NextSound.playing = true
+		
 
 #intialize tower as not seen
 func intialize_tower():
@@ -615,3 +619,39 @@ func determine_winner():
 	winner_text.erase(winner_text.length() - 1, 1)
 	winner_text.erase(winner_text.length() - 1, 1)
 	return winner_text
+
+
+func _on_Code_pressed():
+	$CodeEnterParent.visible = true
+	$CodeEnterParent/FailText.visible = false
+	$CodeEnterParent/AcceptText.visible = false
+
+
+func _on_Close_pressed():
+	$CodeEnterParent.visible = false # Replace with function body.
+	$CodeEnterParent/FailText.visible = false
+	$CodeEnterParent/AcceptText.visible = false
+	$CodeEnterParent/UsedText.visible = false
+
+
+func _on_EnterButton_pressed():
+	var i = 0
+	var wrongFlag = true
+	$CodeEnterParent/FailText.visible = false
+	$CodeEnterParent/AcceptText.visible = false
+	$CodeEnterParent/UsedText.visible = false
+	print($CodeEnterParent/TextEdit.text)
+	for word in usedBonus:
+		if ($CodeEnterParent/TextEdit.text == word):
+			$CodeEnterParent/UsedText.visible = true
+			wrongFlag = false
+	for word in bonusWords:
+		if ($CodeEnterParent/TextEdit.text == word):
+			$CodeEnterParent/AcceptText.visible = true
+			increment_total(self_num + 1)
+			bonusWords.remove(i)
+			usedBonus.append(word)
+			wrongFlag = false
+		i = i + 1
+	if (wrongFlag == true):
+		$CodeEnterParent/FailText.visible = true
