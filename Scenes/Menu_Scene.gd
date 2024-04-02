@@ -30,9 +30,11 @@ func change_scene_with_animation(target_scene):
 
 func _on_Quit_Button_pressed():
 	# Load Quit Scene on Quit Button Pressed
+	SFXController.playSFX("res://audio/effects/back.wav")
 	change_scene_with_animation("res://Scenes/Quit_Scene.tscn")
 
 
 func _on_Play_Button_pressed():
 	# Load lobby scene (for now) on Play Button pressed
+	SFXController.playSFX("res://audio/effects/next.wav")
 	change_scene_with_animation("res://Scenes/Lobby.tscn")

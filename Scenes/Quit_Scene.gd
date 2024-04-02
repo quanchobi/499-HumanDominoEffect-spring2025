@@ -27,4 +27,5 @@ func _on_Quit_Button_pressed():
 func _on_Cancel_Button_pressed():
 	# Go back to Menu Scene
 	if parent:
+		SFXController.playSFX("res://audio/effects/next.wav")
 		parent.loadForegroundScene("res://Scenes/Menu_Scene.tscn")

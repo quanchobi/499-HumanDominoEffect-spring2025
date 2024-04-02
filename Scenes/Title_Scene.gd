@@ -18,6 +18,7 @@ func handleChangeToMenuScene():
 	input_flag = true
 	gamestate.title_screen_click_flag = true
 	# Play animation
+	SFXController.playSFX("res://audio/effects/next.wav")
 	$Title_Container/AnimationPlayer.play("Transition")
 	yield($Title_Container/AnimationPlayer, "animation_finished")
 	

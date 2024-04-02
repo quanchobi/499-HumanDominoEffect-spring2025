@@ -888,6 +888,7 @@ gamestate="*res://multiplayer/gamestate.gd"
 curriculum="*res://Scripts/curriculum.gd"
 SaveManager="*res://Scripts/SaveManager.gd"
 MusicController="*res://MusicController.tscn"
+SFXController="*res://SFXController.tscn"
 
 [display]
 
