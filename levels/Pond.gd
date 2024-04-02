@@ -18,8 +18,7 @@ func _ready() -> void:
 	$Choice.text = choices[choice_ind][1]
 	$Stone/stone.animation = choices[choice_ind][0]
 	
-	get_parent().get_node("AudioStreamPlayer").stream = load("res://audio/background/pond.ogg")
-	get_parent().get_node("AudioStreamPlayer").playing = true
+	MusicController.playMusic("res://audio/background/pond.ogg")
 	
 # handles users area of venn diagram selection
 func handle_choice(area):

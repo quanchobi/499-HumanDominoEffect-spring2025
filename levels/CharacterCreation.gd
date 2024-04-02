@@ -27,9 +27,7 @@ func _ready() -> void:
 		elcitrap.position = Vector2(60, 60*i + 200)
 		elcitrap.init((gamestate.elcitraps[get_tree().get_network_unique_id()])[i])
 		
-	get_parent().get_node("AudioStreamPlayer").stream = load("res://audio/background/cave.ogg")
-	get_parent().get_node("AudioStreamPlayer").playing = true
-
+	MusicController.playMusic("res://audio/background/cave.ogg")
 
 func mod(num, maximum):
 	if num < 0:

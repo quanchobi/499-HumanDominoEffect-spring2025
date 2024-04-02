@@ -887,6 +887,7 @@ config/icon="res://sprites/gameboard.png"
 gamestate="*res://multiplayer/gamestate.gd"
 curriculum="*res://Scripts/curriculum.gd"
 SaveManager="*res://Scripts/SaveManager.gd"
+MusicController="*res://MusicController.tscn"
 
 [display]
 
@@ -983,6 +984,10 @@ Save_Load={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":96,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[mono]
+
+project/assembly_name="The Domino Effect"
 
 [physics]
 

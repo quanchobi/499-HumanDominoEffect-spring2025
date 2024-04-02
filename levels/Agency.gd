@@ -21,8 +21,7 @@ func _ready() -> void:
 	$Narration.text = "The magnifying glass you're controlling is you.                            Well, it's your you for this game."
 	$Narration/TextAnimationPlayer.play("Reveal")
 	
-	get_parent().get_node("AudioStreamPlayer").stream = load("res://audio/background/quantum.ogg")
-	get_parent().get_node("AudioStreamPlayer").playing = true
+	MusicController.playMusic("res://audio/background/quantum.ogg")
 
 func _on_End_timeout() -> void:
 	if not get_tree().is_network_server():

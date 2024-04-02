@@ -130,8 +130,7 @@ func _init_players() -> void:
 	for i in range(ind, 7):
 		get_node("Character Bubble" + str(i)).queue_free()
 
-	get_parent().get_node("AudioStreamPlayer").stream = load("res://audio/background/main.ogg")
-	get_parent().get_node("AudioStreamPlayer").playing = true
+	MusicController.playMusic("res://audio/background/main.ogg")
 
 	# add start game and next round buttons to host screen
 	if get_tree().get_network_unique_id() == 1:
