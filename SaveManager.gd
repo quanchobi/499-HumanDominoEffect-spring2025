@@ -40,7 +40,8 @@ func _ready():
 
 # Function to run after the Save Button is pressed to manage the Data
 func save_button_pressed():
-	print("Save Button Pressed")
+	print("Save Button Pressed!")
+	SFXController.playSFX("res://audio/effects/next.wav")
 	Save["0"] = {
 			"Players": gamestate.players,
 			"Points": gamestate.total_points,

@@ -16,7 +16,7 @@ func _ready():
 
 func _on_TextureButton_mouse_entered():
 	# Change label outline color to reddish
-	#$Button/MarginContainer/Label.add_color_override("font_outline_color", Color(1, 0, 0, 1))
+	$Button/MarginContainer/Label.add_color_override("font_outline_color", Color(1, 0, 0, 1))
 	pass
 
 func _on_TextureButton_mouse_exited():
@@ -25,4 +25,5 @@ func _on_TextureButton_mouse_exited():
 
 
 func _on_TextureButton_pressed():
+	SFXController.playSFX("res://audio/effects/back.wav")
 	get_tree().change_scene(gamestate.prev_scene)

@@ -1,7 +1,7 @@
 {
 	"0": {
 		"Players": {
-			"1": "r"
+			"1": "f"
 		},
 		"Points": {
 			"1": 0
@@ -20,58 +20,19 @@
 		},
 		"elcitraps": {
 			"1": [
-				[
-					"blue",
-					"Cooking",
-					[
-						520,
-						550
-					]
-				],
-				[
-					"blue",
-					"Building",
-					[
-						700,
-						550
-					]
-				],
-				[
-					"green",
-					"Geology",
-					[
-						760,
-						550
-					]
-				],
-				[
-					"green",
-					"Physics",
-					[
-						580,
-						550
-					]
-				],
-				[
-					"red",
-					"Singing",
-					[
-						280,
-						550
-					]
-				]
+
 			]
 		},
 		"hair": {
 			"1": 0
 		},
 		"body": {
-			"1": 3
+			"1": 0
 		},
 		"clothes": {
-			"1": 1
+			"1": 0
 		},
 		"Current_Level": "World",
-		"Current_Round": -1
+		"Current_Round": 2
 	}
 }
