@@ -13,6 +13,7 @@ const gravity = 30
 const jump_velocity = 15
 
 var velocity = Vector3()
+var currentBlock = 0
 
 var paused = false
 
@@ -90,9 +91,19 @@ func _physics_process(delta):
 
 		# if Input.is_action_just_pressed("Break"):
 			# emit_signal("break_block", pos)
+			# NOTE: may not implement breaking blocks at all
 		if Input.is_action_just_pressed("Place"):
 			# TODO: [Inventory System] Place whatever is on hand
-			emit_signal("place_block", pos + norm, gamestate.STONE)
-
+			# side note: inventory system may not be implemented, or used as 
+			# part of "era" cycle idea
+			if currentBlock == 0:
+				emit_signal("place_block", pos + norm, gamestate.CAMPFIRE)
+				# TODO: add "you discovered fire" text popup
+				currentBlock = currentBlock + 1
+#			else if currentBlock == 1
+#				emit_signal("place_block", pos + norm, gamestate.BOWNARROW)
+#				currentBlock = currentBlock + 1
+			# and so on
+		
 	else:
 		block_outline.visible = false
