@@ -57,6 +57,7 @@ expand = true
 stretch_mode = 7
 
 [node name="Oauabae" parent="." instance=ExtResource( 2 )]
+position = Vector2( 204, -35 )
 
 [node name="String" type="RigidBody2D" parent="."]
 visible = false
