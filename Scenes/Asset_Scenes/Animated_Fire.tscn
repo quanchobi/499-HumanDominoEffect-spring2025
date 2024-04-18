@@ -41,6 +41,8 @@ shader_param/noise = SubResource( 3 )
 [sub_resource type="Environment" id=5]
 background_mode = 4
 glow_enabled = true
+glow_intensity = 1.37
+glow_strength = 1.1
 glow_bicubic_upscale = true
 
 [node name="Animated_Fire_Texture" type="Node2D"]
@@ -58,12 +60,12 @@ position = Vector2( -3.39087, 46.8291 )
 scale = Vector2( 1, 0.880246 )
 texture = ExtResource( 1 )
 texture_scale = 1.25
-energy = 1.5
+energy = 2.0
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Fire"]
 position = Vector2( 0, -70.865 )
 scale = Vector2( 1.5, 1.5 )
-amount = 4
+amount = 3
 lifetime = 2.5
 explosiveness = 0.2
 lifetime_randomness = 0.1
