@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://sprites/reference.png" type="Texture" id=1]
 [ext_resource path="res://UI/background.png" type="Texture" id=2]
@@ -75,10 +75,6 @@ font_data = ExtResource( 10 )
 
 [sub_resource type="DynamicFont" id=10]
 size = 40
-font_data = ExtResource( 10 )
-
-[sub_resource type="DynamicFont" id=4]
-size = 50
 font_data = ExtResource( 10 )
 
 [sub_resource type="DynamicFont" id=11]
@@ -567,73 +563,6 @@ position = Vector2( 502, 1138 )
 rotation = -6.28319
 scale = Vector2( 3.55, 3.55 )
 
-[node name="CodeEnterParent" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="ColorRect" type="ColorRect" parent="CodeEnterParent"]
-margin_left = 2.0
-margin_top = 83.0
-margin_right = 1023.0
-margin_bottom = 583.0
-color = Color( 0.454902, 0.454902, 0.454902, 1 )
-
-[node name="RichTextLabel" type="RichTextLabel" parent="CodeEnterParent"]
-margin_left = 3.99991
-margin_top = 85.0
-margin_right = 134.0
-margin_bottom = 115.0
-rect_scale = Vector2( 4, 4 )
-text = "ENTER CODE HERE:"
-
-[node name="Close" type="Button" parent="CodeEnterParent"]
-margin_left = 716.0
-margin_top = 86.0
-margin_right = 1021.0
-margin_bottom = 180.0
-custom_fonts/font = SubResource( 4 )
-text = "Close"
-
-[node name="EnterButton" type="Button" parent="CodeEnterParent"]
-margin_left = 78.0
-margin_top = 232.0
-margin_right = 383.0
-margin_bottom = 326.0
-custom_fonts/font = SubResource( 4 )
-text = "Enter"
-
-[node name="TextEdit" type="TextEdit" parent="CodeEnterParent"]
-margin_left = 17.0
-margin_top = 169.0
-margin_right = 449.0
-margin_bottom = 209.0
-
-[node name="FailText" type="RichTextLabel" parent="CodeEnterParent"]
-visible = false
-margin_left = 3.0
-margin_top = 462.0
-margin_right = 133.0
-margin_bottom = 492.0
-rect_scale = Vector2( 4, 4 )
-text = "Code is not valid... :("
-
-[node name="UsedText" type="RichTextLabel" parent="CodeEnterParent"]
-visible = false
-margin_left = 20.0
-margin_top = 425.0
-margin_right = 208.0
-margin_bottom = 455.0
-rect_scale = Vector2( 4, 4 )
-text = "Code has been used already!"
-
-[node name="AcceptText" type="RichTextLabel" parent="CodeEnterParent"]
-visible = false
-margin_left = 19.9995
-margin_top = 425.0
-margin_right = 150.0
-margin_bottom = 455.0
-rect_scale = Vector2( 4, 4 )
-text = "Code Accepted!"
-
 [node name="Code" type="TextureButton" parent="."]
 margin_left = -956.0
 margin_top = 1138.0
@@ -747,6 +676,7 @@ align = 1
 valign = 1
 
 [node name="EnterCodeMenu" type="NinePatchRect" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -909,8 +839,6 @@ valign = 1
 [connection signal="pressed" from="AlloyPopup/Close" to="." method="_close_Alloy_popup"]
 [connection signal="pressed" from="WellnessBeadPopup/Close" to="." method="_close_WellnessBead_popup"]
 [connection signal="pressed" from="FootprintTilePopup/Close" to="." method="_close_FootprintTile_popup"]
-[connection signal="pressed" from="CodeEnterParent/Close" to="." method="_on_Close_pressed"]
-[connection signal="pressed" from="CodeEnterParent/EnterButton" to="." method="_on_EnterButton_pressed"]
 [connection signal="mouse_entered" from="Code" to="." method="_on_EnterCode_mouse_entered"]
 [connection signal="mouse_exited" from="Code" to="." method="_on_EnterCode_mouse_exited"]
 [connection signal="pressed" from="Code" to="." method="_on_Code_pressed"]
