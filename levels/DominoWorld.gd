@@ -148,7 +148,8 @@ func _on_Start_pressed() -> void:
 	setup_dominos()
 	
 	$Start.queue_free()
-	$Next.visible = true
+	if (self_num == 0):
+		$Next.visible = true
 
 
 # initialize everyone's dominos
@@ -237,7 +238,6 @@ remote func update_deck():
 # handles placing of domino onto a path
 func place_domino(num):
 	var flip = false
-
 	# check if it is your turn and you have selected a domino
 	if turn == self_num and selected_domino:
 		# check if domino can be placed here
