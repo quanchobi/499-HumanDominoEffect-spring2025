@@ -88,7 +88,8 @@ enum {
 	AIR,
 	DIRT,
 	GRASS,
-	STONE
+	STONE,
+	CAMPFIRE
 }
 
 # Dictionary for mapping blocks to corresponding textures in atlas
@@ -123,6 +124,15 @@ const types = {
 		RIGHT: Vector2(0, 1),
 		FRONT: Vector2(0, 1),
 		BACK: Vector2(0, 1),
+	},
+	CAMPFIRE:{
+		SOLID: true,
+		TOP: Vector2(1,1),
+		BOTTOM: Vector2(1, 1),
+		LEFT: Vector2(2, 1),
+		RIGHT: Vector2(2, 1),
+		FRONT: Vector2(2, 1),
+		BACK: Vector2(2, 1),
 	}
 }
 
