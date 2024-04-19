@@ -150,6 +150,7 @@ func _on_Start_pressed() -> void:
 	$Start.queue_free()
 	if (self_num == 0):
 		$Next.visible = true
+	SFXController.playSFX("res://audio/effects/next.wav")
 
 
 # initialize everyone's dominos
@@ -523,7 +524,8 @@ func _on_Next_pressed() -> void:
 	# get new dominos from deck
 	if center_num <= 9:
 		setup_dominos()
-		$NextSound.playing = true
+		#$NextSound.playing = true
+		SFXController.playSFX("res://audio/effects/next.wav")
 		
 
 #intialize tower as not seen
@@ -574,7 +576,7 @@ func _on_Help_pressed() -> void:
 		# change turn
 		turn = (turn + 1) % len(gamestate.players)
 		$Turn.text = gamestate.players[sorted_players[turn]] + "'s\nTurn"
-		$NextSound.playing = true
+		SFXController.playSFX("res://audio/effects/next.wav")
 
 
 # add player's path denoted by num to all player's screens
@@ -625,6 +627,7 @@ func _on_Code_pressed():
 	$EnterCodeMenu/InvalidCode.visible = false
 	$EnterCodeMenu/UsedCode.visible = false
 	$EnterCodeMenu/AcceptCode.visible = false
+	SFXController.playSFX("res://audio/effects/next.wav")
 
 
 func _on_X_pressed():
@@ -632,6 +635,7 @@ func _on_X_pressed():
 	$EnterCodeMenu/InvalidCode.visible = false
 	$EnterCodeMenu/UsedCode.visible = false
 	$EnterCodeMenu/AcceptCode.visible = false
+	SFXController.playSFX("res://audio/effects/back.wav")
 
 
 func _on_EnterButton_pressed():
@@ -655,6 +659,7 @@ func _on_EnterButton_pressed():
 		i = i + 1
 	if (wrongFlag == true):
 		$EnterCodeMenu/InvalidCode.visible = true
+		SFXController.playSFX("res://audio/effects/back.wav")
 
 
 # Updated button UI
@@ -694,3 +699,4 @@ func _on_Start_mouse_exited():
 
 #### ^^^^ END BUTTON HOVER HANDLERS ^^^^ ####
 
+		

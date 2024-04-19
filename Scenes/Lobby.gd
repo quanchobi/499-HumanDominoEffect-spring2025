@@ -32,6 +32,7 @@ func _ready():
 func _on_Host_pressed():
 	if get_name() == "":
 		set_error_label("Invalid name!")
+		SFXController.playSFX("res://audio/effects/back.wav")
 		return
 
 	set_error_label("")
@@ -44,6 +45,7 @@ func _on_Host_pressed():
 func _on_Join_Button_pressed():
 	if get_name() == "":
 		set_error_label("Invalid name!")
+		SFXController.playSFX("res://audio/effects/back.wav")
 		return
 	
 	#var ip =  $Connect/JoinBox/IPAddress.text
@@ -55,6 +57,7 @@ func _on_Join_Button_pressed():
 	var host_ip = $Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Join/NinePatchRect/MarginContainer/LineEdit.text
 	if host_ip == $Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Name/NinePatchRect/MarginContainer/LineEdit.text:
 		set_error_label("Host and player can not have the same name.")
+		SFXController.playSFX("res://audio/effects/back.wav")
 		return
 
 	set_error_label("")
@@ -75,17 +78,19 @@ func _on_Join_Button_pressed():
 func change_menu_smoothly(prev, target):
 	var prev_animation = prev.get_node("AnimationPlayer")
 	var target_animation = target.get_node("AnimationPlayer")
-	
+
+	SFXController.playSFX("res://audio/effects/next.wav")
+
 	prev_animation.play_backwards("start")
 	
 	yield(prev_animation, "animation_finished")
-	prev.visible = false
-	target.visible = true
 	
+	prev.visible = false
+	
+	target.visible = true
 	target_animation.play("start")
 	
 	
-
 func refresh_lobby():
 	var players = gamestate.get_player_list()
 	players.sort()
