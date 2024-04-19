@@ -87,25 +87,27 @@ use_filter = true
 font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFont" id=12]
-size = 100
+size = 125
 outline_size = 7
 outline_color = Color( 0.466667, 0.466667, 0.466667, 1 )
 use_filter = true
 font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFont" id=14]
-size = 75
+size = 100
+use_filter = true
 font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFont" id=13]
-size = 75
+size = 125
 outline_size = 4
 outline_color = Color( 0.266667, 0.517647, 0.172549, 1 )
 use_filter = true
 font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFont" id=15]
-size = 80
+size = 100
+use_filter = true
 font_data = ExtResource( 16 )
 
 [node name="World" type="Node2D"]
@@ -561,8 +563,9 @@ volume_db = -10.0
 position = Vector2( -2146, -494 )
 
 [node name="SaveButton" parent="." instance=ExtResource( 14 )]
-position = Vector2( 350, 844 )
-scale = Vector2( 7, 7 )
+position = Vector2( 502, 1138 )
+rotation = -6.28319
+scale = Vector2( 3.55, 3.55 )
 
 [node name="CodeEnterParent" type="CanvasLayer" parent="."]
 visible = false
@@ -744,11 +747,14 @@ align = 1
 valign = 1
 
 [node name="EnterCodeMenu" type="NinePatchRect" parent="."]
-visible = false
-margin_left = 50.0
-margin_top = -400.0
-margin_right = 1152.0
-margin_bottom = 310.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -847.0
+margin_top = -495.0
+margin_right = 847.0
+margin_bottom = 495.0
 texture = ExtResource( 25 )
 region_rect = Rect2( 0, 0, 100, 100 )
 patch_margin_left = 31
@@ -768,23 +774,23 @@ custom_constants/margin_bottom = 100
 [node name="VBoxContainer" type="VBoxContainer" parent="EnterCodeMenu/MarginContainer"]
 margin_left = 50.0
 margin_top = 100.0
-margin_right = 1052.0
-margin_bottom = 640.0
+margin_right = 1644.0
+margin_bottom = 890.0
 custom_constants/separation = 25
 
 [node name="EnterCode" type="Label" parent="EnterCodeMenu/MarginContainer/VBoxContainer"]
-margin_right = 1002.0
-margin_bottom = 115.0
+margin_right = 1594.0
+margin_bottom = 144.0
 custom_fonts/font = SubResource( 12 )
 text = "Enter Code"
 align = 1
 valign = 1
 
 [node name="NinePatchRect" type="NinePatchRect" parent="EnterCodeMenu/MarginContainer/VBoxContainer"]
-margin_top = 140.0
-margin_right = 1002.0
-margin_bottom = 240.0
-rect_min_size = Vector2( 0, 100 )
+margin_top = 169.0
+margin_right = 1594.0
+margin_bottom = 319.0
+rect_min_size = Vector2( 0, 150 )
 size_flags_horizontal = 3
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.0
@@ -804,26 +810,27 @@ custom_constants/margin_left = 25
 
 [node name="LineEdit" type="LineEdit" parent="EnterCodeMenu/MarginContainer/VBoxContainer/NinePatchRect/MarginContainer"]
 margin_left = 25.0
-margin_right = 977.0
-margin_bottom = 100.0
+margin_right = 1569.0
+margin_bottom = 150.0
 theme = ExtResource( 17 )
-custom_colors/font_color = Color( 0.333333, 0.333333, 0.333333, 1 )
+custom_colors/font_color = Color( 0.533333, 0.533333, 0.533333, 1 )
 custom_fonts/font = SubResource( 14 )
-clear_button_enabled = true
+align = 1
+placeholder_alpha = 1.0
 
 [node name="MarginContainer" type="MarginContainer" parent="EnterCodeMenu/MarginContainer/VBoxContainer"]
-margin_top = 265.0
-margin_right = 1002.0
-margin_bottom = 540.0
+margin_top = 344.0
+margin_right = 1594.0
+margin_bottom = 694.0
 mouse_filter = 2
 custom_constants/margin_top = 150
 
 [node name="Enter" type="TextureButton" parent="EnterCodeMenu/MarginContainer/VBoxContainer/MarginContainer"]
-margin_left = 276.0
+margin_left = 447.0
 margin_top = 150.0
-margin_right = 726.0
-margin_bottom = 275.0
-rect_min_size = Vector2( 450, 125 )
+margin_right = 1147.0
+margin_bottom = 350.0
+rect_min_size = Vector2( 700, 200 )
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 texture_normal = ExtResource( 24 )
@@ -835,12 +842,12 @@ expand = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_bottom = 5
+custom_constants/margin_bottom = 25
 
 [node name="Label" type="Label" parent="EnterCodeMenu/MarginContainer/VBoxContainer/MarginContainer/Enter/MarginContainer"]
-margin_top = 16.0
-margin_right = 450.0
-margin_bottom = 103.0
+margin_top = 15.0
+margin_right = 700.0
+margin_bottom = 159.0
 theme = ExtResource( 17 )
 custom_fonts/font = SubResource( 13 )
 text = "Enter"
@@ -848,10 +855,10 @@ align = 1
 valign = 1
 
 [node name="X" type="TextureButton" parent="EnterCodeMenu"]
-margin_left = 1030.0
-margin_top = 16.0
-margin_right = 1084.0
-margin_bottom = 68.0
+margin_left = 1611.0
+margin_top = 25.0
+margin_right = 1665.0
+margin_bottom = 77.0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource( 22 )
 texture_pressed = ExtResource( 21 )
@@ -863,8 +870,8 @@ visible = false
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_top = 19.0
-margin_bottom = 134.0
+margin_top = -42.0
+margin_bottom = 73.0
 custom_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
 custom_fonts/font = SubResource( 15 )
 text = "Invalid code!"
@@ -876,8 +883,8 @@ visible = false
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_top = 19.0
-margin_bottom = 134.0
+margin_top = -42.0
+margin_bottom = 73.0
 custom_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
 custom_fonts/font = SubResource( 15 )
 text = "This code has been used already!"
@@ -889,13 +896,15 @@ visible = false
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_top = 19.0
-margin_bottom = 134.0
+margin_top = -42.0
+margin_bottom = 73.0
 custom_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
 custom_fonts/font = SubResource( 15 )
 text = "Code accepted!"
 align = 1
 valign = 1
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
 [connection signal="pressed" from="AlloyPopup/Close" to="." method="_close_Alloy_popup"]
 [connection signal="pressed" from="WellnessBeadPopup/Close" to="." method="_close_WellnessBead_popup"]
