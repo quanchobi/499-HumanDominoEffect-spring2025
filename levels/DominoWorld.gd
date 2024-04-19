@@ -621,36 +621,76 @@ func determine_winner():
 
 
 func _on_Code_pressed():
-	$CodeEnterParent.visible = true
-	$CodeEnterParent/FailText.visible = false
-	$CodeEnterParent/AcceptText.visible = false
+	$EnterCodeMenu.visible = true
+	$EnterCodeMenu/InvalidCode.visible = false
+	$EnterCodeMenu/UsedCode.visible = false
+	$EnterCodeMenu/AcceptCode.visible = false
 
 
-func _on_Close_pressed():
-	$CodeEnterParent.visible = false # Replace with function body.
-	$CodeEnterParent/FailText.visible = false
-	$CodeEnterParent/AcceptText.visible = false
-	$CodeEnterParent/UsedText.visible = false
+func _on_X_pressed():
+	$EnterCodeMenu.visible = false 
+	$EnterCodeMenu/InvalidCode.visible = false
+	$EnterCodeMenu/UsedCode.visible = false
+	$EnterCodeMenu/AcceptCode.visible = false
 
 
 func _on_EnterButton_pressed():
 	var i = 0
 	var wrongFlag = true
-	$CodeEnterParent/FailText.visible = false
-	$CodeEnterParent/AcceptText.visible = false
-	$CodeEnterParent/UsedText.visible = false
-	print($CodeEnterParent/TextEdit.text)
+	$EnterCodeMenu/InvalidCode.visible = false
+	$EnterCodeMenu/UsedCode.visible = false
+	$EnterCodeMenu/AcceptCode.visible = false
+	#print($CodeEnterParent/TextEdit.text)
 	for word in usedBonus:
-		if ($CodeEnterParent/TextEdit.text == word):
-			$CodeEnterParent/UsedText.visible = true
+		if ($EnterCodeMenu/MarginContainer/VBoxContainer/NinePatchRect/MarginContainer/LineEdit.text == word):
+			$EnterCodeMenu/UsedCode.visible = true
 			wrongFlag = false
 	for word in bonusWords:
-		if ($CodeEnterParent/TextEdit.text == word):
-			$CodeEnterParent/AcceptText.visible = true
+		if ($EnterCodeMenu/MarginContainer/VBoxContainer/NinePatchRect/MarginContainer/LineEdit.text == word):
+			$EnterCodeMenu/AcceptCode.visible = true
 			increment_total(self_num + 1)
 			bonusWords.remove(i)
 			usedBonus.append(word)
 			wrongFlag = false
 		i = i + 1
 	if (wrongFlag == true):
-		$CodeEnterParent/FailText.visible = true
+		$EnterCodeMenu/InvalidCode.visible = true
+
+
+# Updated button UI
+# 4/18/2024
+var green = Color("74cc4c")
+var grey = Color("aaaaaa")
+
+
+
+#### VVVV BUTTON HOVER HANDLERS VVVV ####
+
+# Set label color to green when mouse enters texture button.
+# Set label color back to grey when mouse leaves.
+
+func _on_EnterCode_mouse_entered():
+	$Code/MarginContainer/Label.set("custom_colors/font_color", green)
+func _on_EnterCode_mouse_exited():
+	$Code/MarginContainer/Label.set("custom_colors/font_color", grey)
+
+
+func _on_Next_mouse_entered():
+	$Next/MarginContainer/Label.set("custom_colors/font_color", green)
+func _on_Next_mouse_exited():
+	$Next/MarginContainer/Label.set("custom_colors/font_color", grey)
+
+
+func _on_Help_mouse_entered():
+	$Help/MarginContainer/Label.set("custom_colors/font_color", green)
+func _on_Help_mouse_exited():
+	$Help/MarginContainer/Label.set("custom_colors/font_color", grey)
+
+
+func _on_Start_mouse_entered():
+	$Start/MarginContainer/Label.set("custom_colors/font_color", green)
+func _on_Start_mouse_exited():
+	$Start/MarginContainer/Label.set("custom_colors/font_color", grey)
+
+#### ^^^^ END BUTTON HOVER HANDLERS ^^^^ ####
+
