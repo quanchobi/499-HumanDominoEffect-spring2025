@@ -884,11 +884,11 @@ config/icon="res://sprites/gameboard.png"
 
 [autoload]
 
-gamestate="*res://multiplayer/gamestate.gd"
-curriculum="*res://Scripts/curriculum.gd"
-SaveManager="*res://Scripts/SaveManager.gd"
-MusicController="*res://MusicController.tscn"
-SFXController="*res://SFXController.tscn"
+gamestate="*res://Autoloads/gamestate.gd"
+curriculum="*res://Autoloads/curriculum.gd"
+SaveManager="*res://Autoloads/SaveManager.gd"
+MusicController="*res://Autoloads/MusicController.tscn"
+SFXController="*res://Autoloads/SFXController.tscn"
 
 [display]
 
