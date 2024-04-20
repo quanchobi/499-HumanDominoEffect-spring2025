@@ -8,7 +8,7 @@
 [ext_resource path="res://sprites/pond/stone.png" type="Texture" id=6]
 [ext_resource path="res://levels/Pond.gd" type="Script" id=7]
 [ext_resource path="res://Nunito/Nunito-Regular.ttf" type="DynamicFontData" id=8]
-[ext_resource path="res://Character Bubble.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Character Bubble.tscn" type="PackedScene" id=9]
 [ext_resource path="res://audio/effects/select.wav" type="AudioStream" id=10]
 [ext_resource path="res://audio/effects/back.wav" type="AudioStream" id=11]
 [ext_resource path="res://levels/DominoWorld.tscn" type="PackedScene" id=12]

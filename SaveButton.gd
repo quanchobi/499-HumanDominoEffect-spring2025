@@ -1,4 +1,4 @@
-extends Button
+extends TextureButton
 
 #Variables containing necessary Data to process some save data before sending it to the manager
 var Save = SaveManager.Save
@@ -17,5 +17,14 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func _on_TextureButton_pressed():
-	pass
+
+var green = Color("74cc4c")
+var grey = Color("aaaaaa")
+
+
+func _on_TextureButton_mouse_entered():
+	$MarginContainer/Label.set("custom_colors/font_color", green)
+
+
+func _on_TextureButton_mouse_exited():
+	$MarginContainer/Label.set("custom_colors/font_color", grey)

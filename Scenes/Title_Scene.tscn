@@ -2,7 +2,7 @@
 
 [ext_resource path="res://sprites/Domino Effect Logo.png" type="Texture" id=2]
 [ext_resource path="res://UI/domino_font/human_domino.otf" type="DynamicFontData" id=3]
-[ext_resource path="res://Scenes/Title_Scene.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Title_Scene.gd" type="Script" id=4]
 
 [sub_resource type="DynamicFont" id=2]
 size = 44
