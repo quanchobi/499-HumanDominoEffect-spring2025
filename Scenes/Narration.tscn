@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Nunito/Nunito-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Fonts/Nunito/Nunito-Regular.ttf" type="DynamicFontData" id=1]
 
 [sub_resource type="DynamicFont" id=4]
 size = 33
