@@ -6,9 +6,9 @@ extends Node2D
 
 
 export(PackedScene) var Domino
-const FootprintTile = preload("res://FootprintTile.gd")
+const FootprintTile = preload("res://Scripts/FootprintTile.gd")
 var footprint_tile_ring = null
-const tower = preload("res://Tower.gd")
+const tower = preload("res://Scripts/Tower.gd")
 var sorted_players = []
 
 var turn = 0  # whose turn is it, indexed from 0 on
@@ -43,7 +43,7 @@ func _ready() -> void:
 #  Sets up and resolves players and their resulting nodes
 func _init_players() -> void:
 	# initialize footprint tile ring
-	footprint_tile_ring = preload("res://FootprintTileRing.gd").new(self)
+	footprint_tile_ring = preload("res://Scripts/FootprintTileRing.gd").new(self)
 	footprint_tile_ring.position = $Board.position
 	add_child(footprint_tile_ring)
 	

@@ -1,5 +1,5 @@
 extends Node2D
-const FootprintTile = preload("res://FootprintTile.gd")
+const FootprintTile = preload("res://Scripts/FootprintTile.gd")
 
 # Declare member variables here. Examples:
 # var a = 2
