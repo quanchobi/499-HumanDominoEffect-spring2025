@@ -617,7 +617,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "Lobby",
 "language": "GDScript",
-"path": "res://multiplayer/lobby.gd"
+"path": "res://Scripts/Multiplayer_Scripts/lobby.gd"
 }, {
 "base": "GdUnitTestSuite",
 "class": "LobbyIntegrationTest",
@@ -629,7 +629,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/gdUnit3/src/core/LocalTime.gd"
 }, {
-"base": "Control",
+"base": "Reference",
 "class": "Menu",
 "language": "GDScript",
 "path": "res://Scripts/Menu_Scripts/Menu.gd"
