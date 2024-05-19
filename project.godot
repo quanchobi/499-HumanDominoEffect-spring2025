@@ -880,11 +880,11 @@ _global_script_class_icons={
 
 config/name="The Domino Effect"
 run/main_scene="res://Scenes/GAME_START.tscn"
-config/icon="res://sprites/gameboard.png"
+config/icon="res://UI/sprites/gameboard.png"
 
 [audio]
 
-default_bus_layout="res://Miscellaneous/default_bus_layout.tres"
+default_bus_layout="res://UI/Miscellaneous/default_bus_layout.tres"
 
 [autoload]
 
@@ -1004,4 +1004,4 @@ project/assembly_name="The Domino Effect"
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
-environment/default_environment="res://Miscellaneous/default_env.tres"
+environment/default_environment="res://UI/Miscellaneous/default_env.tres"

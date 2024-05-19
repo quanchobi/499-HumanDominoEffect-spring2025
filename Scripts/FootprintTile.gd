@@ -96,9 +96,9 @@ const default_size = Vector2(2, 2)
 
 # preload sprites for footprint tile shapes
 const shape_sprites = [
-	preload("res://sprites/footprint_tiles/ConvexHexagon1.png"),
-	preload("res://sprites/footprint_tiles/Trapezoid.png"),
-	preload("res://sprites/footprint_tiles/ConvexHexagon2.png")
+	preload("res://UI/sprites/footprint_tiles/ConvexHexagon1.png"),
+	preload("res://UI/sprites/footprint_tiles/Trapezoid.png"),
+	preload("res://UI/sprites/footprint_tiles/ConvexHexagon2.png")
 ]
 
 # const that marks the shape of the collision box for each footprint tile sprite
@@ -139,25 +139,25 @@ const shape_scales_for_ring = [
 
 # preload sprites for footprint tile rounds (in round order)
 const round_sprites = [
-	preload("res://sprites/footprint_tiles/Campfire.png"),
-	preload("res://sprites/footprint_tiles/Dog.png"),
-	preload("res://sprites/footprint_tiles/Bowl.png"),
-	preload("res://sprites/footprint_tiles/Ship.png"),
-	preload("res://sprites/footprint_tiles/Book.png"),
-	preload("res://sprites/footprint_tiles/Car.png")
+	preload("res://UI/sprites/footprint_tiles/Campfire.png"),
+	preload("res://UI/sprites/footprint_tiles/Dog.png"),
+	preload("res://UI/sprites/footprint_tiles/Bowl.png"),
+	preload("res://UI/sprites/footprint_tiles/Ship.png"),
+	preload("res://UI/sprites/footprint_tiles/Book.png"),
+	preload("res://UI/sprites/footprint_tiles/Car.png")
 ]
 # preload sprites for footprint tile numbers
 const number_sprites = [
 	null, # no number needed if footprint tile 0
-	preload("res://sprites/footprint_tiles/Domino1.png"),
-	preload("res://sprites/footprint_tiles/Domino2.png"),
-	preload("res://sprites/footprint_tiles/Domino3.png"),
-	preload("res://sprites/footprint_tiles/Domino4.png"),
-	preload("res://sprites/footprint_tiles/Domino5.png"),
-	preload("res://sprites/footprint_tiles/Domino6.png"),
-	preload("res://sprites/footprint_tiles/Domino7.png"),
-	preload("res://sprites/footprint_tiles/Domino8.png"),
-	preload("res://sprites/footprint_tiles/Domino9.png"),
+	preload("res://UI/sprites/footprint_tiles/Domino1.png"),
+	preload("res://UI/sprites/footprint_tiles/Domino2.png"),
+	preload("res://UI/sprites/footprint_tiles/Domino3.png"),
+	preload("res://UI/sprites/footprint_tiles/Domino4.png"),
+	preload("res://UI/sprites/footprint_tiles/Domino5.png"),
+	preload("res://UI/sprites/footprint_tiles/Domino6.png"),
+	preload("res://UI/sprites/footprint_tiles/Domino7.png"),
+	preload("res://UI/sprites/footprint_tiles/Domino8.png"),
+	preload("res://UI/sprites/footprint_tiles/Domino9.png"),
 ]
 # colors for footprint tiles in cycle order
 const tile_colors = [

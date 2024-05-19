@@ -6,8 +6,8 @@
 [ext_resource path="res://UI/Control/grey_button_down.png" type="Texture" id=4]
 [ext_resource path="res://UI/Control/red_button10.png" type="Texture" id=5]
 [ext_resource path="res://UI/Control/blue_button13.png" type="Texture" id=6]
-[ext_resource path="res://sprites/Domino Effect Logo.png" type="Texture" id=8]
-[ext_resource path="res://UI/domino_font/human_domino.otf" type="DynamicFontData" id=9]
+[ext_resource path="res://UI/sprites/Domino Effect Logo.png" type="Texture" id=8]
+[ext_resource path="res://UI/Fonts/Non_Nunito/domino_font/human_domino.otf" type="DynamicFontData" id=9]
 [ext_resource path="res://Scripts/Menu_Scene.gd" type="Script" id=10]
 
 [sub_resource type="DynamicFont" id=2]

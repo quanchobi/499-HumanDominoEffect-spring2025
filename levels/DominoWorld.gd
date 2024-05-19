@@ -58,32 +58,32 @@ func _init_players() -> void:
 		# initialize hair and face for board view
 		var current = "Character Bubble" + str(ind)
 		get_node(current + "/face").set_texture(
-			load("res://sprites/character_sprites/faces/" + str(gamestate.body[player_id]) + ".png")
+			load("res://UI/sprites/character_sprites/faces/" + str(gamestate.body[player_id]) + ".png")
 		)
 		get_node(current + "/front_hair").set_texture(
-			load("res://sprites/character_sprites/front_hair/" + str(gamestate.hair[player_id]) + ".png")
+			load("res://UI/sprites/character_sprites/front_hair/" + str(gamestate.hair[player_id]) + ".png")
 		)
 		get_node(current + "/back_hair").set_texture(
-			load("res://sprites/character_sprites/back_hair/" + str(gamestate.hair[player_id]) + ".png")
+			load("res://UI/sprites/character_sprites/back_hair/" + str(gamestate.hair[player_id]) + ".png")
 		)
 
 		# initialize character looks in popup
 		get_node(current + "/Score/Button/PopupDialog/front_hair").set_texture(
-			load("res://sprites/character_sprites/front_hair/" + str(gamestate.hair[player_id]) + ".png")
+			load("res://UI/sprites/character_sprites/front_hair/" + str(gamestate.hair[player_id]) + ".png")
 		)
 		get_node(current + "/Score/Button/PopupDialog/back_hair").set_texture(
-			load("res://sprites/character_sprites/back_hair/" + str(gamestate.hair[player_id]) + ".png")
+			load("res://UI/sprites/character_sprites/back_hair/" + str(gamestate.hair[player_id]) + ".png")
 		)
 		print(gamestate.hair[player_id])
 		get_node(current + "/Score/Button/PopupDialog/body").set_texture(
 			load(
-				"res://sprites/character_sprites/bodies/" + str(gamestate.body[player_id]) + ".png"
+				"res://UI/sprites/character_sprites/bodies/" + str(gamestate.body[player_id]) + ".png"
 			)
 		)
 		print(gamestate.body[player_id])
 		get_node(current + "/Score/Button/PopupDialog/clothes").set_texture(
 			load(
-				"res://sprites/character_sprites/clothes/" + str(gamestate.clothes[player_id]) + ".png"
+				"res://UI/sprites/character_sprites/clothes/" + str(gamestate.clothes[player_id]) + ".png"
 			)
 		)
 		print(gamestate.clothes[player_id])
@@ -175,7 +175,7 @@ func draw_7():
 		var domino_nums = draw_domino()
 		var domino = Domino.instance()
 		var domino_title = str(domino_nums[1]) + str(domino_nums[0])
-		domino.get_node("Sprite").texture = load("res://sprites/dominos/" + domino_title + ".png")
+		domino.get_node("Sprite").texture = load("res://UI/sprites/dominos/" + domino_title + ".png")
 		add_child(domino)
 
 		# set domino position
@@ -502,7 +502,7 @@ remote func next_round():
 	end_dominos = [null, null, null, null, null, null, null, null]
 
 	# load center domino
-	var domino_title = "res://sprites/dominos/" + str(center_num) + str(center_num) + ".png"
+	var domino_title = "res://UI/sprites/dominos/" + str(center_num) + str(center_num) + ".png"
 	$CentralDomino.get_node("Sprite").texture = load(domino_title)
 
 	# reset path visibility

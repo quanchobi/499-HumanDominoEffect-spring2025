@@ -4,7 +4,7 @@
 [ext_resource path="res://UI/Control/red_button12.png" type="Texture" id=3]
 [ext_resource path="res://UI/Control/green_button01.png" type="Texture" id=4]
 [ext_resource path="res://UI/Control/red_button11.png" type="Texture" id=5]
-[ext_resource path="res://UI/domino_font/human_domino.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://UI/Fonts/Non_Nunito/domino_font/human_domino.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://Scripts/Quit_Scene.gd" type="Script" id=7]
 
 [sub_resource type="DynamicFont" id=1]

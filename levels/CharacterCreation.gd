@@ -39,29 +39,29 @@ func mod(num, maximum):
 
 func _on_hair_left_pressed() -> void:
 	hair_num = mod(hair_num - 1, hair_count)
-	$front_hair.set_texture(load("res://sprites/character_sprites/front_hair/"+str(hair_num)+".png"))
-	$back_hair.set_texture(load("res://sprites/character_sprites/back_hair/"+str(hair_num)+".png"))
+	$front_hair.set_texture(load("res://UI/sprites/character_sprites/front_hair/"+str(hair_num)+".png"))
+	$back_hair.set_texture(load("res://UI/sprites/character_sprites/back_hair/"+str(hair_num)+".png"))
 
 func _on_hair_right_pressed() -> void:
 	hair_num = mod(hair_num + 1, hair_count)
-	$front_hair.set_texture(load("res://sprites/character_sprites/front_hair/"+str(hair_num)+".png"))
-	$back_hair.set_texture(load("res://sprites/character_sprites/back_hair/"+str(hair_num)+".png"))
+	$front_hair.set_texture(load("res://UI/sprites/character_sprites/front_hair/"+str(hair_num)+".png"))
+	$back_hair.set_texture(load("res://UI/sprites/character_sprites/back_hair/"+str(hair_num)+".png"))
 
 func _on_body_left_pressed() -> void:
 	body_num = mod(body_num - 1, body_count)
-	$body.set_texture(load("res://sprites/character_sprites/bodies/"+str(body_num)+".png"))
+	$body.set_texture(load("res://UI/sprites/character_sprites/bodies/"+str(body_num)+".png"))
 
 func _on_body_right_pressed() -> void:
 	body_num = mod(body_num + 1, body_count)
-	$body.set_texture(load("res://sprites/character_sprites/bodies/"+str(body_num)+".png"))
+	$body.set_texture(load("res://UI/sprites/character_sprites/bodies/"+str(body_num)+".png"))
 	
 func _on_clothes_left_pressed() -> void:
 	clothes_num = mod(clothes_num - 1, clothes_count)
-	$clothes.set_texture(load("res://sprites/character_sprites/clothes/"+str(clothes_num)+".png"))
+	$clothes.set_texture(load("res://UI/sprites/character_sprites/clothes/"+str(clothes_num)+".png"))
 
 func _on_clothes_right_pressed() -> void:
 	clothes_num = mod(clothes_num + 1, clothes_count)
-	$clothes.set_texture(load("res://sprites/character_sprites/clothes/"+str(clothes_num)+".png"))
+	$clothes.set_texture(load("res://UI/sprites/character_sprites/clothes/"+str(clothes_num)+".png"))
 
 # wait for everyone to have pressed next to continue to next scene
 func _on_next_pressed() -> void:
