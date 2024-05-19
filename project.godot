@@ -74,7 +74,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/gdUnit3/src/asserts/DefaultValueProvider.gd"
 }, {
-"base": "Reference",
+"base": "Node2D",
 "class": "Domino",
 "language": "GDScript",
 "path": "res://Domino.gd"
@@ -893,6 +893,7 @@ curriculum="*res://Autoloads/curriculum.gd"
 SaveManager="*res://Autoloads/SaveManager.gd"
 MusicController="*res://Autoloads/MusicController.tscn"
 SFXController="*res://Autoloads/SFXController.tscn"
+ReferenceManager="*res://Autoloads/ReferenceManager.gd"
 
 [display]
 
