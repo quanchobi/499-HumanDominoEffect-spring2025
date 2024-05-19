@@ -4,7 +4,7 @@
 [ext_resource path="res://UI/Control/green_button13.png" type="Texture" id=3]
 [ext_resource path="res://UI/Control/grey_button03.png" type="Texture" id=4]
 [ext_resource path="res://UI/domino_font/human_domino.otf" type="DynamicFontData" id=5]
-[ext_resource path="res://SaveButton.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/SaveButton.gd" type="Script" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 50

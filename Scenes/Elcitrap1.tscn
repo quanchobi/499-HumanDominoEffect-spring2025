@@ -1,7 +1,7 @@
 [gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://sprites/elcitrap_b.png" type="Texture" id=1]
-[ext_resource path="res://Elcitrap1.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/Elcitrap1.gd" type="Script" id=2]
 [ext_resource path="res://sprites/red_wave2.png" type="Texture" id=3]
 [ext_resource path="res://sprites/elcitrap_g.png" type="Texture" id=4]
 [ext_resource path="res://sprites/red_wave1.png" type="Texture" id=5]

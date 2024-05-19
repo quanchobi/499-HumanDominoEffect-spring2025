@@ -13,7 +13,7 @@
 [ext_resource path="res://sprites/tower/IMG-1730.PNG" type="Texture" id=11]
 [ext_resource path="res://sprites/tower/IMG-1733.PNG" type="Texture" id=12]
 [ext_resource path="res://sprites/tower/IMG-1737.PNG" type="Texture" id=13]
-[ext_resource path="res://Tower.gd" type="Script" id=14]
+[ext_resource path="res://Scripts/Tower.gd" type="Script" id=14]
 
 [node name="Tower" type="Node2D"]
 script = ExtResource( 14 )

@@ -74,10 +74,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/gdUnit3/src/asserts/DefaultValueProvider.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "Domino",
 "language": "GDScript",
-"path": "res://Domino.gd"
+"path": "res://Scripts/Domino.gd"
 }, {
 "base": "GdUnitTestSuite",
 "class": "DominoUnitTest",

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://sprites/character_sprites/faces/0.png" type="Texture" id=1]
-[ext_resource path="res://Character Bubble.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/Character Bubble.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Score.tscn" type="PackedScene" id=3]
 [ext_resource path="res://sprites/character_sprites/back_hair/0.png" type="Texture" id=5]
 
