@@ -632,7 +632,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "Menu",
 "language": "GDScript",
-"path": "res://Menu/Menu.gd"
+"path": "res://Scripts/Menu_Scripts/Menu.gd"
 }, {
 "base": "Reference",
 "class": "RPC",

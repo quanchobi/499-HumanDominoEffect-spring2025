@@ -8,8 +8,8 @@
 [ext_resource path="res://Fonts/Nunito/Nunito-Regular.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://levels/LevelSelect.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/gdUnit3/src/update/assets/fonts/RobotoMono-h5.tres" type="DynamicFont" id=8]
-[ext_resource path="res://Menu/Menu.gd" type="Script" id=9]
-[ext_resource path="res://Menu/Checklist.gd" type="Script" id=11]
+[ext_resource path="res://Scripts/Menu_Scripts/Menu.gd" type="Script" id=9]
+[ext_resource path="res://Scripts/Menu_Scripts/Checklist.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/LoadButton.tscn" type="PackedScene" id=12]
 
 [sub_resource type="DynamicFontData" id=5]
