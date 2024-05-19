@@ -79,11 +79,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Domino.gd"
 }, {
-"base": "GdUnitTestSuite",
-"class": "DominoUnitTest",
-"language": "GDScript",
-"path": "res://test/node/DominoUnitTest.gd"
-}, {
 "base": "Node2D",
 "class": "DominoWorld",
 "language": "GDScript",
@@ -619,11 +614,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Multiplayer_Scripts/lobby.gd"
 }, {
-"base": "GdUnitTestSuite",
-"class": "LobbyIntegrationTest",
-"language": "GDScript",
-"path": "res://test/scene/LobbyIntegrationTest.gd"
-}, {
 "base": "Resource",
 "class": "LocalTime",
 "language": "GDScript",
@@ -744,7 +734,6 @@ _global_script_class_icons={
 "Comparator": "",
 "DefaultValueProvider": "",
 "Domino": "",
-"DominoUnitTest": "",
 "DominoWorld": "",
 "EqualsArgumentMatcher": "",
 "Fuzzer": "",
@@ -852,7 +841,6 @@ _global_script_class_icons={
 "IntFuzzer": "",
 "JUnitXmlReport": "",
 "Lobby": "",
-"LobbyIntegrationTest": "",
 "LocalTime": "",
 "Menu": "",
 "RPC": "",
