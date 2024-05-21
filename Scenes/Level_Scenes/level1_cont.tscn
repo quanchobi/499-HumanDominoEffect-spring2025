@@ -2,10 +2,10 @@
 
 [ext_resource path="res://UI/sprites/level1background_darken.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/StaticOauabae.tscn" type="PackedScene" id=2]
-[ext_resource path="res://levels/level1_cont.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/Level_Scripts/level1_cont.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/CapturedElcitrap.tscn" type="PackedScene" id=4]
 [ext_resource path="res://UI/Fonts/Nunito/Nunito-Regular.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://levels/CharacterCreation.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Level_Scenes/CharacterCreation.tscn" type="PackedScene" id=6]
 [ext_resource path="res://UI/sprites/next.png" type="Texture" id=7]
 [ext_resource path="res://Scenes/Narration.tscn" type="PackedScene" id=8]
 

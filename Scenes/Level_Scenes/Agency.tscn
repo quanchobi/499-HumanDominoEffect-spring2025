@@ -3,9 +3,9 @@
 [ext_resource path="res://UI/sprites/level1background_darken.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Oauabae.tscn" type="PackedScene" id=2]
 [ext_resource path="res://UI/sprites/agency_string.png" type="Texture" id=3]
-[ext_resource path="res://levels/String.gd" type="Script" id=4]
-[ext_resource path="res://levels/Agency.gd" type="Script" id=5]
-[ext_resource path="res://levels/level1.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scripts/Level_Scripts/String.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Level_Scripts/Agency.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/Level_Scenes/level1.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Narration.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CircleShape2D" id=1]

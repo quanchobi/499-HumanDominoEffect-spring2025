@@ -82,7 +82,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "DominoWorld",
 "language": "GDScript",
-"path": "res://levels/DominoWorld.gd"
+"path": "res://Scripts/Level_Scripts/DominoWorld.gd"
 }, {
 "base": "GdUnitArgumentMatcher",
 "class": "EqualsArgumentMatcher",

@@ -237,7 +237,7 @@ remote func pre_start_game():
 
 remote func post_start_game():
 	gamestate.players_ready = []
-	var world = load("res://levels/Manager.tscn")
+	var world = load("res://Scenes/Level_Scenes/Manager.tscn")
 	
 			
 	if get_tree().get_network_unique_id() != 1:
