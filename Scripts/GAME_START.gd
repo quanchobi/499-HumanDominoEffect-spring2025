@@ -6,9 +6,9 @@ extends Control
 # var b = "text"
 
 var parallax_backgrounds = [
-	"res://Scenes/Backgrounds/Parallax1.tscn",
-	"res://Scenes/Backgrounds/Parallax2.tscn",
-	"res://Scenes/Backgrounds/Parallax3.tscn"
+	"res://Scenes/Parallax_Scenes/Parallax1.tscn",
+	"res://Scenes/Parallax_Scenes/Parallax2.tscn",
+	"res://Scenes/Parallax_Scenes/Parallax3.tscn"
 ]
 
 

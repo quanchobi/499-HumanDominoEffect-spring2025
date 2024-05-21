@@ -5,7 +5,7 @@
 [ext_resource path="res://UI/Parallax/title1/clouds_2.png" type="Texture" id=3]
 [ext_resource path="res://UI/Parallax/title1/ground.png" type="Texture" id=4]
 [ext_resource path="res://UI/Parallax/title1/clouds_1.png" type="Texture" id=5]
-[ext_resource path="res://Scenes/Backgrounds/Parallax1.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/Parallax_Scripts/Parallax1.gd" type="Script" id=6]
 
 [node name="Parallax1" type="Control"]
 anchor_right = 1.0
