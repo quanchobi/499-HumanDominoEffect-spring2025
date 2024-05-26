@@ -1,9 +1,6 @@
 # domino level scene
 class_name DominoWorld
-
 extends Node2D
-
-
 
 export(PackedScene) var Domino
 const FootprintTile = preload("res://Scripts/FootprintTile.gd")
@@ -58,33 +55,29 @@ func _init_players() -> void:
 		# initialize hair and face for board view
 		var current = "Character Bubble" + str(ind)
 		get_node(current + "/face").set_texture(
-			load("res://UI/sprites/character_sprites/faces/" + str(gamestate.body[player_id]) + ".png")
+			load(ReferenceManager.get_reference("faces/" + str(gamestate.body[player_id]) + ".png"))
 		)
 		get_node(current + "/front_hair").set_texture(
-			load("res://UI/sprites/character_sprites/front_hair/" + str(gamestate.hair[player_id]) + ".png")
+			load(ReferenceManager.get_reference("front_hair/" + str(gamestate.hair[player_id]) + ".png"))
 		)
 		get_node(current + "/back_hair").set_texture(
-			load("res://UI/sprites/character_sprites/back_hair/" + str(gamestate.hair[player_id]) + ".png")
+			load(ReferenceManager.get_reference("back_hair/" + str(gamestate.hair[player_id]) + ".png"))
 		)
 
 		# initialize character looks in popup
 		get_node(current + "/Score/Button/PopupDialog/front_hair").set_texture(
-			load("res://UI/sprites/character_sprites/front_hair/" + str(gamestate.hair[player_id]) + ".png")
+			load(ReferenceManager.get_reference("front_hair/" + str(gamestate.hair[player_id]) + ".png"))
 		)
 		get_node(current + "/Score/Button/PopupDialog/back_hair").set_texture(
-			load("res://UI/sprites/character_sprites/back_hair/" + str(gamestate.hair[player_id]) + ".png")
+			load(ReferenceManager.get_reference("back_hair/" + str(gamestate.hair[player_id]) + ".png"))
 		)
 		print(gamestate.hair[player_id])
 		get_node(current + "/Score/Button/PopupDialog/body").set_texture(
-			load(
-				"res://UI/sprites/character_sprites/bodies/" + str(gamestate.body[player_id]) + ".png"
-			)
+			load(ReferenceManager.get_reference("bodies/" + str(gamestate.body[player_id]) + ".png"))
 		)
 		print(gamestate.body[player_id])
 		get_node(current + "/Score/Button/PopupDialog/clothes").set_texture(
-			load(
-				"res://UI/sprites/character_sprites/clothes/" + str(gamestate.clothes[player_id]) + ".png"
-			)
+			load(ReferenceManager.get_reference("clothes/" + str(gamestate.clothes[player_id]) + ".png"))
 		)
 		print(gamestate.clothes[player_id])
 		get_node(current + "/Score/Button/PopupDialog/Name_text").set_text(
@@ -130,14 +123,13 @@ func _init_players() -> void:
 	for i in range(ind, 7):
 		get_node("Character Bubble" + str(i)).queue_free()
 
-	MusicController.playMusic("res://audio/background/main.ogg")
+	MusicController.playMusic(ReferenceManager.get_reference("main.ogg"))
 
 	# add start game and next round buttons to host screen
 	if get_tree().get_network_unique_id() == 1:
 		$Start.visible = true
 
 	$Turn.text = gamestate.players[1] + "'s\nTurn"
-
 
 func _on_Start_pressed() -> void:
 	if(SaveManager.loaded_data):
@@ -150,8 +142,8 @@ func _on_Start_pressed() -> void:
 	$Start.queue_free()
 	if (self_num == 0):
 		$Next.visible = true
-	SFXController.playSFX("res://audio/effects/next.wav")
-
+		
+	SFXController.playSFX(ReferenceManager.get_reference("next.wav"))
 
 # initialize everyone's dominos
 func setup_dominos():
@@ -175,7 +167,7 @@ func draw_7():
 		var domino_nums = draw_domino()
 		var domino = Domino.instance()
 		var domino_title = str(domino_nums[1]) + str(domino_nums[0])
-		domino.get_node("Sprite").texture = load("res://UI/sprites/dominos/" + domino_title + ".png")
+		domino.get_node("Sprite").texture = load(ReferenceManager.get_reference("dominos/" + domino_title + ".png"))
 		add_child(domino)
 
 		# set domino position
@@ -193,11 +185,9 @@ func draw_7():
 			true
 		)
 
-
 # path set-up
 func add_position(pos):
 	position_table.append(pos)
-
 
 # take a domino from the main deck
 func draw_domino():
@@ -211,15 +201,12 @@ func draw_domino():
 	rpc("update_deck")
 	return nums
 
-
 func clear_selected_domino():
 	selected_domino = null
-
 
 # Validate that a given domino is selected or not
 func is_domino_selected(domino) -> bool:
 	return selected_domino == domino
-
 
 # Attempt to select domino. Return true if successful.
 func select_domino(domino) -> bool:
@@ -227,14 +214,9 @@ func select_domino(domino) -> bool:
 		selected_domino = domino
 	return selected_domino == domino
 
-
 # update deck from other player's drawing a domino
 remote func update_deck():
 	var _nums = dominos.pop_front()
-
-
-#	print(nums, len(dominos))
-
 
 # handles placing of domino onto a path
 func place_domino(num):
@@ -415,7 +397,7 @@ remote func update_domino_path(domino_nums, domino_elms, pos, path_num, flip):
 		str(min(domino_nums[0], domino_nums[1]))
 		+ str(max(domino_nums[0], domino_nums[1]))
 	)
-	domino.get_node("Sprite").texture = load("res://sprites/dominos/" + domino_title + ".png")
+	domino.get_node("Sprite").texture = load(ReferenceManager.get_reference("dominos/" + domino_title + ".png"))
 	domino.init(domino_nums[0], domino_nums[1], domino_elms[0], domino_elms[1], true)
 	domino.placed = true
 
@@ -438,7 +420,7 @@ func replace_domino():
 	if domino_nums:
 		var domino = Domino.instance()
 		var domino_title = str(domino_nums[1]) + str(domino_nums[0])
-		domino.get_node("Sprite").texture = load("res://sprites/dominos/" + domino_title + ".png")
+		domino.get_node("Sprite").texture = load(ReferenceManager.get_reference("dominos/" + domino_title + ".png"))
 		add_child(domino)
 		domino.position = selected_domino.original_pos
 		domino.init(
@@ -486,11 +468,9 @@ remote func next_round():
 
 	SaveManager.Save["0"].Current_Round += 1
 
-
 	# add tower
 	add_tower(center_num)
 	
-
 	# remove center domino from deck
 	print(center_num, center_num)
 	dominos.erase([center_num, center_num])
@@ -502,14 +482,13 @@ remote func next_round():
 	end_dominos = [null, null, null, null, null, null, null, null]
 
 	# load center domino
-	var domino_title = "res://UI/sprites/dominos/" + str(center_num) + str(center_num) + ".png"
+	var domino_title = ReferenceManager.get_reference("dominos/" + str(center_num) + str(center_num) + ".png")
 	$CentralDomino.get_node("Sprite").texture = load(domino_title)
 
 	# reset path visibility
 	for i in range(1, 7):
 		if i != self_num + 1:
 			get_node("Path" + str(i)).visible = false
-
 
 # handle when next round button pressed by host
 func _on_Next_pressed() -> void:
@@ -524,10 +503,8 @@ func _on_Next_pressed() -> void:
 	# get new dominos from deck
 	if center_num <= 9:
 		setup_dominos()
-		#$NextSound.playing = true
-		SFXController.playSFX("res://audio/effects/next.wav")
+		SFXController.playSFX(ReferenceManager.get_reference("next.wav"))
 		
-
 #intialize tower as not seen
 func intialize_tower():
 	$Tower/Sprite/Energy.visible = false
@@ -543,7 +520,6 @@ func intialize_tower():
 	$Tower/Sprite/Sciences.visible = false
 	$Tower/Sprite/Humanities.visible = false
 	$Tower/Sprite/Diamond.visible = false
-
 
 # Display tower
 func add_tower(round_num):
@@ -566,8 +542,6 @@ func add_tower(round_num):
 	elif round_num == 10:
 		$Tower/Sprite/Diamond.visible = true
 
-
-
 # if player cannot play a domino on their paths
 func _on_Help_pressed() -> void:
 	if turn == self_num:
@@ -576,8 +550,7 @@ func _on_Help_pressed() -> void:
 		# change turn
 		turn = (turn + 1) % len(gamestate.players)
 		$Turn.text = gamestate.players[sorted_players[turn]] + "'s\nTurn"
-		SFXController.playSFX("res://audio/effects/next.wav")
-
+		SFXController.playSFX(ReferenceManager.get_reference("next.wav"))
 
 # add player's path denoted by num to all player's screens
 remote func add_path(num):
@@ -585,12 +558,10 @@ remote func add_path(num):
 	$Turn.text = gamestate.players[sorted_players[turn]] + "'s\nTurn"
 	get_node("Path" + str(num)).visible = true
 
-
 # remove player's path denoted by num from all player's screens
 remote func remove_path(num):
 	if get_node("Path" + str(num)).temp:
 		get_node("Path" + str(num)).visible = false
-
 
 func _close_WellnessBead_popup() -> void:
 	$WellnessBeadPopup.visible = false
@@ -601,7 +572,6 @@ func _close_Alloy_popup() -> void:
 func _close_FootprintTile_popup():
 	$FootprintTilePopup.visible = false
 	
-
 # return winner's name (could also be names depending on ties) based on highest total points
 func determine_winner():
 	var best_score = -1
@@ -621,22 +591,19 @@ func determine_winner():
 	winner_text.erase(winner_text.length() - 1, 1)
 	return winner_text
 
-
 func _on_Code_pressed():
 	$EnterCodeMenu.visible = true
 	$EnterCodeMenu/InvalidCode.visible = false
 	$EnterCodeMenu/UsedCode.visible = false
 	$EnterCodeMenu/AcceptCode.visible = false
-	SFXController.playSFX("res://audio/effects/next.wav")
-
+	SFXController.playSFX(ReferenceManager.get_reference("next.wav"))
 
 func _on_X_pressed():
 	$EnterCodeMenu.visible = false 
 	$EnterCodeMenu/InvalidCode.visible = false
 	$EnterCodeMenu/UsedCode.visible = false
 	$EnterCodeMenu/AcceptCode.visible = false
-	SFXController.playSFX("res://audio/effects/back.wav")
-
+	SFXController.playSFX(ReferenceManager.get_reference("back.wav"))
 
 func _on_EnterButton_pressed():
 	var i = 0
@@ -659,15 +626,12 @@ func _on_EnterButton_pressed():
 		i = i + 1
 	if (wrongFlag == true):
 		$EnterCodeMenu/InvalidCode.visible = true
-		SFXController.playSFX("res://audio/effects/back.wav")
-
+		SFXController.playSFX(ReferenceManager.get_reference("back.wav"))
 
 # Updated button UI
 # 4/18/2024
 var green = Color("74cc4c")
 var grey = Color("aaaaaa")
-
-
 
 #### VVVV BUTTON HOVER HANDLERS VVVV ####
 
@@ -679,24 +643,19 @@ func _on_EnterCode_mouse_entered():
 func _on_EnterCode_mouse_exited():
 	$Code/MarginContainer/Label.set("custom_colors/font_color", grey)
 
-
 func _on_Next_mouse_entered():
 	$Next/MarginContainer/Label.set("custom_colors/font_color", green)
 func _on_Next_mouse_exited():
 	$Next/MarginContainer/Label.set("custom_colors/font_color", grey)
-
 
 func _on_Help_mouse_entered():
 	$Help/MarginContainer/Label.set("custom_colors/font_color", green)
 func _on_Help_mouse_exited():
 	$Help/MarginContainer/Label.set("custom_colors/font_color", grey)
 
-
 func _on_Start_mouse_entered():
 	$Start/MarginContainer/Label.set("custom_colors/font_color", green)
 func _on_Start_mouse_exited():
 	$Start/MarginContainer/Label.set("custom_colors/font_color", grey)
-
+	
 #### ^^^^ END BUTTON HOVER HANDLERS ^^^^ ####
-
-		

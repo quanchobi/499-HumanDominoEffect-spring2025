@@ -1,15 +1,12 @@
 extends Control
 
-
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 
 var input_flag = false
-var menu_scene_path = "res://Scenes/Menu_Scene.tscn"
 
 func handleChangeToMenuScene():
-	
 	if input_flag == true:
 		return
 		
@@ -18,23 +15,16 @@ func handleChangeToMenuScene():
 	input_flag = true
 	gamestate.title_screen_click_flag = true
 	# Play animation
-	SFXController.playSFX("res://audio/effects/next.wav")
+	SFXController.playSFX(ReferenceManager.get_reference("next.wav"))
 	$Title_Container/AnimationPlayer.play("Transition")
 	yield($Title_Container/AnimationPlayer, "animation_finished")
 	
 	if parent and parent.has_method("loadForegroundScene"):
-		parent.loadForegroundScene(menu_scene_path)
+		parent.loadForegroundScene(ReferenceManager.get_reference("Menu_Scene.tscn"))
 		
-
-	
-
-	
-	
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	MusicController.playMusic("res://audio/background/quantum.ogg")
-
+	MusicController.playMusic(ReferenceManager.get_reference("quantum.ogg"))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -48,6 +38,3 @@ func _input(event):
 		handleChangeToMenuScene()
 	elif event is InputEventScreenTouch:
 		handleChangeToMenuScene()
-
-
-

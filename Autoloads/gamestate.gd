@@ -264,7 +264,6 @@ remote func ready_to_start(id):
 				rpc_id(p, "post_start_game")
 		post_start_game()
 
-
 func host_game(new_player_name):
 	player_name = new_player_name
 	peer = NetworkedMultiplayerENet.new()
@@ -274,7 +273,6 @@ func host_game(new_player_name):
 	var id = get_tree().get_network_unique_id()
 	
 	rpc("register_player", player_name)
-
 
 func join_game(ip, new_player_name):
 	player_name = new_player_name
@@ -318,7 +316,6 @@ func begin_game():
 
 	pre_start_game()
 
-
 func end_game():
 	if has_node("/root/World"): # Game is in progress.
 		# End it
@@ -327,12 +324,9 @@ func end_game():
 	emit_signal("game_ended")
 	players.clear()
 	
-	
 # New functions added by Spring 2024 CS-499 Group
 func save_scene_path(scene_path):
 	prev_scene = scene_path
-
-
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
@@ -340,8 +334,3 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_connected_ok")
 	get_tree().connect("connection_failed", self, "_connected_fail")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
-	
-
-	
-	
-	

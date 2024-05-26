@@ -1,16 +1,20 @@
 extends Control
 
-
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 
-var parallax_backgrounds = [
-	"res://Scenes/Parallax_Scenes/Parallax1.tscn",
-	"res://Scenes/Parallax_Scenes/Parallax2.tscn",
-	"res://Scenes/Parallax_Scenes/Parallax3.tscn"
-]
+#var parallax_backgrounds = [
+#	"res://Scenes/Parallax_Scenes/Parallax1.tscn",
+#	"res://Scenes/Parallax_Scenes/Parallax2.tscn",
+#	"res://Scenes/Parallax_Scenes/Parallax3.tscn"
+#]
 
+var parallax_backgrounds = [
+	ReferenceManager.get_reference("Parallax1.tscn"),
+	ReferenceManager.get_reference("Parallax2.tscn"),
+	ReferenceManager.get_reference("Parallax3.tscn"),
+]
 
 var foreGroundScene
 
@@ -22,19 +26,15 @@ func _ready():
 	var rand_index = randi() % parallax_backgrounds.size()
 	var bg_path = parallax_backgrounds[rand_index]
 	
-
 	# Load an instance of scene as a child of GAME_START
 	var bg_scene = load(bg_path)
 	var bg_instance = bg_scene.instance()
 	add_child(bg_instance)
 	
-	
-	
 	if gamestate.title_screen_click_flag == false:
-		loadForegroundScene("res://Scenes/Title_Scene.tscn")
+		loadForegroundScene(ReferenceManager.get_reference("Title_Scene.tscn"))
 	else:
-		loadForegroundScene("res://Scenes/Menu_Scene.tscn")
-
+		loadForegroundScene(ReferenceManager.get_reference("Menu_Scene.tscn"))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -47,7 +47,3 @@ func loadForegroundScene(path_to_scene):
 	var scene = load(path_to_scene)
 	foreGroundScene = scene.instance()
 	add_child(foreGroundScene)
-
-
-
-		

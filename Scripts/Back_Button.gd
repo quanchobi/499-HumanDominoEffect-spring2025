@@ -6,13 +6,9 @@ extends Control
 #
 # Back_Button should preferably be the child of the main ui scene.
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
-
-
-
 
 func _on_TextureButton_mouse_entered():
 	# Change label outline color to reddish
@@ -23,7 +19,6 @@ func _on_TextureButton_mouse_exited():
 	# Change label outline back to default
 	pass
 
-
 func _on_TextureButton_pressed():
-	SFXController.playSFX("res://audio/effects/back.wav")
+	SFXController.playSFX(ReferenceManager.get_reference("back.wav"))
 	get_tree().change_scene(gamestate.prev_scene)

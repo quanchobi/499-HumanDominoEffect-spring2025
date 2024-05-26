@@ -33,7 +33,6 @@ signal load_save_scene(level)
 func _ready():
 	pass
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
@@ -41,7 +40,7 @@ func _ready():
 # Function to run after the Save Button is pressed to manage the Data
 func save_button_pressed():
 	print("Save Button Pressed!")
-	SFXController.playSFX("res://audio/effects/next.wav")
+	SFXController.playSFX(ReferenceManager.get_reference("next.wav"))
 	Save["0"] = {
 			"Players": gamestate.players,
 			"Points": gamestate.total_points,
@@ -70,4 +69,3 @@ func load_button_pressed():
 	if(Save["0"].Current_Level == "World"):
 		Save["0"].Current_Level = "DominoWorld"
 	emit_signal("load_save_scene", Save["0"].Current_Level)
-	

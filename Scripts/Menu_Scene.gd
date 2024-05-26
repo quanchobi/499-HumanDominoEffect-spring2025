@@ -1,6 +1,5 @@
 extends Control
 
-
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -10,11 +9,9 @@ var parent
 func _ready():
 	parent = get_parent() # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-
 
 func change_scene_with_animation(target_scene):
 	# Play transition
@@ -27,14 +24,13 @@ func change_scene_with_animation(target_scene):
 	if parent:
 		parent.loadForegroundScene(target_scene)
 
-
 func _on_Quit_Button_pressed():
 	# Load Quit Scene on Quit Button Pressed
-	SFXController.playSFX("res://audio/effects/back.wav")
-	change_scene_with_animation("res://Scenes/Quit_Scene.tscn")
+	SFXController.playSFX(ReferenceManager.get_reference("back.wav"))
+	change_scene_with_animation(ReferenceManager.get_reference("Quit_Scene.tscn"))
 
 
 func _on_Play_Button_pressed():
 	# Load lobby scene (for now) on Play Button pressed
-	SFXController.playSFX("res://audio/effects/next.wav")
-	change_scene_with_animation("res://Scenes/Lobby.tscn")
+	SFXController.playSFX(ReferenceManager.get_reference("next.wav"))
+	change_scene_with_animation(ReferenceManager.get_reference("Lobby.tscn"))

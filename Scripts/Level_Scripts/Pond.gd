@@ -18,7 +18,7 @@ func _ready() -> void:
 	$Choice.text = choices[choice_ind][1]
 	$Stone/stone.animation = choices[choice_ind][0]
 	
-	MusicController.playMusic("res://audio/background/pond.ogg")
+	MusicController.playMusic(ReferenceManager.get_reference("pond.ogg"))
 	
 # handles users area of venn diagram selection
 func handle_choice(area):
@@ -55,7 +55,6 @@ func handle_choice(area):
 func change_stone(area):
 	$Stone/stone.animation = area
 
-
 # handle different venn diagram section clicks
 
 func _on_y_area_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
@@ -86,7 +85,6 @@ func _on_ybr_area_input_event(viewport: Node, event: InputEvent, shape_idx: int)
 	if event is InputEventMouseButton and event.pressed:
 		handle_choice("ybr")
 
-
 # make circles bigger / smaller with mouse hovering
 
 func _on_y_area_mouse_entered() -> void:
@@ -113,11 +111,9 @@ func _on_r_area_mouse_exited() -> void:
 	$r_ring.scale = Vector2(1.35, 1.35)
 	red_selected = false
 
-
 func _on_Button_pressed() -> void:
 	$Popup.visible = false
 	
-
 remote func start_game():
 	get_parent().change_level(next_scene)
 

@@ -8,13 +8,10 @@ onready var LobbyContainer = $Lobby_Container
 onready var LevelSelectContainer = $LevelSelect_Container
 onready var WaitRoomContainer = $WaitRoom_Container
 
-
 onready var waitroom_host_name = $WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Host_Username
 onready var waitroom_host_ip = $WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Host_IP
 
-
 var local_ip = get_local_ip()
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -28,24 +25,20 @@ func _ready():
 #func _process(delta):
 #	pass
 
-
 func _on_Host_pressed():
 	if get_name() == "":
 		set_error_label("Invalid name!")
-		SFXController.playSFX("res://audio/effects/back.wav")
+		SFXController.playSFX(ReferenceManager.get_reference("back.wav"))
 		return
 
 	set_error_label("")
 	# Load the level select menu with transition
 	change_menu_smoothly(LobbyContainer, LevelSelectContainer)
 
-
-
-
 func _on_Join_Button_pressed():
 	if get_name() == "":
 		set_error_label("Invalid name!")
-		SFXController.playSFX("res://audio/effects/back.wav")
+		SFXController.playSFX(ReferenceManager.get_reference("back.wav"))
 		return
 	
 	#var ip =  $Connect/JoinBox/IPAddress.text
@@ -57,7 +50,7 @@ func _on_Join_Button_pressed():
 	var host_ip = $Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Join/NinePatchRect/MarginContainer/LineEdit.text
 	if host_ip == $Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Name/NinePatchRect/MarginContainer/LineEdit.text:
 		set_error_label("Host and player can not have the same name.")
-		SFXController.playSFX("res://audio/effects/back.wav")
+		SFXController.playSFX(ReferenceManager.get_reference("back.wav"))
 		return
 
 	set_error_label("")
@@ -74,22 +67,17 @@ func _on_Join_Button_pressed():
 	change_menu_smoothly(LobbyContainer, WaitRoomContainer)
 	gamestate.join_game(host_ip, player_name)
 
-
 func change_menu_smoothly(prev, target):
 	var prev_animation = prev.get_node("AnimationPlayer")
 	var target_animation = target.get_node("AnimationPlayer")
 
-	SFXController.playSFX("res://audio/effects/next.wav")
-
+	SFXController.playSFX(ReferenceManager.get_reference("next.wav"))
 	prev_animation.play_backwards("start")
-	
 	yield(prev_animation, "animation_finished")
 	
 	prev.visible = false
-	
 	target.visible = true
 	target_animation.play("start")
-	
 	
 func refresh_lobby():
 	var players = gamestate.get_player_list()
@@ -114,22 +102,16 @@ func handle_level(level):
 
 	gamestate.dominos.shuffle()
 	
-	
 	# Set host username and ip address labels
 	waitroom_host_name.set_text("Host: " + get_name())
 	waitroom_host_ip.set_text("Host IP: " + local_ip)
 	
-	
 	# Change menu to waiting room
 	change_menu_smoothly(LevelSelectContainer, WaitRoomContainer)
-	
-	
 	
 	var player_name = get_name()
 	gamestate.host_game(player_name)
 	refresh_lobby()
-	
-	
 	
 ##### VVV HELPER FUNCTIONS VVV #####
 
@@ -150,28 +132,21 @@ func get_local_ip():
 	elif OS.has_feature("X11") or OS.has_feature("OSX"):
 		ip_address = IP.resolve_hostname(str(OS.get_environment("HOSTNAME")),1)
 	
-	
 	return ip_address
-
 
 ##### VVV LEVEL SELECT BUTTONS VVV #####
 
 func _on_Char_Creation_pressed():
 	handle_level("Agency")
 
-
 func _on_Pond_Choices_pressed():
 	handle_level("Pond")
-
 
 func _on_Domino_Game_pressed():
 	handle_level("DominoWorld")
 
-
 func _on_Virtual_World_pressed():
 	handle_level("Sandbox")
 	
-
-
 func _on_Start_Button_pressed():
 	gamestate.begin_game()
