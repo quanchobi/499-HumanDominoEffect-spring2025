@@ -3,9 +3,13 @@ class_name DominoWorld
 extends Node2D
 
 export(PackedScene) var Domino
-const FootprintTile = preload("res://Scripts/FootprintTile.gd")
+# NOTE: If domino game performance is low, try switching to preload
+#const FootprintTile = preload("res://Scripts/FootprintTile.gd")
+var FootprintTile = load(ReferenceManager.get_reference("FootprintTile.gd"))
 var footprint_tile_ring = null
-const tower = preload("res://Scripts/Tower.gd")
+# NOTE: If domino game performance is low, try switching to preload
+#const tower = preload("res://Scripts/Tower.gd")
+var tower = load(ReferenceManager.get_reference("Tower.gd"))
 var sorted_players = []
 
 var turn = 0  # whose turn is it, indexed from 0 on
@@ -35,12 +39,12 @@ func _ready() -> void:
 	_init_players()
 	dominos.erase([0, 0])
 	
-
-
 #  Sets up and resolves players and their resulting nodes
 func _init_players() -> void:
 	# initialize footprint tile ring
-	footprint_tile_ring = preload("res://Scripts/FootprintTileRing.gd").new(self)
+	# NOTE: If domino game performance is low, try switching to preload
+	#footprint_tile_ring = preload("res://Scripts/FootprintTileRing.gd").new(self)
+	footprint_tile_ring = load(ReferenceManager.get_reference("FootprintTileRing.gd")).new(self)
 	footprint_tile_ring.position = $Board.position
 	add_child(footprint_tile_ring)
 	
@@ -63,7 +67,6 @@ func _init_players() -> void:
 		get_node(current + "/back_hair").set_texture(
 			load(ReferenceManager.get_reference("back_hair/" + str(gamestate.hair[player_id]) + ".png"))
 		)
-
 		# initialize character looks in popup
 		get_node(current + "/Score/Button/PopupDialog/front_hair").set_texture(
 			load(ReferenceManager.get_reference("front_hair/" + str(gamestate.hair[player_id]) + ".png"))

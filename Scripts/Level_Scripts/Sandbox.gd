@@ -1,6 +1,8 @@
 extends Spatial
 
-var chunk_scene = preload("res://Scenes/Chunk.tscn")
+# NOTE: If domino game performance is low, try switching to preload
+#var chunk_scene = preload("res://Scenes/Chunk.tscn")
+var chunk_scene = load(ReferenceManager.get_reference("Chunk.tscn"))
 
 var load_radius = 5
 onready var chunks = $Chunks

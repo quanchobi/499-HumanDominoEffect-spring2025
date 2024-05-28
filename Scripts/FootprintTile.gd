@@ -94,13 +94,20 @@ func _input_event(_viewport, event, _shape_idx):
 const size_increase = Vector2(0.2, 0.2)
 const default_size = Vector2(2, 2)
 
-# preload sprites for footprint tile shapes
+# Load sprites for footprint tile shapes
+# NOTE: If domino game performance is low, try switching to preload
+"""
 const shape_sprites = [
 	preload("res://UI/sprites/footprint_tiles/ConvexHexagon1.png"),
 	preload("res://UI/sprites/footprint_tiles/Trapezoid.png"),
 	preload("res://UI/sprites/footprint_tiles/ConvexHexagon2.png")
 ]
-
+"""
+var shape_sprites = [
+	load(ReferenceManager.get_reference("ConvexHexagon1.png")),
+	load(ReferenceManager.get_reference("Trapezoid.png")),
+	load(ReferenceManager.get_reference("ConvexHexagon2.png"))
+]
 # const that marks the shape of the collision box for each footprint tile sprite
 # each element is a PoolVector2Array which contain coordinates for a CollisionPolygon2D Node
 # this array is ordered to correspond to the shape_sprites const above.
@@ -136,8 +143,9 @@ const shape_scales_for_ring = [
 	Vector2(0.8, 0.8),
 	Vector2(1.2, 1.2)
 ]
-
-# preload sprites for footprint tile rounds (in round order)
+# Load sprites for footprint tile rounds (in round order)
+# NOTE: If domino game performance is low, try switching to preload
+"""
 const round_sprites = [
 	preload("res://UI/sprites/footprint_tiles/Campfire.png"),
 	preload("res://UI/sprites/footprint_tiles/Dog.png"),
@@ -146,7 +154,18 @@ const round_sprites = [
 	preload("res://UI/sprites/footprint_tiles/Book.png"),
 	preload("res://UI/sprites/footprint_tiles/Car.png")
 ]
-# preload sprites for footprint tile numbers
+"""
+var round_sprites = [
+	load(ReferenceManager.get_reference("Campfire.png")),
+	load(ReferenceManager.get_reference("Dog.png")),
+	load(ReferenceManager.get_reference("Bowl.png")),
+	load(ReferenceManager.get_reference("Ship.png")),
+	load(ReferenceManager.get_reference("Book.png")),
+	load(ReferenceManager.get_reference("Car.png")),
+]
+# Load sprites for footprint tile numbers
+# NOTE: If domino game performance is low, try switching to preload
+"""
 const number_sprites = [
 	null, # no number needed if footprint tile 0
 	preload("res://UI/sprites/footprint_tiles/Domino1.png"),
@@ -158,6 +177,19 @@ const number_sprites = [
 	preload("res://UI/sprites/footprint_tiles/Domino7.png"),
 	preload("res://UI/sprites/footprint_tiles/Domino8.png"),
 	preload("res://UI/sprites/footprint_tiles/Domino9.png"),
+]
+"""
+var number_sprites = [
+	null, # no number needed if footprint tile 0
+	load(ReferenceManager.get_reference("Domino1.png")),
+	load(ReferenceManager.get_reference("Domino2.png")),
+	load(ReferenceManager.get_reference("Domino3.png")),
+	load(ReferenceManager.get_reference("Domino4.png")),
+	load(ReferenceManager.get_reference("Domino5.png")),
+	load(ReferenceManager.get_reference("Domino6.png")),
+	load(ReferenceManager.get_reference("Domino7.png")),
+	load(ReferenceManager.get_reference("Domino8.png")),
+	load(ReferenceManager.get_reference("Domino9.png")),
 ]
 # colors for footprint tiles in cycle order
 const tile_colors = [

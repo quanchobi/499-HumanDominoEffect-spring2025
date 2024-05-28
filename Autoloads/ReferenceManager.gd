@@ -25,6 +25,7 @@ const refDict = {
 	"GAME_START.tscn": "res://Scenes/GAME_START.tscn",
 	"Title_Scene.tscn": "res://Scenes/Title_Scene.tscn",
 	"Menu_Scene.tscn": "res://Scenes/Menu_Scene.tscn",
+	"Chunk.tscn": "res://Scenes/Chunk.tscn",
 	
 	"Agency.tscn": "res://Scenes/Level_Scenes/Agency.tscn",
 	"CharacterCreation.tscn": "res://Scenes/Level_Scenes/CharacterCreation.tscn",
@@ -43,6 +44,8 @@ const refDict = {
 	"Parallax3.tscn": "res://Scenes/Parallax_Scenes/Parallax3.tscn",
 	
 	"FootprintTile.gd": "res://Scripts/FootprintTile.gd",
+	"FootprintTileRing.gd": "res://Scripts/FootprintTileRing.gd",
+	"Tower.gd": "res://Scripts/Tower.gd",
 	
 	"front_hair/0.png": "res://UI/sprites/character_sprites/front_hair/0.png",
 	"front_hair/1.png": "res://UI/sprites/character_sprites/front_hair/1.png",
@@ -141,6 +144,27 @@ const refDict = {
 	"dominos/88.png": "res://UI/sprites/dominos/88.png",
 	"dominos/89.png": "res://UI/sprites/dominos/89.png",
 	"dominos/99.png": "res://UI/sprites/dominos/99.png",
+	
+	"ConvexHexagon1.png": "res://UI/sprites/footprint_tiles/ConvexHexagon1.png",
+	"ConvexHexagon2.png": "res://UI/sprites/footprint_tiles/ConvexHexagon2.png",
+	"Trapezoid.png": "res://UI/sprites/footprint_tiles/Trapezoid.png",
+	"Campfire.png": "res://UI/sprites/footprint_tiles/Campfire.png",
+	"Dog.png": "res://UI/sprites/footprint_tiles/Dog.png",
+	"Bowl.png": "res://UI/sprites/footprint_tiles/Bowl.png",
+	"Ship.png": "res://UI/sprites/footprint_tiles/Ship.png",
+	"Book.png": "res://UI/sprites/footprint_tiles/Book.png",
+	"Car.png": "res://UI/sprites/footprint_tiles/Car.png",
+	"Domino1.png": "res://UI/sprites/footprint_tiles/Domino1.png",
+	"Domino2.png": "res://UI/sprites/footprint_tiles/Domino2.png",
+	"Domino3.png": "res://UI/sprites/footprint_tiles/Domino3.png",
+	"Domino4.png": "res://UI/sprites/footprint_tiles/Domino4.png",
+	"Domino5.png": "res://UI/sprites/footprint_tiles/Domino5.png",
+	"Domino6.png": "res://UI/sprites/footprint_tiles/Domino6.png",
+	"Domino7.png": "res://UI/sprites/footprint_tiles/Domino7.png",
+	"Domino8.png": "res://UI/sprites/footprint_tiles/Domino8.png",
+	"Domino9.png": "res://UI/sprites/footprint_tiles/Domino9.png",
+	
+	"new_spatialmaterial.tres": "res://UI/sprites/new_spatialmaterial.tres",
 }
 
 func get_reference(ref_key):

@@ -1,5 +1,7 @@
 extends Node2D
-const FootprintTile = preload("res://Scripts/FootprintTile.gd")
+# NOTE: If domino game performance is low, try switching to preload
+#const FootprintTile = preload("res://Scripts/FootprintTile.gd")
+var FootprintTile = load(ReferenceManager.get_reference("FootprintTile.gd"))
 
 # Declare member variables here. Examples:
 # var a = 2

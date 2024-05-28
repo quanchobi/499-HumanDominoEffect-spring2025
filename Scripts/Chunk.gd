@@ -28,7 +28,10 @@ var blocks = []
 var st = SurfaceTool.new()
 var mesh = null
 var mesh_instance = null
-var material = preload("res://UI/sprites/new_spatialmaterial.tres")
+
+# NOTE: If Virtual World performance is low, try switching to preload
+#var material = preload("res://UI/sprites/new_spatialmaterial.tres")
+var material = load(ReferenceManager.get_reference("new_spatialmaterial.tres"))
 
 # Global position of chunk
 var chunk_position = Vector2() setget set_chunk_position
