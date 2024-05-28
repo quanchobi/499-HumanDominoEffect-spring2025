@@ -1,33 +1,35 @@
-# The Human Domino Effect ![image](https://user-images.githubusercontent.com/85492425/204155087-f9c37acd-4e81-43f6-bed9-d31808e5d677.png)
+# ![image](https://user-images.githubusercontent.com/85492425/204155087-f9c37acd-4e81-43f6-bed9-d31808e5d677.png)
+
+Welcome to the official GitHub repository for the Human Domino Effect (HDE) virtual board game! This repository contains the HDE codebase and additional documentation for both project developers and product owners. For more information on the game, visit the Human Domino Effect homepage at https://thehumandominoeffect.com.
 
 ---
 
-The purpose of this repository is to be to provide the code for the development of the Human Domino Effect virtual board game.
+### Major Game Features (as of June 2024)
 
-### This currently includes
-
--   Resizing the game board to optimize space for the dominoes
--   Shifting the existing domino hand for the users further to the right
--   "Snaking" and offsetting the dominoes for the players on the top of the board
--   Reverse "Snaking" and offsetting of the dominoes for the players on the bottom of the board
--   Populating the domino turns
--   Alloy and footprint tile scoring
--   Revised UI and scaling
--   Basis for the virtual world segment
-
----
-
-### Contributing
-
-For more information on where to begin development, take a look at the [documentation included in the repository.](./docs/index.md)
+-   Title screen with parallax background scrolling
+-   Basic debug menu with game mode selection for developers
+-   Character Creation Mode
+    -   Introductory cutscene
+    -   Player customization
+-   Pond Choices Mode
+-   Domino Game Mode
+    -   Alloy and footprint tile scoring
+    -   Population of domino turns
+    -   Template for entering bonus codes
+-   Virtual World Mode
+    -   Work-in-progress version of interactible "campfire" cutscene
 
 ---
 
-### How to play this version
+### How to Install
 
-1.  Be sure to have the GODOT Engine installed on your device
-2.  Download the Zip file of the code or clone the repository locally
-3.  In the GODOT Engine, select import project
-4.  Once the project is imported, press the play button in the top right corner and wait for the game window to appear to begin
+1.  Ensure you have the Godot 3.x game engine installed on your device.
+2.  Download the .zip file of the HDE code or clone the GitHub repository locally.
+3.  Open Godot 3.x and select "Import Project".
+4.  Once the project is imported, press the play button in the top right corner. The game will appear in a separate window.
 
-[ Human Domino Effect Homepage: ] (https://thehumandominoeffect.com/)
+---
+
+### Additional Development Information
+
+If you are a UKY CS 499 student or are otherwise contributing to the HDE video game project, please take a look at the [documentation](./docs/index.md) included in this repository.
