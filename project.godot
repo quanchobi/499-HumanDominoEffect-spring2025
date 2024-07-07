@@ -79,7 +79,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Domino.gd"
 }, {
-"base": "Reference",
+"base": "GdUnitTestSuite",
 "class": "DominoUnitTest",
 "language": "GDScript",
 "path": "res://addons/gdUnit3/Example_Tests/DominoUnitTest.gd"
@@ -619,7 +619,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Multiplayer_Scripts/lobby.gd"
 }, {
-"base": "Reference",
+"base": "GdUnitTestSuite",
 "class": "LobbyIntegrationTest",
 "language": "GDScript",
 "path": "res://addons/gdUnit3/Example_Tests/LobbyIntegrationTest.gd"
@@ -629,7 +629,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/gdUnit3/src/core/LocalTime.gd"
 }, {
-"base": "Reference",
+"base": "Control",
 "class": "Menu",
 "language": "GDScript",
 "path": "res://Scripts/Menu_Scripts/Menu.gd"
