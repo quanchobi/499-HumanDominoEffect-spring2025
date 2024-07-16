@@ -1,0 +1,78 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://UI/Parallax/cavepan/cavepan_1.png" type="Texture" id=1]
+[ext_resource path="res://UI/Parallax/cavepan/cavepan_2.png" type="Texture" id=2]
+[ext_resource path="res://UI/Parallax/cavepan/cavepan_4.png" type="Texture" id=3]
+[ext_resource path="res://UI/Parallax/cavepan/cavepan_5.png" type="Texture" id=4]
+[ext_resource path="res://UI/Parallax/cavepan/cavepan_3.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/CavepanTimer.gd" type="Script" id=6]
+[ext_resource path="res://Scenes/Level_Scenes/CharacterCreation.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scripts/Parallax_Scripts/Parallax4.gd" type="Script" id=8]
+
+[node name="Parallax4" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource( 8 )
+next_scene = ExtResource( 7 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="Sky" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.012, 1 )
+motion_offset = Vector2( 0, -30 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Sky"]
+position = Vector2( -2, 0 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Mountains" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.06, 1 )
+motion_offset = Vector2( 0, 80 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Mountains"]
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 3 )
+centered = false
+offset = Vector2( -2, 0 )
+
+[node name="Hills" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.2, 1 )
+motion_offset = Vector2( 0, 75 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Hills"]
+scale = Vector2( 0.54, 0.56 )
+texture = ExtResource( 5 )
+centered = false
+offset = Vector2( -2, 0 )
+
+[node name="Flatlands" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.4, 1 )
+motion_offset = Vector2( 0, 145 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Flatlands"]
+position = Vector2( -2, 0 )
+scale = Vector2( 0.54, 0.56 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Beach" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.65, 1 )
+motion_offset = Vector2( 0, 50 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Beach"]
+position = Vector2( -10, 0 )
+scale = Vector2( 0.54, 0.56 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="CavepanTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+script = ExtResource( 6 )
+
+[connection signal="pan_stopped" from="." to="CavepanTimer" method="_on_Parallax4_pan_stopped" flags=6]
+[connection signal="timeout" from="CavepanTimer" to="." method="_on_CavepanTimer_timeout"]

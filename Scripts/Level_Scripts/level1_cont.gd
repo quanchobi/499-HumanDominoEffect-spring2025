@@ -6,6 +6,8 @@ export (PackedScene) var Elcitrap
 export var next_scene: PackedScene
 
 export var trait_queue = [] + curriculum.traits
+
+signal fade_start
 	
 # x, y positions of each elcitrap
 var red_pos = [[361, 121], [321, 163], [294, 214], [278, 272], [284, 333]]
