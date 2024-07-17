@@ -9,16 +9,18 @@ export var hair_count = 12
 export var body_count = 4
 export var clothes_count = 5
 
+signal trigger_animation(anim_name)
+
 var hair_num = 0
 var body_num = 0
 var clothes_num = 0
 
 var players_ready = []
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$AnimationPlayer.play("Zoom")
+	#$AnimationPlayer.play("Zoom")
+	#emit_signal("trigger_animation", "Screen_Unwipe") 
 	
 	# populate elcitraps with data from previous scene
 	for i in range(len(gamestate.elcitraps[get_tree().get_network_unique_id()])):
@@ -72,7 +74,10 @@ func _on_next_pressed() -> void:
 		rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
 	else:
 		ready_to_start(get_tree().get_network_unique_id())
-		
+
+func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
+	$ZIndexSetter/ColorRect.visible = !$ZIndexSetter/ColorRect.visible 
+
 # set character features for player on every player's screen
 remotesync func set_features(hair, body, clothes):
 	gamestate.hair[get_tree().get_rpc_sender_id()] = hair
@@ -92,3 +97,5 @@ remote func ready_to_start(id):
 		for p in gamestate.players:
 			rpc_id(p, "start_game")
 		start_game()
+
+

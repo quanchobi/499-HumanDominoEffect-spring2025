@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://UI/Parallax/cavepan/cavepan_1.png" type="Texture" id=1]
 [ext_resource path="res://UI/Parallax/cavepan/cavepan_2.png" type="Texture" id=2]
@@ -8,6 +8,37 @@
 [ext_resource path="res://Scripts/CavepanTimer.gd" type="Script" id=6]
 [ext_resource path="res://Scenes/Level_Scenes/CharacterCreation.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scripts/Parallax_Scripts/Parallax4.gd" type="Script" id=8]
+[ext_resource path="res://Scripts/Parallax4Animations.gd" type="Script" id=9]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Screen_Unwipe"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ZIndexSetter/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Screen_Wipe"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ZIndexSetter/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
 
 [node name="Parallax4" type="Control"]
 anchor_right = 1.0
@@ -74,5 +105,20 @@ wait_time = 5.0
 one_shot = true
 script = ExtResource( 6 )
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Screen_Unwipe = SubResource( 1 )
+anims/Screen_Wipe = SubResource( 2 )
+script = ExtResource( 9 )
+
+[node name="ZIndexSetter" type="Node2D" parent="."]
+z_index = 1
+
+[node name="ColorRect" type="ColorRect" parent="ZIndexSetter"]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0, 0, 0, 1 )
+
 [connection signal="pan_stopped" from="." to="CavepanTimer" method="_on_Parallax4_pan_stopped" flags=6]
+[connection signal="trigger_animation" from="." to="AnimationPlayer" method="_on_Parallax4_trigger_animation"]
 [connection signal="timeout" from="CavepanTimer" to="." method="_on_CavepanTimer_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

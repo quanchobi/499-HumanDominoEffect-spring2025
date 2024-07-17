@@ -7,8 +7,9 @@ export var next_scene: PackedScene
 
 export var trait_queue = [] + curriculum.traits
 
-signal fade_start
-	
+signal trigger_animation(anim_name)
+signal five_selected()
+
 # x, y positions of each elcitrap
 var red_pos = [[361, 121], [321, 163], [294, 214], [278, 272], [284, 333]]
 var blue_pos = [[398, 500], [454, 519], [514, 528], [574, 519], [628, 499]]
@@ -58,22 +59,18 @@ func _ready() -> void:
 # reveal next button after player has selected 5 traits
 func _process(delta: float) -> void:
 	if len(selected) == 5:
-		$Button.visible = true
-	else:
-		$Button.visible = false
+		emit_signal("five_selected")
 
 # tell host we're done when next is clicked
 func _on_Button_pressed() -> void:
 #	print("id", get_tree().get_network_unique_id())
 	rpc("set_elcitraps", selected)
 #	print("debug: ", gamestate.elcitraps)
-	$AnimationPlayer.play("Fade")
+
+	$Button.visible = false
+	$Narration.visible = false
 	
-	if not get_tree().is_network_server():
-		# Tell server we are ready to start.
-		rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
-	else:
-		ready_to_start(get_tree().get_network_unique_id())
+	emit_signal("trigger_animation", "Fade")
 	
 remotesync func set_elcitraps(elcitraps):
 	gamestate.elcitraps[get_tree().get_rpc_sender_id()] = elcitraps
@@ -81,19 +78,15 @@ remotesync func set_elcitraps(elcitraps):
 remote func start_game():
 	get_parent().change_level(next_scene)
 
-remote func ready_to_start(id):
-	assert(get_tree().is_network_server())
-
-	if not id in players_ready:
-		players_ready.append(id)
-
-	if players_ready.size() == gamestate.players.size():
-		for p in gamestate.players:
-			rpc_id(p, "start_game")
-		start_game()
-
 func _on_TextAnimationPlayer_animation_finished(anim_name: String) -> void:
 	if narration_count < len(narration_text):
 		$Narration.text = narration_text[narration_count]
 		$Narration/TextAnimationPlayer.play("Reveal")
 		narration_count += 1
+
+func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
+	if (anim_name == "Fade"):
+		$ZIndexSetter/ColorRect.visible = !$ZIndexSetter/ColorRect.visible
+		emit_signal("trigger_animation", "Screen_Wipe")
+	else:
+		start_game()

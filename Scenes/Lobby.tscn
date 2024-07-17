@@ -110,9 +110,8 @@ script = ExtResource( 10 )
 [node name="Lobby_Container" type="MarginContainer" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -600.0
 margin_right = 1024.0
-margin_bottom = 0.000366211
+margin_bottom = 600.0
 mouse_filter = 1
 custom_constants/margin_right = 24
 custom_constants/margin_top = 24
@@ -320,6 +319,8 @@ anims/start = SubResource( 7 )
 [node name="LevelSelect_Container" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = -600.0
+margin_bottom = -600.0
 custom_constants/margin_right = 24
 custom_constants/margin_top = 24
 custom_constants/margin_left = 24
@@ -411,6 +412,8 @@ anims/start = SubResource( 9 )
 [node name="WaitRoom_Container" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 600.0
+margin_bottom = 600.0
 mouse_filter = 2
 custom_constants/margin_right = 24
 custom_constants/margin_top = 24
