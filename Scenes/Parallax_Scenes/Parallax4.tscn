@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://UI/Parallax/cavepan/cavepan_1.png" type="Texture" id=1]
 [ext_resource path="res://UI/Parallax/cavepan/cavepan_2.png" type="Texture" id=2]
@@ -9,9 +9,11 @@
 [ext_resource path="res://Scenes/Level_Scenes/CharacterCreation.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scripts/Parallax_Scripts/Parallax4.gd" type="Script" id=8]
 [ext_resource path="res://Scripts/Parallax4Animations.gd" type="Script" id=9]
+[ext_resource path="res://Scenes/Narration.tscn" type="PackedScene" id=10]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Screen_Unwipe"
+length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("ZIndexSetter/ColorRect:color")
 tracks/0/interp = 1
@@ -19,7 +21,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 1.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
@@ -38,6 +40,22 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Reveal"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:percent_visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 7, 9, 10 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
 }
 
 [node name="Parallax4" type="Control"]
@@ -116,9 +134,18 @@ z_index = 1
 [node name="ColorRect" type="ColorRect" parent="ZIndexSetter"]
 margin_right = 1024.0
 margin_bottom = 600.0
-color = Color( 0, 0, 0, 1 )
+color = Color( 0, 0, 0, 0 )
+
+[node name="Narration" parent="." instance=ExtResource( 10 )]
+margin_top = 475.0
+percent_visible = 0.228571
+
+[node name="TextAnimationPlayer" parent="Narration" index="1"]
+anims/Reveal = SubResource( 3 )
 
 [connection signal="pan_stopped" from="." to="CavepanTimer" method="_on_Parallax4_pan_stopped" flags=6]
 [connection signal="trigger_animation" from="." to="AnimationPlayer" method="_on_Parallax4_trigger_animation"]
 [connection signal="timeout" from="CavepanTimer" to="." method="_on_CavepanTimer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+
+[editable path="Narration"]
