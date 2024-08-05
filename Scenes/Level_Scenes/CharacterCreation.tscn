@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://UI/sprites/character_creation_background.jpeg" type="Texture" id=1]
 [ext_resource path="res://Scripts/Level_Scripts/CharacterCreation.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://UI/sprites/character_sprites/front_hair/0.png" type="Texture" id=11]
 [ext_resource path="res://Scripts/Level_Scripts/CreationRect.gd" type="Script" id=12]
 [ext_resource path="res://Scripts/CreationAnimations.gd" type="Script" id=13]
+[ext_resource path="res://Scripts/Level_Scripts/CreationZoom.gd" type="Script" id=14]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Fade"
@@ -44,7 +45,20 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=4]
+resource_name = "Zoom"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Camera2D:zoom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 1, 1 ) ]
+}
 
 [node name="CharacterCreation" type="Node2D"]
 script = ExtResource( 2 )
@@ -142,7 +156,6 @@ texture_normal = ExtResource( 9 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Fade = SubResource( 1 )
 anims/Screen_Unwipe = SubResource( 3 )
-anims/Zoom = SubResource( 2 )
 script = ExtResource( 13 )
 
 [node name="ZIndexSetter" type="Node2D" parent="."]
@@ -154,6 +167,14 @@ margin_bottom = 600.0
 color = Color( 0, 0, 0, 1 )
 script = ExtResource( 12 )
 
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2( 512, 300 )
+current = true
+
+[node name="ZoomPlayer" type="AnimationPlayer" parent="."]
+anims/Zoom = SubResource( 4 )
+script = ExtResource( 14 )
+
 [connection signal="trigger_animation" from="." to="AnimationPlayer" method="_on_CharacterCreation_trigger_animation"]
 [connection signal="pressed" from="hair_left" to="." method="_on_hair_left_pressed"]
 [connection signal="pressed" from="hair_right" to="." method="_on_hair_right_pressed"]
@@ -164,3 +185,4 @@ script = ExtResource( 12 )
 [connection signal="pressed" from="next" to="." method="_on_next_pressed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="trigger_animation" from="ZIndexSetter/ColorRect" to="AnimationPlayer" method="_on_ColorRect_trigger_animation"]
+[connection signal="trigger_zoom" from="ZIndexSetter/ColorRect" to="ZoomPlayer" method="_on_ColorRect_trigger_zoom" flags=6]

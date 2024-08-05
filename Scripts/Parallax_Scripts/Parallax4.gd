@@ -3,6 +3,7 @@ extends Control
 export var next_scene: PackedScene
 
 signal trigger_animation(anim_name)
+signal trigger_zoom()
 signal pan_stopped
 
 # Declare member variables here. Examples:
@@ -32,7 +33,8 @@ func _process(delta):
 		emit_signal("pan_stopped")
 
 func _on_CavepanTimer_timeout():
-	emit_signal("trigger_animation", "Screen_Wipe") 
+	emit_signal("trigger_animation", "Screen_Wipe")
+	emit_signal("trigger_zoom") 
 	
 func _on_TextAnimationPlayer_animation_finished(anim_name: String) -> void:
 	if narration_count < len(narration_text):

@@ -15,10 +15,5 @@ func _ready():
 #func _process(delta):
 #	pass
 
-#func _on_CharacterCreation_trigger_animation(anim_name: String):
-#	print(anim_name)
-#	play(anim_name)# Replace with function body.
-
-
-func _on_ColorRect_trigger_animation(anim_name: String) -> void:
-	play(anim_name)# Replace with function body.
+func _on_Parallax4_trigger_zoom() -> void:
+	play("Zoom") # Replace with function body.
