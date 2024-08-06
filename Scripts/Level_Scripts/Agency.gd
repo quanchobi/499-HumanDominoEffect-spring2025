@@ -19,7 +19,7 @@ var narration_count = 0
 func _ready() -> void:
 	$Oauabae/AnimatedSprite.animation = "default"
 	$Narration.text = "The magnifying glass you're controlling is you.                            Well, it's your 'you' for this game."
-	$Narration/TextAnimationPlayer.play("Reveal")
+	$Narration/TextAnimationPlayer.play("Reveal")                          
 	
 	MusicController.playMusic(ReferenceManager.get_reference("quantum.ogg"))
 
