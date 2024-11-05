@@ -57,6 +57,15 @@ func _on_TextAnimationPlayer_animation_finished(anim_name: String) -> void:
 	if narration_count == len(narration_text):
 		$String.input_pickable = true
 	else:
-		$Narration.text = narration_text[narration_count]
-		$Narration/TextAnimationPlayer.play("Reveal")
-		narration_count += 1
+		# Wait for player input (mouse click) to advance the narration
+		set_process_input(true)
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.is_pressed():
+		advance_narration()
+
+func advance_narration() -> void:
+	set_process_input(false)  # Stop listening for input until the next time
+	$Narration.text = narration_text[narration_count]
+	$Narration/TextAnimationPlayer.play("Reveal")
+	narration_count += 1
