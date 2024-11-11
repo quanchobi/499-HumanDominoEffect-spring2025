@@ -666,8 +666,8 @@ func _on_Start_mouse_exited():
 
 
 func _on_HelpButton_pressed():
-	$HelpImage.visible = true
-
-
+	$HelpMenu/HelpImage.visible = true
+	$HelpMenu.raise()
+	
 func _on_CloseButton_pressed():
-	$HelpImage.visible = false
+	$HelpMenu/HelpImage.visible = false
