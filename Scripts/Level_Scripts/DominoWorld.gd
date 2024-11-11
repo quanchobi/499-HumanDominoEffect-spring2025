@@ -662,3 +662,12 @@ func _on_Start_mouse_exited():
 	$Start/MarginContainer/Label.set("custom_colors/font_color", grey)
 	
 #### ^^^^ END BUTTON HOVER HANDLERS ^^^^ ####
+
+
+
+func _on_HelpButton_pressed():
+	$HelpImage.visible = true
+
+
+func _on_CloseButton_pressed():
+	$HelpImage.visible = false
