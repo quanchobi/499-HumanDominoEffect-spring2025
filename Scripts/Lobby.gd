@@ -146,7 +146,7 @@ func _on_Domino_Game_pressed():
 	handle_level("DominoWorld")
 
 func _on_Virtual_World_pressed():
-	handle_level("Sandbox")
+	handle_level("VW0")
 	
 func _on_Start_Button_pressed():
 	gamestate.begin_game()
