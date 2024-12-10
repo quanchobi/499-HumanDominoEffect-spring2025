@@ -11,9 +11,12 @@ export var trait_queue = [] + curriculum.traits
 
 var players_ready = []
 
-var narration_text = ["You now have the power to shape your future.",
-"Now, use your Oauabae to help you see through the chaos!",""]
-var narration_count = 1
+var dialogue = ["You now have the power to shape your future.",
+"Now, use your Oauabae to help you see through the chaos!"]
+var page = 0
+
+onready var dialogue_label = $DialogueBox/DialogueText  # Assumes dialogue is a RichTextLabel node
+onready var timer = $DialogueBox/Timer  # Assumes there's a Timer node for text animation
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,9 +27,12 @@ func _ready():
 	new_game()
 
 func new_game():
-	$StartTimer.start()
-	$Narration.text = narration_text[0]
-	$Narration/TextAnimationPlayer.play("Reveal", -1, 2)
+	dialogue_label.set_bbcode(dialogue[page])
+	dialogue_label.set_visible_characters(0)
+	timer.start()  # Start text reveal effect
+	play_audio(page)  # Play first dialogue's audio    
+	
+	MusicController.playMusic(ReferenceManager.get_reference("quantum.ogg"))
 
 # source: https://docs.godotengine.org/en/3.2/getting_started/step_by_step/your_first_game.html#enemy-scene
 #func _on_StartTimer_timeout():
@@ -96,19 +102,34 @@ remote func ready_to_start(id):
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed():
-		advance_narration()
+		if dialogue_label.get_visible_characters() >= dialogue_label.get_total_character_count():
+			if page < dialogue.size() - 1:
+				page += 1
+				dialogue_label.set_bbcode(dialogue[page])
+				dialogue_label.set_visible_characters(0)
+				timer.start()  # Restart text reveal effect
+				play_audio(page)  # Play next dialogue's audio
+			else:
+				$ElcitrapTimer.start()
+				$DialogueBox.hide()
 
-func advance_narration() -> void:
-	set_process_input(false)  # Stop listening for input until the next time
-	
-	if narration_count < len(narration_text):
-		$Narration.text = narration_text[narration_count]
-		$Narration/TextAnimationPlayer.play("Reveal")
-		narration_count += 1
+
+func play_audio(page_index):
+	# Stop all audio players
+	for child in get_children():
+		if child is AudioStreamPlayer:
+			child.stop()
+
+	# Play the corresponding audio
+	var audio_node_name = "AudioStreamPlayer" + str(page_index+1)
+	var current_player = get_node(audio_node_name)
+	if current_player:
+		current_player.play()
 	else:
-		# Start the Elcitrap timer when narration is complete
-		$ElcitrapTimer.start()
+		print("Audio node not found: ", audio_node_name)
 
-func _on_TextAnimationPlayer_animation_finished(anim_name: String) -> void:    
-	# Wait for player input (mouse click) to advance the narration
-	set_process_input(true)
+func _on_Timer_timeout():
+	dialogue_label.set_visible_characters(dialogue_label.get_visible_characters() + 1)
+	if dialogue_label.get_visible_characters() >= dialogue_label.get_total_character_count():
+		timer.stop()  # Stop timer when all text is revealed
+
