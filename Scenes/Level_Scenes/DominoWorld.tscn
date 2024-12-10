@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://UI/sprites/reference.png" type="Texture" id=1]
 [ext_resource path="res://UI/Menu_Sprites/background.png" type="Texture" id=2]
@@ -25,6 +25,9 @@
 [ext_resource path="res://UI/Control/green_button01.png" type="Texture" id=23]
 [ext_resource path="res://UI/Control/green_button00.png" type="Texture" id=24]
 [ext_resource path="res://UI/Control/grey_panel.png" type="Texture" id=25]
+[ext_resource path="res://UI/Miscellaneous/DominoHint.png" type="Texture" id=26]
+[ext_resource path="res://UI/sprites/help.png" type="Texture" id=27]
+[ext_resource path="res://UI/sprites/close.png" type="Texture" id=28]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Zoom In"
@@ -105,6 +108,30 @@ font_data = ExtResource( 16 )
 size = 100
 use_filter = true
 font_data = ExtResource( 16 )
+
+[sub_resource type="StyleBoxTexture" id=18]
+texture = ExtResource( 27 )
+region_rect = Rect2( 0, 0, 980, 980 )
+
+[sub_resource type="StyleBoxTexture" id=20]
+texture = ExtResource( 27 )
+region_rect = Rect2( 0, 0, 980, 980 )
+
+[sub_resource type="StyleBoxTexture" id=16]
+texture = ExtResource( 27 )
+region_rect = Rect2( 0, 0, 980, 980 )
+
+[sub_resource type="StyleBoxTexture" id=19]
+texture = ExtResource( 28 )
+region_rect = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="StyleBoxTexture" id=21]
+texture = ExtResource( 28 )
+region_rect = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="StyleBoxTexture" id=17]
+texture = ExtResource( 28 )
+region_rect = Rect2( 0, 0, 512, 512 )
 
 [node name="World" type="Node2D"]
 scale = Vector2( 0.5, 0.5 )
@@ -244,10 +271,10 @@ layer = -2
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -3507.0
-margin_top = -3730.0
-margin_right = -3507.0
-margin_bottom = -3330.0
+margin_left = -3609.0
+margin_top = -3884.0
+margin_right = -3609.0
+margin_bottom = -3484.0
 rect_scale = Vector2( 8, 5 )
 mouse_filter = 2
 texture = ExtResource( 2 )
@@ -834,7 +861,37 @@ text = "Code accepted!"
 align = 1
 valign = 1
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+[node name="HelpMenu" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="HelpButton" type="Button" parent="HelpMenu"]
+margin_left = 2002.0
+margin_top = -1402.0
+margin_right = 2204.0
+margin_bottom = -1196.0
+rect_rotation = -0.0903558
+custom_styles/hover = SubResource( 18 )
+custom_styles/pressed = SubResource( 20 )
+custom_styles/normal = SubResource( 16 )
+icon_align = 1
+
+[node name="HelpImage" type="TextureRect" parent="HelpMenu"]
+visible = false
+margin_left = -1724.0
+margin_top = -1346.0
+margin_right = 1820.0
+margin_bottom = 1402.0
+texture = ExtResource( 26 )
+
+[node name="CloseButton" type="Button" parent="HelpMenu/HelpImage"]
+margin_left = 3234.0
+margin_top = 50.0
+margin_right = 3398.0
+margin_bottom = 210.0
+custom_styles/hover = SubResource( 19 )
+custom_styles/pressed = SubResource( 21 )
+custom_styles/normal = SubResource( 17 )
 
 [connection signal="pressed" from="AlloyPopup/Close" to="." method="_close_Alloy_popup"]
 [connection signal="pressed" from="WellnessBeadPopup/Close" to="." method="_close_WellnessBead_popup"]
@@ -853,6 +910,9 @@ valign = 1
 [connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="EnterCodeMenu/MarginContainer/VBoxContainer/MarginContainer/Enter" to="." method="_on_EnterButton_pressed"]
 [connection signal="pressed" from="EnterCodeMenu/X" to="." method="_on_X_pressed"]
+[connection signal="pressed" from="HelpMenu/HelpButton" to="." method="_on_HelpButton_pressed"]
+[connection signal="pressed" from="HelpMenu/HelpImage/CloseButton" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="HelpMenu/HelpImage/CloseButton" to="." method="_on_CloseButton_pressed"]
 
 [editable path="Character Bubble1"]
 [editable path="Character Bubble1/Score"]
