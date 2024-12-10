@@ -89,6 +89,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Level_Scripts/DominoWorld.gd"
 }, {
+"base": "Node2D",
+"class": "DominoWorldTutorial",
+"language": "GDScript",
+"path": "res://Scripts/Level_Scripts/DominoWorldTutorial.gd"
+}, {
 "base": "GdUnitArgumentMatcher",
 "class": "EqualsArgumentMatcher",
 "language": "GDScript",
@@ -746,6 +751,7 @@ _global_script_class_icons={
 "Domino": "",
 "DominoUnitTest": "",
 "DominoWorld": "",
+"DominoWorldTutorial": "",
 "EqualsArgumentMatcher": "",
 "Fuzzer": "",
 "FuzzerTool": "",

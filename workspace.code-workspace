@@ -4,5 +4,7 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"godotTools.editorPath.godot3": "c:\\Users\\dayou\\Downloads\\Godot_v3.6-stable_win64.exe\\Godot_v3.6-stable_win64.exe"
+	}
 }
