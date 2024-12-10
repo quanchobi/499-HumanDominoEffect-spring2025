@@ -27,9 +27,16 @@ const refDict = {
 	"Menu_Scene.tscn": "res://Scenes/Menu_Scene.tscn",
 	"Chunk.tscn": "res://Scenes/Chunk.tscn",
 	
+	
 	"Agency.tscn": "res://Scenes/Level_Scenes/Agency.tscn",
 	"CharacterCreation.tscn": "res://Scenes/Level_Scenes/CharacterCreation.tscn",
 	"DominoWorld.tscn": "res://Scenes/Level_Scenes/DominoWorld.tscn",
+	"Tutorial.tscn": "res://Scenes/Tutorial.tscn",
+	
+	"AgencyTutorial.tscn": "res://Scenes/Level_Scenes/AgencyTutorial.tscn",
+	"CharacterCreationTutorial.tscn": "res://Scenes/Level_Scenes/CharacterCreationTutorial.tscn",
+	"DominoWorldTutorial.tscn": "res://Scenes/Level_Scenes/DominoWorldTutorial.tscn",
+	
 	"level1.tscn": "res://Scenes/Level_Scenes/level1.tscn",
 	"level1_cont.tscn": "res://Scenes/Level_Scenes/level1_cont.tscn",
 	"LevelSelect.tscn": "res://Scenes/Level_Scenes/LevelSelect.tscn",

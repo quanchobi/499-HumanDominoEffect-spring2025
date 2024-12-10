@@ -30,11 +30,13 @@ var keys = []
 # Name for my player.
 var player_name = "Player"
 
+# Tutorial mode flag - Added CS499 Fall 2024
+var tutorial_mode = false
 
-
-
-
-
+# CS499 Fall 2024 - Doesnt work as intented
+var tutorial_dominos = [
+	[0, 1], [1, 2], [2, 3], [3, 4]  # Example domino chain
+]
 
 # Names for remote players in id:name format.
 var players = {}
@@ -307,14 +309,29 @@ func get_player_name():
 
 # host tells everyone to start the game
 func begin_game():
-	assert(get_tree().is_network_server())
+	if tutorial_mode:
+		start_tutorial()
+	else:
+		assert(get_tree().is_network_server())
 
-	# Call to pre-start game with the spawn points.
-	for p in players:
-		if p != get_tree().get_network_unique_id():
-			rpc_id(p, "pre_start_game")
+		# Call to pre-start game with the spawn points.
+		for p in players:
+			if p != get_tree().get_network_unique_id():
+				rpc_id(p, "pre_start_game")
 
-	pre_start_game()
+		pre_start_game()
+
+#Added CS499 Fall 2024
+func start_tutorial():
+	var tutorial_scene = load("res://Scenes/Level_Scenes/Manager.tscn")
+	player_name = "Tutorial" #Set the player name to Tutorial
+	dominos = tutorial_dominos
+	random_seed = 12345 #Fixed Seed for Tutorial consistency
+	
+	get_tree().change_scene_to(tutorial_scene)
+
+func get_tutorial_mode():
+	return tutorial_mode
 
 func end_game():
 	if has_node("/root/World"): # Game is in progress.
