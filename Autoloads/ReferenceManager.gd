@@ -45,6 +45,7 @@ const refDict = {
 	"Sandbox.tscn": "res://Scenes/Level_Scenes/Sandbox.tscn",
 	"Stone.tscn": "res://Scenes/Level_Scenes/Stone.tscn",
 	"String.tscn": "res://Scenes/Level_Scenes/String.tscn",
+	"VW0.tscn": "res://Scenes/Level_Scenes/VW0.tscn",
 	
 	"Parallax1.tscn": "res://Scenes/Parallax_Scenes/Parallax1.tscn",
 	"Parallax2.tscn": "res://Scenes/Parallax_Scenes/Parallax2.tscn",
