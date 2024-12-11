@@ -30,6 +30,11 @@ var keys = []
 # Name for my player.
 var player_name = "Player"
 
+# Number of CPUs desired to include
+# Warning: will softlock scenes besides the Domino Game if set to a val besides 0
+# Until bug is fixed, only change value when starting in the Domino Game
+var cpuNum = 0
+
 # Tutorial mode flag - Added CS499 Fall 2024
 var tutorial_mode = false
 
@@ -153,7 +158,7 @@ func _player_connected(id):
 	rpc_id(1, "get_level")
 	rpc_id(1, "get_random_seed")
 	
-	rpc("register_player", player_name)
+	rpc("register_player", player_name, 0)
 
 # Callback from SceneTree.
 func _player_disconnected(id):
@@ -184,8 +189,8 @@ func _connected_fail():
 
 
 # Lobby management functions.
-remotesync func register_player(new_player_name):
-	var id = get_tree().get_rpc_sender_id()
+remotesync func register_player(new_player_name,cpunum):
+	var id = get_tree().get_rpc_sender_id()+cpunum
 	var CharacterFound = false
 	players[id] = new_player_name
 	if(SaveManager.loaded_data):
@@ -234,6 +239,11 @@ remote func pre_start_game():
 		# Tell server we are ready to start.
 		rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
 	elif players.size() == 1:
+		# small loop to add CPUs with unique names and ids
+		var cpusAdded = 0
+		while cpusAdded < cpuNum and players.size() < 6:
+			register_player("CPU_"+str(players.size()),players.size()+1)
+			cpusAdded=cpusAdded+1
 		post_start_game()
 
 
@@ -274,7 +284,7 @@ func host_game(new_player_name):
 	
 	var id = get_tree().get_network_unique_id()
 	
-	rpc("register_player", player_name)
+	rpc("register_player", player_name, 0)
 
 func join_game(ip, new_player_name):
 	player_name = new_player_name
