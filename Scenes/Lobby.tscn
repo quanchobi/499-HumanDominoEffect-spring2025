@@ -474,7 +474,6 @@ margin_left = 15.0
 margin_top = 10.0
 margin_right = 357.0
 margin_bottom = 392.0
-rect_clip_content = true
 custom_constants/separation = 5
 
 [node name="Host_Username" type="Label" parent="WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer"]
@@ -494,7 +493,6 @@ text = "Host IP: "
 margin_top = 84.0
 margin_right = 342.0
 margin_bottom = 328.0
-size_flags_horizontal = 5
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/VBoxContainer"]

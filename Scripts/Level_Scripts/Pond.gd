@@ -1,7 +1,4 @@
-# # # Koi Pond Venn Diagram Scene # # #
-## next_scene = DominoWorld.tscn
-
-
+# koi pond venn diagram scene
 
 extends Node2D
 
@@ -16,79 +13,50 @@ var red_selected = false
 
 var players_ready = []
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN) # hide the mouse cursor so that the rock is the cursor
 	$Choice.text = choices[choice_ind][1]
-	var random_rock = randi() % 3 + 1 # pick a random yellow rock to start with
-	$Stone/stone.animation = "y"+str(random_rock) # update animation based off number
+	$Stone/stone.animation = choices[choice_ind][0]
 	
 	MusicController.playMusic(ReferenceManager.get_reference("pond.ogg"))
-
-
-
-
-## This function handles when the user selects an area of venn diagram selection ##
+	
+# handles users area of venn diagram selection
 func handle_choice(area):
-	if choice_ind == 7 and choices[choice_ind][0] == area: # if the user has completed all basic choices, move on to advanced choices
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	# if the user has completed all basic choices, move on to advanced choices
+	if choice_ind == 7 and choices[choice_ind][0] == area:
 		$Popup.visible = true
 		$Health.text = "Health"
 		$Liberty.text = "Liberty"
 		$Happiness.text = "Happiness"
-	
-	if choice_ind == len(choices) - 1: # if we're at the end of the choice list, tell host we're done
+		
+	# if we're at the end of the choice list, tell host we're done
+	if choice_ind == len(choices) - 1:
 		if not get_tree().is_network_server():
 			# Tell server we are ready to start.
 			rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
 		else:
 			ready_to_start(get_tree().get_network_unique_id())
-	elif choices[choice_ind][0] == area: # correct choice
+		
+	# correct choice
+	elif choices[choice_ind][0] == area:
 		choice_ind += 1
 		$Choice.text = choices[choice_ind][1]
 		$Indicator.text = "Correct!"
 		$Correct_num.text = str(int($Correct_num.text) + 1)
 		change_stone(choices[choice_ind][0])
 		$CorrectSound.playing = true
-	else: # incorrect choice
+		
+	# incorrect choice
+	else:
 		$Indicator.text = "Try again!"
 		$IncorrectSound.playing = true
-
-
-
-## this function is responsible for updating the rock sprite ##
-## this is done by updating the current animation of $Stone/stone ##
-## added by Brandon Kellems on October 8, 2024 ##
+		
 func change_stone(area):
-	$Stone/stone.rotation_degrees = randi() % 360 + 1 # update rotations to add another layer of variation
 	$Stone/stone.animation = area
-	if area == "r": # if the rock type is red
-		var random_rock = randi() % 4 + 1 # "randi() % 4 generates a number 0-3, we want 1-4 so +1 to this
-		$Stone/stone.animation = "r"+str(random_rock) # update the animation to play the correct one based on random rock
-	elif area == "b": # blue
-		var random_rock = randi() % 3 + 1 
-		$Stone/stone.animation = "b"+str(random_rock)
-	elif area == "y": # yellow
-		var random_rock = randi() % 3 + 1 
-		$Stone/stone.animation = "y"+str(random_rock)
-	elif area == "yb": # yellow blue
-		var random_rock = randi() % 2 + 1 
-		$Stone/stone.animation = "yb"+str(random_rock)
-	elif area == "yr": # yellow red
-		var random_rock = randi() % 2 + 1 
-		$Stone/stone.animation = "yr"+str(random_rock)
-	elif area == "br": # blue red
-		var random_rock = randi() % 1 + 1 
-		$Stone/stone.animation = "br"+str(random_rock)
-	elif area == "ybr": # yellow blue red
-		var random_rock = randi() % 2 + 1 
-		$Stone/stone.animation = "ybr"+str(random_rock)
 
+# handle different venn diagram section clicks
 
-
-
-## handle different venn diagram section clicks ##
 func _on_y_area_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and not blue_selected and not red_selected:
 		handle_choice("y")
@@ -117,10 +85,8 @@ func _on_ybr_area_input_event(viewport: Node, event: InputEvent, shape_idx: int)
 	if event is InputEventMouseButton and event.pressed:
 		handle_choice("ybr")
 
+# make circles bigger / smaller with mouse hovering
 
-
-
-## These functions make circles bigger / smaller with mouse hovering ##
 func _on_y_area_mouse_entered() -> void:
 	$y_ring.scale = Vector2(1.4, 1.4)
 	yellow_selected = true
@@ -145,15 +111,9 @@ func _on_r_area_mouse_exited() -> void:
 	$r_ring.scale = Vector2(1.35, 1.35)
 	red_selected = false
 
-
-
-## This function "closes" the pop-up ##
 func _on_Button_pressed() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	$Popup.visible = false
-
-
-
+	
 remote func start_game():
 	get_parent().change_level(next_scene)
 
@@ -167,8 +127,3 @@ remote func ready_to_start(id):
 		for p in gamestate.players:
 			rpc_id(p, "start_game")
 		start_game()
-
-
-
-
-

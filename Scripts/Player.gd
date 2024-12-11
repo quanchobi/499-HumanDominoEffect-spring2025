@@ -96,9 +96,8 @@ func _physics_process(delta):
 			# TODO: [Inventory System] Place whatever is on hand
 			# side note: inventory system may not be implemented, or used as 
 			# part of "era" cycle idea
-			emit_signal("place_block", pos + norm, gamestate.RANDOM)
 			if currentBlock == 0:
-				emit_signal("place_block", pos + norm, gamestate.RANDOM)
+				emit_signal("place_block", pos + norm, gamestate.CAMPFIRE)
 				# TODO: add "you discovered fire" text popup
 				currentBlock = currentBlock + 1
 #			else if currentBlock == 1

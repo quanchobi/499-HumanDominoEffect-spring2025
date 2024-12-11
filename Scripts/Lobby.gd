@@ -60,7 +60,6 @@ func _on_Join_Button_pressed():
 	$Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Join/Join_Button.disabled = true
 
 	var player_name = get_name()
-
 	# Set host username and ip address labels
 	waitroom_host_name.set_text("Host: ")
 	waitroom_host_ip.set_text("Host IP: " + host_ip)
@@ -113,19 +112,12 @@ func handle_level(level):
 	var player_name = get_name()
 	gamestate.host_game(player_name)
 	refresh_lobby()
-
-
-
+	
 ##### VVV HELPER FUNCTIONS VVV #####
-var MAX_SIZE_NAME = 16 # this constant is used in get_name()
-# max_size is needed to prevent a lot of formatting issues that can arise from not limiting it
-func get_name() -> String:
-	var name = $Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Name/NinePatchRect/MarginContainer/LineEdit.text
-	if len(name) > MAX_SIZE_NAME:
-		name = name.substr(0, MAX_SIZE_NAME)  # limit the name size to 16
-		
-	return name
 
+func get_name() -> String:
+	return $Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Name/NinePatchRect/MarginContainer/LineEdit.text
+	
 func set_name(name: String):
 	$Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Name/NinePatchRect/MarginContainer/LineEdit.set_text(name)
 
@@ -154,7 +146,7 @@ func _on_Domino_Game_pressed():
 	handle_level("DominoWorld")
 
 func _on_Virtual_World_pressed():
-	handle_level("Sandbox")
+	handle_level("VW0")
 	
 func _on_Start_Button_pressed():
 	gamestate.begin_game()

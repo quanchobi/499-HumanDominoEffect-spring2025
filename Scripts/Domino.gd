@@ -8,9 +8,8 @@ export var top_element = ""
 export var bottom_element = ""
 
 var original_pos = null
-var og_scale = Vector2(1.33,1.33)
-var hover_scale = og_scale + Vector2(0.05, 0.05)
-var placed_hover_scale = Vector2(4.0,4.0)
+var og_scale = 1.3
+var hover_scale = og_scale + 0.05
 var selected = false
 export var placed = false
 
@@ -45,14 +44,11 @@ func init(bottom, top, bottom_elm, top_elm, initial):
 
 
 func _on_Area2D_mouse_entered() -> void:
-	if placed: # ideally would be when you are not holding a domino so things look cleaner
-		$Sprite.scale = placed_hover_scale
-	else:
-		$Sprite.scale = hover_scale
+	$Sprite.scale = Vector2(hover_scale, hover_scale)
 
 
 func _on_Area2D_mouse_exited() -> void:
-	$Sprite.scale = og_scale
+	$Sprite.scale = Vector2(og_scale, og_scale)
 
 
 func _on_Area2D_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:

@@ -13,7 +13,6 @@ size = 70
 font_data = ExtResource( 3 )
 
 [node name="Domino" type="Node2D"]
-scale = Vector2( 1.33, 1.33 )
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]

@@ -26,7 +26,6 @@ var narration_count = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	var r_i = 0
 	var b_i = 0
 	var g_i = 0
@@ -79,17 +78,15 @@ remotesync func set_elcitraps(elcitraps):
 remote func start_game():
 	get_parent().change_level(next_scene)
 
+func _on_TextAnimationPlayer_animation_finished(anim_name: String) -> void:
+	if narration_count < len(narration_text):
+		$Narration.text = narration_text[narration_count]
+		$Narration/TextAnimationPlayer.play("Reveal")
+		narration_count += 1
+
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	if (anim_name == "Fade"):
 		$ZIndexSetter/ColorRect.visible = !$ZIndexSetter/ColorRect.visible
 		emit_signal("trigger_animation", "Screen_Wipe")
 	else:
 		start_game()
-
-func _on_TextAnimationPlayer_animation_finished(anim_name: String) -> void:
-	if narration_count < len(narration_text):
-		$Narration.text = narration_text[narration_count]
-		$Narration/TextAnimationPlayer.play("Reveal", -1, 1.5)
-		narration_count += 1
-
-

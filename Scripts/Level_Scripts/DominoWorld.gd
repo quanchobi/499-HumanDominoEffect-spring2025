@@ -15,7 +15,6 @@ var sorted_players = []
 var turn = 0  # whose turn is it, indexed from 0 on
 var hand = []
 var dominos = [] + gamestate.dominos
-
 var self_num = 0  # player's number, indexed from 1 on
 var selected_domino = null  # currently selected domino
 var center_num = 0  # current round number
@@ -35,7 +34,6 @@ var usedBonus = ["ABC123"]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	$Next.visible = false
 	intialize_tower()
 	_init_players()
@@ -166,7 +164,6 @@ remote func get_starting_hand():
 
 
 # initialize 7 dominos from main deck on player's screen
-# This function populates the players hand and displays the dominos
 func draw_7():
 	for i in range(7):
 		# get domino info
@@ -176,13 +173,11 @@ func draw_7():
 		domino.get_node("Sprite").texture = load(ReferenceManager.get_reference("dominos/" + domino_title + ".png"))
 		add_child(domino)
 
-		# set domino position. this will create 2 columns. left column is 4 domino and right is 3
+		# set domino position
 		if i < 4:
-			# domino.position = Vector2(2000, 400 * i - 600)
-			domino.position = Vector2(2000, 460 * i - 600)
+			domino.position = Vector2(2000, 400 * i - 600)
 		else:
-			#domino.position = Vector2(2250, 400 * (i - 4) - 600)
-			domino.position = Vector2(2275, 460 * (i - 4) - 600)
+			domino.position = Vector2(2250, 400 * (i - 4) - 600)
 
 		# initialize domino
 		domino.init(
@@ -200,7 +195,6 @@ func add_position(pos):
 # take a domino from the main deck
 func draw_domino():
 	var nums = dominos.pop_front()
-	#var nums = [0,1] # uncomment this is if you wish to have only 1 type of domino in your whole hand
 	# print("len: ", len(dominos))
 	if nums[0] < nums[1]:
 		nums.invert()
@@ -233,46 +227,67 @@ func place_domino(num):
 	# check if it is your turn and you have selected a domino
 	if turn == self_num and selected_domino:
 		# check if domino can be placed here
-		if (selected_domino.bottom_num == path_ends[num] or selected_domino.top_num == path_ends[num]):
+		if (
+			selected_domino.bottom_num == path_ends[num]
+			or selected_domino.top_num == path_ends[num]
+		):
 			# flip domino if the top number matches instead of the bottom
 			# or if flipping could create an alloy (top number matches but
 			# element doesn't)
-			if (selected_domino.bottom_num != path_ends[num] or (selected_domino.top_num == path_ends[num] and selected_domino.top_element != end_dominos[num].top_element)):
-				selected_domino.init(selected_domino.top_num, selected_domino.bottom_num, selected_domino.top_element, selected_domino.bottom_element, false)
-				selected_domino.get_node("Sprite").rotation_degrees = 200 # 200 for player 1
+			if (
+				selected_domino.bottom_num != path_ends[num]
+				or (selected_domino.top_num == path_ends[num]
+				and selected_domino.top_element != end_dominos[num].top_element)
+			):
+				selected_domino.init(
+					selected_domino.top_num,
+					selected_domino.bottom_num,
+					selected_domino.top_element,
+					selected_domino.bottom_element,
+					false
+				)
+				selected_domino.get_node("Sprite").rotation_degrees = 180
 				flip = true
-			
 			# check for alloy
 			if end_dominos[num] and end_dominos[num].top_element != selected_domino.bottom_element:
-				rpc("increment_alloys", self_num + 1, curriculum.element_to_alloy[selected_domino.bottom_element])
-				increment_alloys(self_num + 1, curriculum.element_to_alloy[selected_domino.bottom_element])
-			
+				rpc(
+					"increment_alloys",
+					self_num + 1,
+					curriculum.element_to_alloy[selected_domino.bottom_element]
+				)
+				increment_alloys(
+					self_num + 1, curriculum.element_to_alloy[selected_domino.bottom_element]
+				)
+
 			# check for footprint tile
 			if selected_domino.top_num == selected_domino.bottom_num:
-				rpc("increment_footprint_tiles", self_num + 1, center_num, selected_domino.bottom_num)
-				increment_footprint_tiles(self_num + 1, center_num, selected_domino.bottom_num)
+				rpc(
+					"increment_footprint_tiles",
+					self_num + 1,
+					center_num,
+					selected_domino.bottom_num
+				)
+				increment_footprint_tiles(
+					self_num + 1,
+					center_num,
+					selected_domino.bottom_num
+				)
 
 			# remove old domino on path if there was one
 			#if end_dominos[num]:
 			#	end_dominos[num].queue_free()
 
 			# place domino; update screen and update turn
+
 			selected_domino.placed = true
 			selected_domino.position = position_table[num] + placed_domino_offset[num]  # handles where the domnio is placed
-			# NOTE: THE ISSUE ON MULTIPLAYER NOT UPDATING A PATH MAY BE INTENTIONAL OR A BUG FROM THE ABOVE LINE
-			selected_domino.scale = Vector2(0.5,0.5) # this will update the size of the domino when it is placed
-			
-			# if path is length 4+ then shift all dominos down so that they stay on the screen, this means that the new domino will just place where the previoues one is then the rest will shift to the previouc dominos position the front of this stack will be popped and not displayed
-			# selected_domino.position = position_table[num]  # handles where the domnio is placed
 			path_ends[num] = selected_domino.top_num
 			end_dominos[num] = selected_domino
-			
-			# placed_domino_offset[num] = placed_domino_offset[num] + Vector2(160, -176)
-			# placed_domino_offset[num] = placed_domino_offset[num] + Vector2(206, -225)
-			placed_domino_offset[num] = placed_domino_offset[num] + Vector2(206/3, -225/3)
-			
+
+			placed_domino_offset[num] = placed_domino_offset[num] + Vector2(160, -176)
+
 			num_placed += 1
-			
+
 			turn = (turn + 1) % len(gamestate.players)
 			$Turn.text = gamestate.players[sorted_players[turn]] + "'s\nTurn"
 
@@ -301,7 +316,7 @@ func place_domino(num):
 			)
 
 			# get new domino from deck
-			# replace_domino() # UNCOMMENT IF WANT TO REPLACE DOMINOS THIS MEANS INFINITE DOMINOS
+			# replace_domino()                   # UNCOMMENT IF WANT TO REPLACE DOMINOS
 
 			clear_selected_domino()
 			$Place.playing = true
@@ -411,7 +426,13 @@ func replace_domino():
 		domino.get_node("Sprite").texture = load(ReferenceManager.get_reference("dominos/" + domino_title + ".png"))
 		add_child(domino)
 		domino.position = selected_domino.original_pos
-		domino.init(domino_nums[0], domino_nums[1], curriculum.domino_dict[domino_title][1], curriculum.domino_dict[domino_title][0], true)
+		domino.init(
+			domino_nums[0],
+			domino_nums[1],
+			curriculum.domino_dict[domino_title][1],
+			curriculum.domino_dict[domino_title][0],
+			true
+		)
 	else:
 		return
 
@@ -527,7 +548,6 @@ func add_tower(round_num):
 # if player cannot play a domino on their paths
 func _on_Help_pressed() -> void:
 	if turn == self_num:
-		# add a visual indicator that this "new" path is able to be played on and that you are actualy asking for help 
 		# add their path to everyone else's screen
 		rpc("add_path", self_num + 1)
 		# change turn
@@ -642,3 +662,12 @@ func _on_Start_mouse_exited():
 	$Start/MarginContainer/Label.set("custom_colors/font_color", grey)
 	
 #### ^^^^ END BUTTON HOVER HANDLERS ^^^^ ####
+
+
+
+func _on_HelpButton_pressed():
+	$HelpMenu/HelpImage.visible = true
+	$HelpMenu.raise()
+	
+func _on_CloseButton_pressed():
+	$HelpMenu/HelpImage.visible = false
