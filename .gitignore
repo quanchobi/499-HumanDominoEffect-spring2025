@@ -7,6 +7,14 @@
 export.cfg
 export_presets.cfg
 
+# Ignore executable files
+*.exe
+
+# Ignore private keys
+*.pvk
+*.pfk
+*.cer
+
 # Imported translations (automatically generated from CSV files)
 *.translation
 
