@@ -2,6 +2,8 @@
 class_name DominoWorld
 extends Node2D
 
+# foo
+
 export(PackedScene) var Domino
 # NOTE: If domino game performance is low, try switching to preload
 #const FootprintTile = preload("res://Scripts/FootprintTile.gd")
