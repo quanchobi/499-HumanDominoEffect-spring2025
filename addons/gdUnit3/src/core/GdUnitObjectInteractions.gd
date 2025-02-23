@@ -1,5 +1,5 @@
 class_name GdUnitObjectInteractions
-extends Reference
+extends RefCounted
 
 static func verify(obj :Object, times, expect_result :int):
 	if not _is_mock_or_spy( obj, "__verify"):
@@ -11,7 +11,7 @@ static func verify_no_interactions(caller :Object, obj :Object, expect_result :i
 	if not _is_mock_or_spy( obj, "__verify"):
 		return gd_assert.report_success()
 	var summary :Dictionary = obj.__verify_no_interactions()
-	if summary.empty():
+	if summary.is_empty():
 		return gd_assert.report_success()
 	return gd_assert.report_error(GdAssertMessages.error_no_more_interactions(summary))
 
@@ -20,7 +20,7 @@ static func verify_no_more_interactions(caller :Object, obj :Object, expect_resu
 	if not _is_mock_or_spy( obj, "__verify_no_more_interactions"):
 		return gd_assert
 	var summary :Dictionary = obj.__verify_no_more_interactions()
-	if summary.empty():
+	if summary.is_empty():
 		return gd_assert
 	return gd_assert.report_error(GdAssertMessages.error_no_more_interactions(summary))
 

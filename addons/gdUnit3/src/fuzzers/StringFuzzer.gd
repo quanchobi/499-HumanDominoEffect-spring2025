@@ -6,21 +6,21 @@ const DEFAULT_CHARSET = "a-zA-Z0-9+-_"
 
 var _min_length :int
 var _max_length :int
-var _charset :PoolByteArray
+var _charset :PackedByteArray
 
 
 func _init(min_length :int, max_length :int, pattern :String = DEFAULT_CHARSET):
 	assert(min_length>0 and min_length < max_length)
-	assert(not null or not pattern.empty())
+	assert(not null or not pattern.is_empty())
 	_min_length = min_length
 	_max_length = max_length
 	_charset = extract_charset(pattern)
 
-static func extract_charset(pattern :String) -> PoolByteArray:
+static func extract_charset(pattern :String) -> PackedByteArray:
 	var reg := RegEx.new()
 	if reg.compile(pattern) != OK:
 		push_error("Invalid pattern to generate Strings! Use e.g  'a-zA-Z0-9+-_'")
-		return PoolByteArray()
+		return PackedByteArray()
 	
 	var charset := Array()
 	var char_before := -1
@@ -44,7 +44,7 @@ static func extract_charset(pattern :String) -> PoolByteArray:
 			continue
 		char_before = char_current
 		charset.append(char_current)
-	return PoolByteArray(charset)
+	return PackedByteArray(charset)
 
 static func build_chars(from :int, to :int) -> Array:
 	var characters := Array()
@@ -53,7 +53,7 @@ static func build_chars(from :int, to :int) -> Array:
 	return characters
 
 func next_value():
-	var value := PoolByteArray()
+	var value := PackedByteArray()
 	var max_char = len(_charset)
 	var length := max(_min_length, randi() % _max_length)
 	for i in length:

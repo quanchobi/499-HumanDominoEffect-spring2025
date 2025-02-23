@@ -1,6 +1,6 @@
 # base class of all argument matchers
 class_name GdUnitArgumentMatcher
-extends Reference
+extends RefCounted
 
 
 func is_match(value) -> bool:

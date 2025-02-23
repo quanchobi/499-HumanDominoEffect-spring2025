@@ -1,9 +1,9 @@
 # node for domino path bubble
 
-extends Sprite
+extends Sprite2D
 
-export var num = 0
-export var temp = false
+@export var num = 0
+@export var temp = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

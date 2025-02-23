@@ -22,6 +22,6 @@ func _ready() -> void:
 
 # show or hide character stats
 func _on_Area2D_mouse_entered() -> void:
-	$Score/Button/PopupDialog.visible = true
+	$Score/Button/Popup.visible = true
 func _on_Area2D_mouse_exited() -> void:
-	$Score/Button/PopupDialog.visible = false
+	$Score/Button/Popup.visible = false

@@ -15,7 +15,7 @@ var _expect_result :int
 var _report_consumer : GdUnitReportConsumer
 var _caller : WeakRef
 var _interrupted := false
-var _signal_collector := SignalCollector.instance()
+var _signal_collector := SignalCollector.instantiate()
 
 const _singletons :Dictionary = Dictionary()
 # This is an singelton implementation and reused for each GdUnitSignalAssert
@@ -48,8 +48,8 @@ class SignalCollector:
 				return
 			_collected_signals[emitter] = Dictionary()
 			# connect to 'tree_exiting' of the emitter to finally release all acquired resources/connections.
-			if !emitter.is_connected("tree_exiting", self, "unregister_emitter"):
-				emitter.connect("tree_exiting", self, "unregister_emitter", [self, emitter])
+			if !emitter.is_connected("tree_exiting", Callable(self, "unregister_emitter")):
+				emitter.connect("tree_exiting", Callable(self, "unregister_emitter").bind(self, emitter))
 			# connect to all signals of the emitter we want to collect
 			for signal_def in emitter.get_signal_list():
 				var signal_name = signal_def["name"]
@@ -58,8 +58,8 @@ class SignalCollector:
 					_collected_signals[emitter][signal_name] = Array()
 				if SIGNAL_BLACK_LIST.find(signal_name) != -1:
 					continue
-				if !emitter.is_connected(signal_name, self, "_on_signal_emmited"):
-					emitter.connect(signal_name, self, "_on_signal_emmited", [emitter, signal_name])
+				if !emitter.is_connected(signal_name, Callable(self, "_on_signal_emmited")):
+					emitter.connect(signal_name, Callable(self, "_on_signal_emmited").bind(emitter, signal_name))
 	
 	# unregister all acquired resources/connections, otherwise it ends up in orphans
 	# is called when the emitter is removed from the parent
@@ -71,7 +71,7 @@ class SignalCollector:
 				var signal_name :String = connection["signal_name"]
 				var method_name :String = connection["method_name"]
 				#prints("disconnect", signal_name, source, receiver, method_name)
-				source.disconnect(signal_name, receiver, method_name)
+				source.disconnect(signal_name, Callable(receiver, method_name))
 		if is_instance_valid(emitter):
 			_collected_signals.erase(emitter)
 	
@@ -97,7 +97,7 @@ class SignalCollector:
 	
 	func match(emitter :Object, signal_name :String, args :Array) -> bool:
 		#prints("match", signal_name,  _collected_signals[emitter][signal_name]);
-		if _collected_signals.empty():
+		if _collected_signals.is_empty():
 			return false
 		for received_args in _collected_signals[emitter][signal_name]:
 			#prints("testing", signal_name, received_args, "vs", args)
@@ -199,12 +199,12 @@ func is_not_emitted(name :String, args := []) -> GdUnitSignalAssert:
 func _wail_until_signal(signal_name :String, expected_args :Array, expect_not_emitted: bool):
 	if _emitter == null:
 		report_error("Can't wait for signal on a NULL object.")
-		yield(Engine.get_main_loop(), "idle_frame")
+		await Engine.get_main_loop().idle_frame
 		return self
 	# first verify the signal is defined
 	if not _emitter.has_signal(signal_name):
 		report_error("Can't wait for non-existion signal '%s' on object '%s'." % [signal_name,_emitter.get_class()])
-		yield(Engine.get_main_loop(), "idle_frame")
+		await Engine.get_main_loop().idle_frame
 		return self
 	_signal_collector.register_emitter(_emitter)
 	var caller = _caller.get_ref()
@@ -212,11 +212,11 @@ func _wail_until_signal(signal_name :String, expected_args :Array, expect_not_em
 	var timeout = Timer.new()
 	caller.add_child(timeout)
 	timeout.set_one_shot(true)
-	timeout.connect("timeout", self, "_on_timeout")
+	timeout.connect("timeout", Callable(self, "_on_timeout"))
 	timeout.start((_timeout/1000.0)*time_scale)
 	var is_signal_emitted = false
 	while not _interrupted and not is_signal_emitted:
-		yield(Engine.get_main_loop(), "idle_frame")
+		await Engine.get_main_loop().idle_frame
 		is_signal_emitted = _signal_collector.match(_emitter, signal_name, expected_args)
 		if is_signal_emitted and expect_not_emitted:
 			report_error(GdAssertMessages.error_signal_emitted(signal_name, expected_args, LocalTime.elapsed(_timeout-timeout.time_left*1000)))

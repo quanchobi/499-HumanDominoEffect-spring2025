@@ -1,25 +1,25 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/gdUnit3/src/ui/GdUnitConsole.gd" type="Script" id=1]
-[ext_resource path="res://addons/gdUnit3/src/update/assets/fonts/static/RobotoMono-Bold.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://addons/gdUnit3/src/update/assets/fonts/static/RobotoMono-BoldItalic.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://addons/gdUnit3/src/update/assets/fonts/static/RobotoMono-Regular.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://addons/gdUnit3/src/update/assets/fonts/static/RobotoMono-Italic.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://addons/gdUnit3/src/update/assets/fonts/static/RobotoMono-Bold.ttf" type="FontFile" id=2]
+[ext_resource path="res://addons/gdUnit3/src/update/assets/fonts/static/RobotoMono-BoldItalic.ttf" type="FontFile" id=3]
+[ext_resource path="res://addons/gdUnit3/src/update/assets/fonts/static/RobotoMono-Regular.ttf" type="FontFile" id=4]
+[ext_resource path="res://addons/gdUnit3/src/update/assets/fonts/static/RobotoMono-Italic.ttf" type="FontFile" id=5]
 [ext_resource path="res://addons/gdUnit3/src/ui/parts/RichTextLabelExt.gd" type="Script" id=6]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="FontFile" id=1]
 size = 14
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="FontFile" id=2]
 size = 14
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="FontFile" id=3]
 size = 14
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="FontFile" id=4]
 size = 14
 font_data = ExtResource( 2 )
 
@@ -27,8 +27,8 @@ font_data = ExtResource( 2 )
 use_parent_material = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 0, 100 )
-rect_clip_content = true
+custom_minimum_size = Vector2( 0, 100 )
+clip_contents = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 1 )
@@ -40,7 +40,7 @@ __meta__ = {
 use_parent_material = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_clip_content = true
+clip_contents = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -49,18 +49,18 @@ __meta__ = {
 
 [node name="Header" type="PanelContainer" parent="VBoxContainer"]
 use_parent_material = true
-margin_right = 1024.0
-margin_bottom = 29.0
+offset_right = 1024.0
+offset_bottom = 29.0
 grow_horizontal = 2
-rect_min_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2( 0, 20 )
 size_flags_horizontal = 3
 
 [node name="header_title" type="RichTextLabel" parent="VBoxContainer/Header"]
 use_parent_material = true
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 1017.0
-margin_bottom = 22.0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 1017.0
+offset_bottom = 22.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -71,9 +71,9 @@ __meta__ = {
 }
 
 [node name="Console" type="ScrollContainer" parent="VBoxContainer"]
-margin_top = 33.0
-margin_right = 1024.0
-margin_bottom = 600.0
+offset_top = 33.0
+offset_right = 1024.0
+offset_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -82,16 +82,16 @@ __meta__ = {
 
 [node name="TextEdit" type="RichTextLabel" parent="VBoxContainer/Console"]
 use_parent_material = true
-margin_right = 1024.0
-margin_bottom = 567.0
-rect_min_size = Vector2( 80, 19 )
+offset_right = 1024.0
+offset_bottom = 567.0
+custom_minimum_size = Vector2( 80, 19 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/mono_font = SubResource( 1 )
-custom_fonts/bold_italics_font = SubResource( 2 )
-custom_fonts/italics_font = SubResource( 3 )
-custom_fonts/bold_font = SubResource( 4 )
-custom_fonts/normal_font = SubResource( 1 )
+theme_override_fonts/mono_font = SubResource( 1 )
+theme_override_fonts/bold_italics_font = SubResource( 2 )
+theme_override_fonts/italics_font = SubResource( 3 )
+theme_override_fonts/bold_font = SubResource( 4 )
+theme_override_fonts/normal_font = SubResource( 1 )
 bbcode_enabled = true
 scroll_following = true
 script = ExtResource( 6 )

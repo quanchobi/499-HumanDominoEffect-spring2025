@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/3e.-Observe-each-Elcitrap-by-hovering-over-them...-.wav-5e085c31d18ddea1ad7ce9232d1e3a3b.sample"
+type="AudioStreamWAV"
+uid="uid://c51s465kuj5v8"
+path="res://.godot/imported/3e.-Observe-each-Elcitrap-by-hovering-over-them...-.wav-5e085c31d18ddea1ad7ce9232d1e3a3b.sample"
 
 [deps]
 
 source_file="res://audio/Agency_Audio/3e.-Observe-each-Elcitrap-by-hovering-over-them...-.wav"
-dest_files=[ "res://.import/3e.-Observe-each-Elcitrap-by-hovering-over-them...-.wav-5e085c31d18ddea1ad7ce9232d1e3a3b.sample" ]
+dest_files=["res://.godot/imported/3e.-Observe-each-Elcitrap-by-hovering-over-them...-.wav-5e085c31d18ddea1ad7ce9232d1e3a3b.sample"]
 
 [params]
 

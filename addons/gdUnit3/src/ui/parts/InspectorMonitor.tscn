@@ -1,15 +1,15 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://addons/gdUnit3/src/ui/assets/orphan/orphan_green.svg" type="Texture" id=1]
-[ext_resource path="res://addons/gdUnit3/src/ui/assets/clock.svg" type="Texture" id=2]
+[ext_resource path="res://addons/gdUnit3/src/ui/assets/orphan/orphan_green.svg" type="Texture2D" id=1]
+[ext_resource path="res://addons/gdUnit3/src/ui/assets/clock.svg" type="Texture2D" id=2]
 [ext_resource path="res://addons/gdUnit3/src/ui/parts/InspectorMonitor.gd" type="Script" id=3]
 
 [node name="Monitor" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -793.0
-margin_bottom = -564.0
-rect_clip_content = true
+offset_right = -793.0
+offset_bottom = -564.0
+clip_contents = true
 size_flags_horizontal = 9
 size_flags_vertical = 9
 script = ExtResource( 3 )
@@ -18,24 +18,24 @@ __meta__ = {
 }
 
 [node name="GridContainer" type="GridContainer" parent="."]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 224.0
-margin_bottom = 29.0
-rect_clip_content = true
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 224.0
+offset_bottom = 29.0
+clip_contents = true
 size_flags_horizontal = 9
 columns = 2
 
 [node name="Time" type="GridContainer" parent="GridContainer"]
-margin_right = 63.0
-margin_bottom = 22.0
-rect_clip_content = true
+offset_right = 63.0
+offset_bottom = 22.0
+clip_contents = true
 columns = 2
 
-[node name="ToolButton" type="ToolButton" parent="GridContainer/Time"]
-margin_right = 59.0
-margin_bottom = 22.0
-hint_tooltip = "Shows the total elapsed time of test execution."
+[node name="Button" type="Button" parent="GridContainer/Time"]
+offset_right = 59.0
+offset_bottom = 22.0
+tooltip_text = "Shows the total elapsed time of test execution."
 size_flags_horizontal = 3
 text = "Time"
 icon = ExtResource( 2 )
@@ -43,9 +43,9 @@ align = 0
 
 [node name="value" type="Label" parent="GridContainer/Time"]
 use_parent_material = true
-margin_left = 63.0
-margin_right = 63.0
-margin_bottom = 22.0
+offset_left = 63.0
+offset_right = 63.0
+offset_bottom = 22.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 align = 2
@@ -55,18 +55,18 @@ __meta__ = {
 }
 
 [node name="Orphan" type="GridContainer" parent="GridContainer"]
-margin_left = 67.0
-margin_right = 160.0
-margin_bottom = 22.0
-rect_clip_content = true
+offset_left = 67.0
+offset_right = 160.0
+offset_bottom = 22.0
+clip_contents = true
 size_flags_horizontal = 9
 columns = 2
 
-[node name="ToolButton" type="ToolButton" parent="GridContainer/Orphan"]
-margin_right = 81.0
-margin_bottom = 22.0
-rect_clip_content = true
-hint_tooltip = "Shows the total detected orphan nodes.
+[node name="Button" type="Button" parent="GridContainer/Orphan"]
+offset_right = 81.0
+offset_bottom = 22.0
+clip_contents = true
+tooltip_text = "Shows the total detected orphan nodes.
 
 (Click) to jump to test."
 size_flags_horizontal = 9
@@ -77,9 +77,9 @@ align = 0
 
 [node name="value" type="Label" parent="GridContainer/Orphan"]
 use_parent_material = true
-margin_left = 85.0
-margin_right = 93.0
-margin_bottom = 22.0
+offset_left = 85.0
+offset_right = 93.0
+offset_bottom = 22.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "0"
@@ -88,4 +88,4 @@ max_lines_visible = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="pressed" from="GridContainer/Orphan/ToolButton" to="." method="_on_ToolButton_pressed"]
+[connection signal="pressed" from="GridContainer/Orphan/Button" to="." method="_on_ToolButton_pressed"]

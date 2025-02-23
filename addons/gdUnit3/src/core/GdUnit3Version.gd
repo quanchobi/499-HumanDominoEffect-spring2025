@@ -1,5 +1,5 @@
 class_name GdUnit3Version
-extends Reference
+extends RefCounted
 
 const VERSION_PATTERN = "[center][color=#9887c4]gd[/color][color=#7a57d6]Unit[/color][color=#9887c4]3[/color] [color=#9887c4]${version}[/color][/center]"
 
@@ -42,7 +42,7 @@ static func init_version_label(label :Control) -> void:
 	config.load('addons/gdUnit3/plugin.cfg')
 	var version = config.get_value('plugin', 'version')
 	if label is RichTextLabel:
-		label.bbcode_text = VERSION_PATTERN.replace('${version}', version)
+		label.text = VERSION_PATTERN.replace('${version}', version)
 	else:
 		label.text = "gdUnit3 " + version
 

@@ -1,7 +1,7 @@
-tool
+@tool
 extends Node
 
-onready var _server :GdUnitTcpServer = $TcpServer
+@onready var _server :GdUnitTcpServer = $TcpServer
 #onready var _error_handler :GdUnitPushErrorHandler = $ErrorHandler
 
 var _signal_handler :SignalHandler
@@ -19,9 +19,9 @@ func _ready():
 	var server_port :int = result.value()
 	Engine.set_meta("gdunit_server_port", server_port)
 	
-	_server.connect("client_connected", self, "_on_client_connected")
-	_server.connect("client_disconnected", self, "_on_client_disconnected")
-	_server.connect("rpc_data", self, "_receive_rpc_data")
+	_server.connect("client_connected", Callable(self, "_on_client_connected"))
+	_server.connect("client_disconnected", Callable(self, "_on_client_disconnected"))
+	_server.connect("rpc_data", Callable(self, "_receive_rpc_data"))
 	
 	#register_tasks(_error_handler.get_tasks())
 

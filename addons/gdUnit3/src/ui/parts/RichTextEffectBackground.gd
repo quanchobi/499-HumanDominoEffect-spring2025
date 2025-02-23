@@ -33,7 +33,7 @@ func set_source(label :RichTextLabel) -> void:
 func init_properties() :
 	_cache.clear()
 	# determine character size
-	var custom_font = _label.get_ref().get("custom_fonts/mono_font")
+	var custom_font = _label.get_ref().get("theme_override_fonts/mono_font")
 	if custom_font is Font:
 		_char_size = Vector2(custom_font.get_char_size(23).x, custom_font.get_height())
 	_tab_size = _label.get_ref().tab_size
@@ -85,14 +85,14 @@ func char_size(line :String, index :int) -> Vector2:
 
 
 func get_char_position(char_fx: CharFXTransform, text :String ) -> CharacterInfo:
-	if _cache.empty():
+	if _cache.is_empty():
 		_build_char_mapping(text)
 	return _cache.get(char_fx.absolute_index, CharacterInfo.new(Vector2.ZERO, _char_size))
 
 
 func get_line_height() -> int:
 	var label = _label.get_ref() as RichTextLabel
-	var line_separation = label.get("custom_constants/line_separation")
+	var line_separation = label.get("theme_override_constants/line_separation")
 	if not line_separation:
 		line_separation = 1
 	return _char_size.y + line_separation

@@ -1,5 +1,5 @@
-extends StaticBody
-tool
+@tool
+extends StaticBody3D
 
 # Corners of 3D block
 const vertices = [
@@ -34,10 +34,10 @@ var mesh_instance = null
 var material = load(ReferenceManager.get_reference("new_spatialmaterial.tres"))
 
 # Global position of chunk
-var chunk_position = Vector2() setget set_chunk_position
+var chunk_position = Vector2(): set = set_chunk_position
 
 # Noise generator for terrain randomization
-var noise = OpenSimplexNoise.new()
+var noise = FastNoiseLite.new()
 
 func _ready():
 	material.albedo_texture.set_flags(2)
@@ -82,7 +82,7 @@ func update():
 	
 	# Create new mesh instance for textures
 	mesh = Mesh.new()
-	mesh_instance = MeshInstance.new()
+	mesh_instance = MeshInstance3D.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
 	# Chunk contains multiple blocks
@@ -174,7 +174,7 @@ func create_face(i, x, y, z, texture_atlas_offset):
 # Move a chunk to specific global position
 func set_chunk_position(pos):
 	chunk_position = pos
-	translation = Vector3(pos.x, 0, pos.y) * gamestate.DIMENSION
+	position = Vector3(pos.x, 0, pos.y) * gamestate.DIMENSION
 
 	# Make chunk invisible while it is being moved
 	self.visible = false

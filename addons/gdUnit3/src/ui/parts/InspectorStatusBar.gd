@@ -1,15 +1,15 @@
-tool
+@tool
 extends PanelContainer
 
 signal failure_next
 signal failure_prevous
 
-onready var _errors = $GridContainer/Errors/value
-onready var _failures = $GridContainer/Failures/value
-onready var _button_failure_up := $GridContainer/Failures/buttons/failure_up
-onready var _button_failure_down := $GridContainer/Failures/buttons/failure_down
+@onready var _errors = $GridContainer/Errors/value
+@onready var _failures = $GridContainer/Failures/value
+@onready var _button_failure_up := $GridContainer/Failures/buttons/failure_up
+@onready var _button_failure_down := $GridContainer/Failures/buttons/failure_down
 
-onready var _signal_handler :SignalHandler = GdUnitSingleton.get_singleton(SignalHandler.SINGLETON_NAME)
+@onready var _signal_handler :SignalHandler = GdUnitSingleton.get_singleton(SignalHandler.SINGLETON_NAME)
 
 var total_failed := 0
 var total_errors := 0

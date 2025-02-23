@@ -2,10 +2,10 @@
 
 extends Node
 
-export (PackedScene) var Elcitrap
-export var next_scene: PackedScene
+@export var Elcitrap: PackedScene
+@export var next_scene: PackedScene
 
-export var trait_queue = [] + curriculum.traits
+@export var trait_queue = [] + curriculum.traits
 
 signal trigger_animation(anim_name)
 signal five_selected()
@@ -15,7 +15,7 @@ var red_pos = [[361, 121], [321, 163], [294, 214], [278, 272], [284, 333]]
 var blue_pos = [[398, 500], [454, 519], [514, 528], [574, 519], [628, 499]]
 var green_pos = [[663, 124], [700, 169], [726, 219], [738, 274], [736, 333]]
 
-export var selected = []
+@export var selected = []
 
 var players_ready = []
 
@@ -32,7 +32,7 @@ func _ready() -> void:
 	
 	# populate elcitraps on screen
 	for i in range(len(trait_queue)):
-		var elcitrap = Elcitrap.instance()
+		var elcitrap = Elcitrap.instantiate()
 		
 		# red particles
 		if i % 3 == 0:
@@ -72,10 +72,10 @@ func _on_Button_pressed() -> void:
 	
 	emit_signal("trigger_animation", "Fade")
 	
-remotesync func set_elcitraps(elcitraps):
-	gamestate.elcitraps[get_tree().get_rpc_sender_id()] = elcitraps
+@rpc("any_peer", "call_local") func set_elcitraps(elcitraps):
+	gamestate.elcitraps[get_tree().get_remote_sender_id()] = elcitraps
 	
-remote func start_game():
+@rpc("any_peer") func start_game():
 	get_parent().change_level(next_scene)
 
 func _on_TextAnimationPlayer_animation_finished(anim_name: String) -> void:

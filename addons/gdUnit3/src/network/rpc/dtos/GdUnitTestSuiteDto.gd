@@ -4,7 +4,7 @@ extends GdUnitResourceDto
 var _test_cases_by_name := Dictionary()
 
 func serialize(test_suite :Node) -> Dictionary:
-	var serialized := .serialize(test_suite)
+	var serialized := super.serialize(test_suite)
 	var test_cases := Array()
 	serialized["test_cases"] = test_cases
 	for test_case in test_suite.get_children():
@@ -12,7 +12,7 @@ func serialize(test_suite :Node) -> Dictionary:
 	return serialized
 
 func deserialize(data :Dictionary) -> GdUnitResourceDto:
-	.deserialize(data)
+	super.deserialize(data)
 	var test_cases :Array = data.get("test_cases", Array())
 	for test_case in test_cases:
 		add_test_case(GdUnitTestCaseDto.new().deserialize(test_case))

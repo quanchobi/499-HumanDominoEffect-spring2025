@@ -1,12 +1,12 @@
 class_name GdUnitSignalAwaiter
-extends Reference
+extends RefCounted
 
 const NO_ARG = GdUnitConstants.NO_ARG
 
 signal signal_emitted(action)
 
-var TIMER_AWAKE = Reference.new()
-var TIMER_INTERRUPTED = Reference.new()
+var TIMER_AWAKE = RefCounted.new()
+var TIMER_INTERRUPTED = RefCounted.new()
 var _wait_on_idle_frame = false
 var _interrupted := false
 var _time_left := 0
@@ -34,12 +34,12 @@ func elapsed_time() -> int:
 
 func on_signal(source :Object, signal_name :String, expected_signal_args :Array):
 	# register on signal to wait for
-	source.connect(signal_name, self, "_on_signal_emmited")
+	source.connect(signal_name, Callable(self, "_on_signal_emmited"))
 	# install timeout timer
 	var timer = Timer.new()
 	Engine.get_main_loop().root.add_child(timer)
 	timer.set_one_shot(true)
-	timer.connect("timeout", self, "_on_timeout")
+	timer.connect("timeout", Callable(self, "_on_timeout"))
 	timer.start(_timeout_millis * 0.001 * Engine.get_time_scale())
 	# install sleep timer with a time of 50ms between the signal received checks
 	# the sleep timer is need to give engine main loop time to process
@@ -47,7 +47,7 @@ func on_signal(source :Object, signal_name :String, expected_signal_args :Array)
 	var sleep_time = 0.0001 if _wait_on_idle_frame else 0.05
 	var sleep := Timer.new()
 	Engine.get_main_loop().root.add_child(sleep)
-	sleep.connect("timeout", self, "_on_sleep_awakening")
+	sleep.connect("timeout", Callable(self, "_on_sleep_awakening"))
 	sleep.start(sleep_time)
 	
 	# holds the emited value
@@ -55,12 +55,12 @@ func on_signal(source :Object, signal_name :String, expected_signal_args :Array)
 	# wait for signal is emitted or a timeout is happen
 	while true:
 		if _wait_on_idle_frame:
-			yield(Engine.get_main_loop(), "idle_frame")
-		value = yield(self, "signal_emitted")
-		if value is Reference and value == TIMER_INTERRUPTED:
+			await Engine.get_main_loop().idle_frame
+		value = await self.signal_emitted
+		if value is RefCounted and value == TIMER_INTERRUPTED:
 			_interrupted = true
 			break
-		if value is Reference and value == TIMER_AWAKE:
+		if value is RefCounted and value == TIMER_AWAKE:
 			continue
 		if not (value is Array):
 			value = [value]

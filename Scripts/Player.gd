@@ -1,9 +1,9 @@
-extends KinematicBody
+extends CharacterBody3D
 
-onready var head = $Head
-onready var camera = $Head/Camera
-onready var raycast = $Head/Camera/RayCast
-onready var block_outline = $BlockOutline
+@onready var head = $Head
+@onready var camera = $Head/Camera3D
+@onready var raycast = $Head/Camera3D/RayCast3D
+@onready var block_outline = $BlockOutline
 
 var camera_x_rotation = 0
 
@@ -37,13 +37,13 @@ func _input(event):
 		return
 	
 	if event is InputEventMouseMotion:
-		head.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
+		head.rotate_y(deg_to_rad(-event.relative.x * mouse_sensitivity))
 		
 		var delta_x = event.relative.y * mouse_sensitivity
 
 		# Clamp camera rotation to simulate proper head movement
 		if camera_x_rotation + delta_x > -90 and camera_x_rotation + delta_x < 90:
-			camera.rotate_x(deg2rad(-delta_x))
+			camera.rotate_x(deg_to_rad(-delta_x))
 			camera_x_rotation += delta_x
 
 func _physics_process(delta):
@@ -73,7 +73,10 @@ func _physics_process(delta):
 	velocity.x = direction.x * movement_speed
 	velocity.y -= gravity * delta
 
-	velocity = move_and_slide(velocity, Vector3.UP)
+	set_velocity(velocity)
+	set_up_direction(Vector3.UP)
+	move_and_slide()
+	velocity = velocity
 	
 	# Check if raycast node is colliding with a block
 	if raycast.is_colliding():
@@ -84,9 +87,9 @@ func _physics_process(delta):
 		var bx = floor(pos.x) + 0.5
 		var by = floor(pos.y) + 0.5
 		var bz = floor(pos.z) + 0.5
-		var bpos = Vector3(bx, by, bz) - self.translation
+		var bpos = Vector3(bx, by, bz) - self.position
 
-		block_outline.translation = bpos
+		block_outline.position = bpos
 		block_outline.visible = true
 
 		# if Input.is_action_just_pressed("Break"):

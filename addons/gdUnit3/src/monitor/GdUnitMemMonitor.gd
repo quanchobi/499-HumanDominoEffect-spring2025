@@ -5,7 +5,8 @@ var _orphan_nodes_start :int
 var _orphan_nodes_end :int
 var _orphan_total :int
 
-func _init(name :String = "").("MemMonitor:" + name):
+func _init(name :String = ""):
+	super("MemMonitor:" + name)
 	_orphan_nodes_start = 0
 	_orphan_nodes_end = 0
 	_orphan_total = 0

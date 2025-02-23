@@ -1,7 +1,7 @@
 # This class implements the JUnit XML file format
 # based on https://github.com/windyroad/JUnit-Schema/blob/master/JUnit.xsd
 class_name JUnitXmlReport
-extends Reference
+extends RefCounted
 
 var _report_path :String
 var _iteration :int
@@ -40,12 +40,12 @@ func write(report :GdUnitReportSummary) -> String:
 
 func build_junit_report(report :GdUnitReportSummary) -> String:
 	var test_suites := XmlElement.new("testsuites")\
-		.attribute(ATTR_ID, to_ISO8601_datetime(OS.get_datetime()))\
-		.attribute(ATTR_NAME, "report_%s" % _iteration)\
-		.attribute(ATTR_TESTS, report.test_count())\
-		.attribute(ATTR_FAILURES, report.failure_count())\
-		.attribute(ATTR_TIME, to_time(report.duration()))\
-		.add_childs(build_test_suites(report))
+		super.attribute(ATTR_ID, to_ISO8601_datetime(Time.get_datetime_dict_from_system()))\
+		super.attribute(ATTR_NAME, "report_%s" % _iteration)\
+		super.attribute(ATTR_TESTS, report.test_count())\
+		super.attribute(ATTR_FAILURES, report.failure_count())\
+		super.attribute(ATTR_TIME, to_time(report.duration()))\
+		super.add_childs(build_test_suites(report))
 	var as_string = test_suites.to_xml()
 	test_suites.dispose()
 	return HEADER + as_string
@@ -55,17 +55,17 @@ func build_test_suites(summary :GdUnitReportSummary) -> Array:
 	for index in summary.reports().size():
 		var suite_report :GdUnitTestSuiteReport = summary.reports()[index]
 		test_suites.append(XmlElement.new("testsuite")\
-			.attribute(ATTR_ID, index)\
-			.attribute(ATTR_NAME, suite_report.name())\
-			.attribute(ATTR_PACKAGE, suite_report.path())\
-			.attribute(ATTR_TIMESTAMP, to_ISO8601_datetime(OS.get_datetime_from_unix_time(suite_report.time_stamp())))\
-			.attribute(ATTR_HOST, "localhost")\
-			.attribute(ATTR_TESTS, suite_report.test_count())\
-			.attribute(ATTR_FAILURES, suite_report.failure_count())\
-			.attribute(ATTR_ERRORS, suite_report.error_count())\
-			.attribute(ATTR_SKIPPED, suite_report.skipped_count())\
-			.attribute(ATTR_TIME, to_time(suite_report.duration()))\
-			.add_childs(build_test_cases(suite_report)))
+			super.attribute(ATTR_ID, index)\
+			super.attribute(ATTR_NAME, suite_report.name())\
+			super.attribute(ATTR_PACKAGE, suite_report.path())\
+			super.attribute(ATTR_TIMESTAMP, to_ISO8601_datetime(Time.get_datetime_dict_from_system_from_unix_time(suite_report.time_stamp())))\
+			super.attribute(ATTR_HOST, "localhost")\
+			super.attribute(ATTR_TESTS, suite_report.test_count())\
+			super.attribute(ATTR_FAILURES, suite_report.failure_count())\
+			super.attribute(ATTR_ERRORS, suite_report.error_count())\
+			super.attribute(ATTR_SKIPPED, suite_report.skipped_count())\
+			super.attribute(ATTR_TIME, to_time(suite_report.duration()))\
+			super.add_childs(build_test_cases(suite_report)))
 	return test_suites
 
 func build_test_cases(suite_report :GdUnitTestSuiteReport) -> Array:
@@ -73,10 +73,10 @@ func build_test_cases(suite_report :GdUnitTestSuiteReport) -> Array:
 	for index in suite_report.reports().size():
 		var report :GdUnitTestCaseReport = suite_report.reports()[index]
 		test_cases.append( XmlElement.new("testcase")\
-			.attribute(ATTR_NAME, report.name())\
-			.attribute(ATTR_CLASSNAME, report.suite_name())\
-			.attribute(ATTR_TIME, to_time(report.duration()))\
-			.add_childs(build_reports(report)))
+			super.attribute(ATTR_NAME, report.name())\
+			super.attribute(ATTR_CLASSNAME, report.suite_name())\
+			super.attribute(ATTR_TIME, to_time(report.duration()))\
+			super.add_childs(build_reports(report)))
 	return test_cases
 
 func build_reports(testReport :GdUnitTestCaseReport) -> Array:
@@ -86,19 +86,19 @@ func build_reports(testReport :GdUnitTestCaseReport) -> Array:
 			var report := failure as GdUnitReport
 			if report.is_failure():
 				failure_reports.append( XmlElement.new("failure")\
-					.attribute(ATTR_MESSAGE, "FAILED: %s:%d" % [testReport._resource_path, report.line_number()])\
-					.attribute(ATTR_TYPE, to_type(report.type()))\
-					.text(convert_rtf_to_text(report.message())))
+					super.attribute(ATTR_MESSAGE, "FAILED: %s:%d" % [testReport._resource_path, report.line_number()])\
+					super.attribute(ATTR_TYPE, to_type(report.type()))\
+					super.text(convert_rtf_to_text(report.message())))
 			elif report.is_error():
 				failure_reports.append( XmlElement.new("error")\
-					.attribute(ATTR_MESSAGE, "ERROR: %s:%d" % [testReport._resource_path, report.line_number()])\
-					.attribute(ATTR_TYPE, to_type(report.type()))\
-					.text(convert_rtf_to_text(report.message())))
+					super.attribute(ATTR_MESSAGE, "ERROR: %s:%d" % [testReport._resource_path, report.line_number()])\
+					super.attribute(ATTR_TYPE, to_type(report.type()))\
+					super.text(convert_rtf_to_text(report.message())))
 	if testReport.skipped_count():
 		for failure in testReport._failure_reports:
 			var report := failure as GdUnitReport
 			failure_reports.append( XmlElement.new("skipped")\
-				.attribute(ATTR_MESSAGE, "SKIPPED: %s:%d" % [testReport._resource_path, report.line_number()]))
+				super.attribute(ATTR_MESSAGE, "SKIPPED: %s:%d" % [testReport._resource_path, report.line_number()]))
 	return failure_reports
 
 func convert_rtf_to_text(bbcode :String) -> String:

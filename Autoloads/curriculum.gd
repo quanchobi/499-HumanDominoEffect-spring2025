@@ -7,7 +7,7 @@ extends Node
 #	pass # Replace with function body.
 
 # traits for elcitraps
-export var traits = [
+@export var traits = [
 	["red", "Painting"], ["blue", "Law"], ["green", "Biology"],
 	["red", "Singing"], ["blue", "Planting"], ["green", "Math"],
 	["red", "Music"], ["blue", "Cooking"], ["green", "Physics"],
@@ -16,7 +16,7 @@ export var traits = [
 ]
 
 # choices for koi pond venn diagram level
-export var choices = [
+@export var choices = [
 	["y", "This is a yellow choice."], 
 	["r", "Now a red choice!"],
 	["y", "Yet another yellow choice!"],
@@ -41,7 +41,7 @@ export var choices = [
 
 # dictionary mapping numbers to elements for dominos
 # key: "top_number+bottomnumber", item: [top element, bottom element]
-export var domino_dict = {
+@export var domino_dict = {
 	"00": ["", ""],
 	"01": ["", "Copper"],
 	"02": ["", "Lead"],
@@ -100,7 +100,7 @@ export var domino_dict = {
 }
 
 # maps element to corresponding alloy
-export var element_to_alloy = {
+@export var element_to_alloy = {
 	"Copper": "Bronze",
 	"Tin": "Bronze",
 	"Lead": "Antimonial Lead",
@@ -122,7 +122,7 @@ export var element_to_alloy = {
 }
 
 # maps alloy to description of alloy
-export var alloy_table = {
+@export var alloy_table = {
 	"Bronze": "Combining Copper (Love) with Tin (Order) results in Bronze (A Loving Prepared Environment).",
 	"Antimonial Lead": "Combining Antimony (Joy) with Lead (Focus) results in Antimonial Lead (Energy).",
 	"Steel": "Combining Carbon (Care) with Iron (Safety) results in Steel (Stability).",
@@ -137,7 +137,7 @@ export var alloy_table = {
 # maps round number and domino number to title of footprint tile
 # key: "round_number+domino_number", item: Title of footprint tile
 # TODO: <add more footprint tiles to footprint_tile_table, then remove footprint_title_table and footprint_text_table as at that point, they are redundant>
-export var footprint_title_table = {
+@export var footprint_title_table = {
 	"00": "Our Earth",
 	"01": "Dinosaurs, Mastodons, and Megafauna",
 	"02": "Our Earliest Ancestors",
@@ -203,7 +203,7 @@ export var footprint_title_table = {
 # maps round number and domino number to description of footprint tile
 # key: "round_number+domino_number", item: Description of footprint tile
 # TODO: <add more footprint tiles to footprint_tile_table, then remove footprint_title_table and footprint_text_table as at that point, they are redundant>
-export var footprint_text_table = {
+@export var footprint_text_table = {
 	"00": "Our Earth",
 	"01": "Dinosaurs, Mastodons, and Megafauna",
 	"02": "Our Earliest Ancestors",

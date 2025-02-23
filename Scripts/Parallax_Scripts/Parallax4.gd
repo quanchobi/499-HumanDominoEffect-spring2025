@@ -1,6 +1,6 @@
 extends Control
 
-export var next_scene: PackedScene
+@export var next_scene: PackedScene
 
 signal trigger_animation(anim_name)
 signal trigger_zoom()
@@ -21,9 +21,9 @@ var dialogue = [
 
 var page = 0
 
-onready var parallax = $ParallaxBackground
-onready var dialogue_label = $Polygon2D/dialogue  # Assumes dialogue is a RichTextLabel node
-onready var timer = $Polygon2D/Timer  # Assumes there's a Timer node for text animation
+@onready var parallax = $ParallaxBackground
+@onready var dialogue_label = $Polygon2D/dialogue  # Assumes dialogue is a RichTextLabel node
+@onready var timer = $Polygon2D/Timer  # Assumes there's a Timer node for text animation
 
 func _ready():
 	emit_signal("trigger_animation", "Screen_Unwipe")  # Emit animation signal

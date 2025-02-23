@@ -1,33 +1,33 @@
 [gd_scene load_steps=47 format=2]
 
-[ext_resource path="res://UI/sprites/reference.png" type="Texture" id=1]
-[ext_resource path="res://UI/Menu_Sprites/background.png" type="Texture" id=2]
+[ext_resource path="res://UI/sprites/reference.png" type="Texture2D" id=1]
+[ext_resource path="res://UI/Menu_Sprites/background.png" type="Texture2D" id=2]
 [ext_resource path="res://Scenes/Character Bubble.tscn" type="PackedScene" id=3]
-[ext_resource path="res://UI/sprites/character_sprites/faces/0.png" type="Texture" id=4]
-[ext_resource path="res://UI/sprites/character_sprites/faces/2.png" type="Texture" id=5]
+[ext_resource path="res://UI/sprites/character_sprites/faces/0.png" type="Texture2D" id=4]
+[ext_resource path="res://UI/sprites/character_sprites/faces/2.png" type="Texture2D" id=5]
 [ext_resource path="res://Scenes/Settings.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scripts/Level_Scripts/DominoWorld.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/Domino.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/Path.tscn" type="PackedScene" id=9]
-[ext_resource path="res://UI/Fonts/Nunito/Nunito-Regular.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://UI/Fonts/Nunito/Nunito-Regular.ttf" type="FontFile" id=10]
 [ext_resource path="res://audio/effects/select.wav" type="AudioStream" id=11]
 [ext_resource path="res://audio/effects/next.wav" type="AudioStream" id=12]
-[ext_resource path="res://UI/sprites/character_sprites/back_hair/8.png" type="Texture" id=13]
+[ext_resource path="res://UI/sprites/character_sprites/back_hair/8.png" type="Texture2D" id=13]
 [ext_resource path="res://Scenes/SaveButton.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/Tower.tscn" type="PackedScene" id=15]
-[ext_resource path="res://UI/Fonts/Non_Nunito/domino_font/human_domino.otf" type="DynamicFontData" id=16]
+[ext_resource path="res://UI/Fonts/Non_Nunito/domino_font/human_domino.otf" type="FontFile" id=16]
 [ext_resource path="res://UI/Miscellaneous/ui_theme.tres" type="Theme" id=17]
-[ext_resource path="res://UI/Control/grey_button_down.png" type="Texture" id=18]
-[ext_resource path="res://UI/Control/grey_button03.png" type="Texture" id=19]
-[ext_resource path="res://UI/Control/green_button13.png" type="Texture" id=20]
-[ext_resource path="res://UI/Control/red_cross.png" type="Texture" id=21]
-[ext_resource path="res://UI/Control/grey_crossGrey.png" type="Texture" id=22]
-[ext_resource path="res://UI/Control/green_button01.png" type="Texture" id=23]
-[ext_resource path="res://UI/Control/green_button00.png" type="Texture" id=24]
-[ext_resource path="res://UI/Control/grey_panel.png" type="Texture" id=25]
-[ext_resource path="res://UI/Miscellaneous/DominoHint.png" type="Texture" id=26]
-[ext_resource path="res://UI/sprites/help.png" type="Texture" id=27]
-[ext_resource path="res://UI/sprites/close.png" type="Texture" id=28]
+[ext_resource path="res://UI/Control/grey_button_down.png" type="Texture2D" id=18]
+[ext_resource path="res://UI/Control/grey_button03.png" type="Texture2D" id=19]
+[ext_resource path="res://UI/Control/green_button13.png" type="Texture2D" id=20]
+[ext_resource path="res://UI/Control/red_cross.png" type="Texture2D" id=21]
+[ext_resource path="res://UI/Control/grey_crossGrey.png" type="Texture2D" id=22]
+[ext_resource path="res://UI/Control/green_button01.png" type="Texture2D" id=23]
+[ext_resource path="res://UI/Control/green_button00.png" type="Texture2D" id=24]
+[ext_resource path="res://UI/Control/grey_panel.png" type="Texture2D" id=25]
+[ext_resource path="res://UI/Miscellaneous/DominoHint.png" type="Texture2D" id=26]
+[ext_resource path="res://UI/sprites/help.png" type="Texture2D" id=27]
+[ext_resource path="res://UI/sprites/close.png" type="Texture2D" id=28]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Zoom In"
@@ -39,8 +39,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.2 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 2.5, 2.5 ), Vector2( 1.7, 1.7 ) ]
 }
@@ -54,57 +54,57 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.2 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1.7, 1.7 ), Vector2( 2.5, 2.5 ) ]
 }
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="FontFile" id=5]
 size = 100
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="FontFile" id=6]
 size = 60
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="FontFile" id=7]
 size = 60
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="FontFile" id=8]
 size = 50
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="FontFile" id=10]
 size = 40
 font_data = ExtResource( 10 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="FontFile" id=11]
 size = 125
 use_filter = true
 font_data = ExtResource( 16 )
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="FontFile" id=12]
 size = 125
 outline_size = 7
 outline_color = Color( 0.466667, 0.466667, 0.466667, 1 )
 use_filter = true
 font_data = ExtResource( 16 )
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="FontFile" id=14]
 size = 100
 use_filter = true
 font_data = ExtResource( 16 )
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="FontFile" id=13]
 size = 125
 outline_size = 4
 outline_color = Color( 0.266667, 0.517647, 0.172549, 1 )
 use_filter = true
 font_data = ExtResource( 16 )
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="FontFile" id=15]
 size = 100
 use_filter = true
 font_data = ExtResource( 16 )
@@ -138,7 +138,7 @@ scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 7 )
 Domino = ExtResource( 8 )
 
-[node name="Board" type="Sprite" parent="."]
+[node name="Board" type="Sprite2D" parent="."]
 position = Vector2( -192, 5.96046e-08 )
 rotation = 1.20428
 scale = Vector2( 1.5, 1.5 )
@@ -249,13 +249,13 @@ position = Vector2( -24, 440 )
 scale = Vector2( 2.5, 2.5 )
 z_index = -1
 
-[node name="sunrise" type="Sprite" parent="."]
+[node name="sunrise" type="Sprite2D" parent="."]
 position = Vector2( -632, -176 )
 scale = Vector2( 1.5, 1.5 )
 z_index = -1
 texture = ExtResource( 4 )
 
-[node name="sunset" type="Sprite" parent="."]
+[node name="sunset" type="Sprite2D" parent="."]
 position = Vector2( 232, 192 )
 scale = Vector2( 1.5, 1.5 )
 z_index = -1
@@ -271,11 +271,11 @@ layer = -2
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -3609.0
-margin_top = -3884.0
-margin_right = -3609.0
-margin_bottom = -3484.0
-rect_scale = Vector2( 8, 5 )
+offset_left = -3609.0
+offset_top = -3884.0
+offset_right = -3609.0
+offset_bottom = -3484.0
+scale = Vector2( 8, 5 )
 mouse_filter = 2
 texture = ExtResource( 2 )
 
@@ -285,22 +285,22 @@ autoplay = "Zoom Out"
 "anims/Zoom Out" = SubResource( 2 )
 
 [node name="Turn" type="Label" parent="."]
-margin_left = -2110.24
-margin_top = -1483.75
-margin_right = -1805.24
-margin_bottom = -1204.75
-rect_scale = Vector2( 2, 2 )
-custom_fonts/font = SubResource( 5 )
+offset_left = -2110.24
+offset_top = -1483.75
+offset_right = -1805.24
+offset_bottom = -1204.75
+scale = Vector2( 2, 2 )
+theme_override_fonts/font = SubResource( 5 )
 text = "'s
 Turn"
 
 [node name="End" type="Label" parent="."]
 visible = false
-margin_left = 368.0
-margin_top = -664.0
-margin_right = 1256.0
-margin_bottom = 38.0
-custom_fonts/font = SubResource( 5 )
+offset_left = 368.0
+offset_top = -664.0
+offset_right = 1256.0
+offset_bottom = 38.0
+theme_override_fonts/font = SubResource( 5 )
 text = "Tally Up Your
  Points! 
 (Hover over
@@ -312,16 +312,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AlloyPopup" type="PopupDialog" parent="."]
+[node name="AlloyPopup" type="Popup" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -1336.0
-margin_top = -880.0
-margin_right = -136.0
-margin_bottom = -80.0001
-rect_scale = Vector2( 1.4, 1.4 )
+offset_left = -1336.0
+offset_top = -880.0
+offset_right = -136.0
+offset_bottom = -80.0001
+scale = Vector2( 1.4, 1.4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -329,10 +329,10 @@ __meta__ = {
 [node name="Title" type="Label" parent="AlloyPopup"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -568.0
-margin_right = 576.0
-margin_bottom = 138.0
-custom_fonts/font = SubResource( 6 )
+offset_left = -568.0
+offset_right = 576.0
+offset_bottom = 138.0
+theme_override_fonts/font = SubResource( 6 )
 text = "Alloy Acquired!"
 align = 1
 valign = 1
@@ -345,12 +345,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -568.0
-margin_top = -264.0
-margin_right = 576.0
-margin_bottom = -126.0
-custom_colors/font_color = Color( 1, 0, 1, 1 )
-custom_fonts/font = SubResource( 6 )
+offset_left = -568.0
+offset_top = -264.0
+offset_right = 576.0
+offset_bottom = -126.0
+theme_override_colors/font_color = Color( 1, 0, 1, 1 )
+theme_override_fonts/font = SubResource( 6 )
 text = "Electrum"
 align = 1
 valign = 1
@@ -364,11 +364,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -504.0
-margin_top = 8.0
-margin_right = 516.0
-margin_bottom = 263.0
-custom_fonts/font = SubResource( 7 )
+offset_left = -504.0
+offset_top = 8.0
+offset_right = 516.0
+offset_bottom = 263.0
+theme_override_fonts/font = SubResource( 7 )
 text = "Electrum is an alloy of gold and silver.
 It represents blah blab an dblah."
 autowrap = true
@@ -381,26 +381,26 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -40.0
-margin_top = -80.0
-margin_right = 41.0
-margin_bottom = -5.0
-custom_fonts/font = SubResource( 8 )
+offset_left = -40.0
+offset_top = -80.0
+offset_right = 41.0
+offset_bottom = -5.0
+theme_override_fonts/font = SubResource( 8 )
 text = "OK"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WellnessBeadPopup" type="PopupDialog" parent="."]
+[node name="WellnessBeadPopup" type="Popup" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -1336.0
-margin_top = -880.0
-margin_right = -136.0
-margin_bottom = -80.0001
-rect_scale = Vector2( 1.4, 1.4 )
+offset_left = -1336.0
+offset_top = -880.0
+offset_right = -136.0
+offset_bottom = -80.0001
+scale = Vector2( 1.4, 1.4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -408,10 +408,10 @@ __meta__ = {
 [node name="Title" type="Label" parent="WellnessBeadPopup"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -568.0
-margin_right = 576.0
-margin_bottom = 138.0
-custom_fonts/font = SubResource( 6 )
+offset_left = -568.0
+offset_right = 576.0
+offset_bottom = 138.0
+theme_override_fonts/font = SubResource( 6 )
 text = "Alloy Acquired!"
 align = 1
 valign = 1
@@ -424,12 +424,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -568.0
-margin_top = -264.0
-margin_right = 576.0
-margin_bottom = -126.0
-custom_colors/font_color = Color( 1, 0, 1, 1 )
-custom_fonts/font = SubResource( 6 )
+offset_left = -568.0
+offset_top = -264.0
+offset_right = 576.0
+offset_bottom = -126.0
+theme_override_colors/font_color = Color( 1, 0, 1, 1 )
+theme_override_fonts/font = SubResource( 6 )
 text = "Electrum"
 align = 1
 valign = 1
@@ -443,11 +443,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -504.0
-margin_top = 8.0
-margin_right = 516.0
-margin_bottom = 263.0
-custom_fonts/font = SubResource( 7 )
+offset_left = -504.0
+offset_top = 8.0
+offset_right = 516.0
+offset_bottom = 263.0
+theme_override_fonts/font = SubResource( 7 )
 text = "Electrum is an alloy of gold and silver.
 It represents blah blab an dblah."
 autowrap = true
@@ -460,35 +460,35 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -40.0
-margin_top = -80.0
-margin_right = 41.0
-margin_bottom = -5.0
-custom_fonts/font = SubResource( 8 )
+offset_left = -40.0
+offset_top = -80.0
+offset_right = 41.0
+offset_bottom = -5.0
+theme_override_fonts/font = SubResource( 8 )
 text = "OK"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FootprintTilePopup" type="PopupDialog" parent="."]
+[node name="FootprintTilePopup" type="Popup" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -1336.0
-margin_top = -880.0
-margin_right = -136.0
-margin_bottom = -80.0001
-rect_scale = Vector2( 1.4, 1.4 )
+offset_left = -1336.0
+offset_top = -880.0
+offset_right = -136.0
+offset_bottom = -80.0001
+scale = Vector2( 1.4, 1.4 )
 
 [node name="Title" type="Label" parent="FootprintTilePopup"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -570.857
-margin_top = 5.71429
-margin_right = 573.143
-margin_bottom = 89.7143
-custom_fonts/font = SubResource( 6 )
+offset_left = -570.857
+offset_top = 5.71429
+offset_right = 573.143
+offset_bottom = 89.7143
+theme_override_fonts/font = SubResource( 6 )
 text = "Alloy Acquired!"
 align = 1
 valign = 1
@@ -501,12 +501,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -574.571
-margin_top = -323.0
-margin_right = 569.429
-margin_bottom = -223.0
-custom_colors/font_color = Color( 1, 0, 1, 1 )
-custom_fonts/font = SubResource( 6 )
+offset_left = -574.571
+offset_top = -323.0
+offset_right = 569.429
+offset_bottom = -223.0
+theme_override_colors/font_color = Color( 1, 0, 1, 1 )
+theme_override_fonts/font = SubResource( 6 )
 text = "Electrum"
 align = 1
 valign = 1
@@ -517,11 +517,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -504.0
-margin_top = 8.0
-margin_right = 516.0
-margin_bottom = 263.0
-custom_fonts/font = SubResource( 7 )
+offset_left = -504.0
+offset_top = 8.0
+offset_right = 516.0
+offset_bottom = 263.0
+theme_override_fonts/font = SubResource( 7 )
 text = "Electrum"
 autowrap = true
 __meta__ = {
@@ -533,22 +533,22 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -40.0
-margin_top = -80.0
-margin_right = 41.0
-margin_bottom = -5.0
-custom_fonts/font = SubResource( 8 )
+offset_left = -40.0
+offset_top = -80.0
+offset_right = 41.0
+offset_bottom = -5.0
+theme_override_fonts/font = SubResource( 8 )
 text = "OK"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Description" type="RichTextLabel" parent="FootprintTilePopup"]
-margin_left = 104.286
-margin_top = 250.0
-margin_right = 1104.29
-margin_bottom = 612.0
-custom_fonts/normal_font = SubResource( 10 )
+offset_left = 104.286
+offset_top = 250.0
+offset_right = 1104.29
+offset_bottom = 612.0
+theme_override_fonts/normal_font = SubResource( 10 )
 text = "First Citizen:
 Before we proceed any further, hear me speak.
 
@@ -591,10 +591,10 @@ rotation = -6.28319
 scale = Vector2( 3.55, 3.55 )
 
 [node name="Code" type="TextureButton" parent="."]
-margin_left = -956.0
-margin_top = 1138.0
-margin_right = -337.0
-margin_bottom = 1372.0
+offset_left = -956.0
+offset_top = 1138.0
+offset_right = -337.0
+offset_bottom = 1372.0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource( 19 )
 texture_pressed = ExtResource( 18 )
@@ -605,24 +605,24 @@ expand = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_bottom = 15
+theme_override_constants/margin_bottom = 15
 
 [node name="Label" type="Label" parent="Code/MarginContainer"]
-margin_right = 619.0
-margin_bottom = 219.0
+offset_right = 619.0
+offset_bottom = 219.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
-custom_fonts/font = SubResource( 11 )
+theme_override_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
+theme_override_fonts/font = SubResource( 11 )
 text = "Enter Code"
 align = 1
 valign = 1
 
 [node name="Next" type="TextureButton" parent="."]
-margin_left = -1706.0
-margin_top = 1138.0
-margin_right = -1087.0
-margin_bottom = 1372.0
+offset_left = -1706.0
+offset_top = 1138.0
+offset_right = -1087.0
+offset_bottom = 1372.0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource( 19 )
 texture_pressed = ExtResource( 18 )
@@ -633,24 +633,24 @@ expand = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_bottom = 15
+theme_override_constants/margin_bottom = 15
 
 [node name="Label" type="Label" parent="Next/MarginContainer"]
-margin_right = 619.0
-margin_bottom = 219.0
+offset_right = 619.0
+offset_bottom = 219.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
-custom_fonts/font = SubResource( 11 )
+theme_override_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
+theme_override_fonts/font = SubResource( 11 )
 text = "Next Round"
 align = 1
 valign = 1
 
 [node name="Help" type="TextureButton" parent="."]
-margin_left = -2456.0
-margin_top = 1138.0
-margin_right = -1837.0
-margin_bottom = 1372.0
+offset_left = -2456.0
+offset_top = 1138.0
+offset_right = -1837.0
+offset_bottom = 1372.0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource( 19 )
 texture_pressed = ExtResource( 18 )
@@ -661,24 +661,24 @@ expand = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_bottom = 15
+theme_override_constants/margin_bottom = 15
 
 [node name="Label" type="Label" parent="Help/MarginContainer"]
-margin_right = 619.0
-margin_bottom = 219.0
+offset_right = 619.0
+offset_bottom = 219.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
-custom_fonts/font = SubResource( 11 )
+theme_override_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
+theme_override_fonts/font = SubResource( 11 )
 text = "Need Help"
 align = 1
 valign = 1
 
 [node name="Start" type="TextureButton" parent="."]
-margin_left = 588.0
-margin_top = -122.0
-margin_right = 1207.0
-margin_bottom = 112.0
+offset_left = 588.0
+offset_top = -122.0
+offset_right = 1207.0
+offset_bottom = 112.0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource( 19 )
 texture_pressed = ExtResource( 18 )
@@ -689,15 +689,15 @@ expand = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_bottom = 15
+theme_override_constants/margin_bottom = 15
 
 [node name="Label" type="Label" parent="Start/MarginContainer"]
-margin_right = 619.0
-margin_bottom = 219.0
+offset_right = 619.0
+offset_bottom = 219.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_colors/font_color = Color( 0.666667, 0.666667, 0.666667, 1 )
-custom_fonts/font = SubResource( 11 )
+theme_override_colors/font_color = Color( 0.666667, 0.666667, 0.666667, 1 )
+theme_override_fonts/font = SubResource( 11 )
 text = "Start"
 align = 1
 valign = 1
@@ -708,10 +708,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -847.0
-margin_top = -495.0
-margin_right = 847.0
-margin_bottom = 495.0
+offset_left = -847.0
+offset_top = -495.0
+offset_right = 847.0
+offset_bottom = 495.0
 texture = ExtResource( 25 )
 region_rect = Rect2( 0, 0, 100, 100 )
 patch_margin_left = 31
@@ -723,31 +723,31 @@ patch_margin_bottom = 28
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_right = 50
-custom_constants/margin_top = 100
-custom_constants/margin_left = 50
-custom_constants/margin_bottom = 100
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_bottom = 100
 
 [node name="VBoxContainer" type="VBoxContainer" parent="EnterCodeMenu/MarginContainer"]
-margin_left = 50.0
-margin_top = 100.0
-margin_right = 1644.0
-margin_bottom = 890.0
-custom_constants/separation = 25
+offset_left = 50.0
+offset_top = 100.0
+offset_right = 1644.0
+offset_bottom = 890.0
+theme_override_constants/separation = 25
 
 [node name="EnterCode" type="Label" parent="EnterCodeMenu/MarginContainer/VBoxContainer"]
-margin_right = 1594.0
-margin_bottom = 144.0
-custom_fonts/font = SubResource( 12 )
+offset_right = 1594.0
+offset_bottom = 144.0
+theme_override_fonts/font = SubResource( 12 )
 text = "Enter Code"
 align = 1
 valign = 1
 
 [node name="NinePatchRect" type="NinePatchRect" parent="EnterCodeMenu/MarginContainer/VBoxContainer"]
-margin_top = 169.0
-margin_right = 1594.0
-margin_bottom = 319.0
-rect_min_size = Vector2( 0, 150 )
+offset_top = 169.0
+offset_right = 1594.0
+offset_bottom = 319.0
+custom_minimum_size = Vector2( 0, 150 )
 size_flags_horizontal = 3
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.0
@@ -762,32 +762,32 @@ patch_margin_bottom = 35
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_right = 25
-custom_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_left = 25
 
 [node name="LineEdit" type="LineEdit" parent="EnterCodeMenu/MarginContainer/VBoxContainer/NinePatchRect/MarginContainer"]
-margin_left = 25.0
-margin_right = 1569.0
-margin_bottom = 150.0
+offset_left = 25.0
+offset_right = 1569.0
+offset_bottom = 150.0
 theme = ExtResource( 17 )
-custom_colors/font_color = Color( 0.533333, 0.533333, 0.533333, 1 )
-custom_fonts/font = SubResource( 14 )
+theme_override_colors/font_color = Color( 0.533333, 0.533333, 0.533333, 1 )
+theme_override_fonts/font = SubResource( 14 )
 align = 1
 placeholder_alpha = 1.0
 
 [node name="MarginContainer" type="MarginContainer" parent="EnterCodeMenu/MarginContainer/VBoxContainer"]
-margin_top = 344.0
-margin_right = 1594.0
-margin_bottom = 694.0
+offset_top = 344.0
+offset_right = 1594.0
+offset_bottom = 694.0
 mouse_filter = 2
-custom_constants/margin_top = 150
+theme_override_constants/margin_top = 150
 
 [node name="Enter" type="TextureButton" parent="EnterCodeMenu/MarginContainer/VBoxContainer/MarginContainer"]
-margin_left = 447.0
-margin_top = 150.0
-margin_right = 1147.0
-margin_bottom = 350.0
-rect_min_size = Vector2( 700, 200 )
+offset_left = 447.0
+offset_top = 150.0
+offset_right = 1147.0
+offset_bottom = 350.0
+custom_minimum_size = Vector2( 700, 200 )
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 texture_normal = ExtResource( 24 )
@@ -799,23 +799,23 @@ expand = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_constants/margin_bottom = 25
+theme_override_constants/margin_bottom = 25
 
 [node name="Label" type="Label" parent="EnterCodeMenu/MarginContainer/VBoxContainer/MarginContainer/Enter/MarginContainer"]
-margin_top = 15.0
-margin_right = 700.0
-margin_bottom = 159.0
+offset_top = 15.0
+offset_right = 700.0
+offset_bottom = 159.0
 theme = ExtResource( 17 )
-custom_fonts/font = SubResource( 13 )
+theme_override_fonts/font = SubResource( 13 )
 text = "Enter"
 align = 1
 valign = 1
 
 [node name="X" type="TextureButton" parent="EnterCodeMenu"]
-margin_left = 1611.0
-margin_top = 25.0
-margin_right = 1665.0
-margin_bottom = 77.0
+offset_left = 1611.0
+offset_top = 25.0
+offset_right = 1665.0
+offset_bottom = 77.0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource( 22 )
 texture_pressed = ExtResource( 21 )
@@ -827,10 +827,10 @@ visible = false
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_top = -42.0
-margin_bottom = 73.0
-custom_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
-custom_fonts/font = SubResource( 15 )
+offset_top = -42.0
+offset_bottom = 73.0
+theme_override_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
+theme_override_fonts/font = SubResource( 15 )
 text = "Invalid code!"
 align = 1
 valign = 1
@@ -840,10 +840,10 @@ visible = false
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_top = -42.0
-margin_bottom = 73.0
-custom_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
-custom_fonts/font = SubResource( 15 )
+offset_top = -42.0
+offset_bottom = 73.0
+theme_override_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
+theme_override_fonts/font = SubResource( 15 )
 text = "This code has been used already!"
 align = 1
 valign = 1
@@ -853,45 +853,45 @@ visible = false
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_top = -42.0
-margin_bottom = 73.0
-custom_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
-custom_fonts/font = SubResource( 15 )
+offset_top = -42.0
+offset_bottom = 73.0
+theme_override_colors/font_color = Color( 0.6, 0.6, 0.6, 1 )
+theme_override_fonts/font = SubResource( 15 )
 text = "Code accepted!"
 align = 1
 valign = 1
 
 [node name="HelpMenu" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="HelpButton" type="Button" parent="HelpMenu"]
-margin_left = 2002.0
-margin_top = -1402.0
-margin_right = 2204.0
-margin_bottom = -1196.0
-rect_rotation = -0.0903558
-custom_styles/hover = SubResource( 18 )
-custom_styles/pressed = SubResource( 20 )
-custom_styles/normal = SubResource( 16 )
-icon_align = 1
+offset_left = 2002.0
+offset_top = -1402.0
+offset_right = 2204.0
+offset_bottom = -1196.0
+rotation = -0.0903558
+theme_override_styles/hover = SubResource( 18 )
+theme_override_styles/pressed = SubResource( 20 )
+theme_override_styles/normal = SubResource( 16 )
+icon_alignment = 1
 
 [node name="HelpImage" type="TextureRect" parent="HelpMenu"]
 visible = false
-margin_left = -1724.0
-margin_top = -1346.0
-margin_right = 1820.0
-margin_bottom = 1402.0
+offset_left = -1724.0
+offset_top = -1346.0
+offset_right = 1820.0
+offset_bottom = 1402.0
 texture = ExtResource( 26 )
 
 [node name="CloseButton" type="Button" parent="HelpMenu/HelpImage"]
-margin_left = 3234.0
-margin_top = 50.0
-margin_right = 3398.0
-margin_bottom = 210.0
-custom_styles/hover = SubResource( 19 )
-custom_styles/pressed = SubResource( 21 )
-custom_styles/normal = SubResource( 17 )
+offset_left = 3234.0
+offset_top = 50.0
+offset_right = 3398.0
+offset_bottom = 210.0
+theme_override_styles/hover = SubResource( 19 )
+theme_override_styles/pressed = SubResource( 21 )
+theme_override_styles/normal = SubResource( 17 )
 
 [connection signal="pressed" from="AlloyPopup/Close" to="." method="_close_Alloy_popup"]
 [connection signal="pressed" from="WellnessBeadPopup/Close" to="." method="_close_WellnessBead_popup"]

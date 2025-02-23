@@ -125,7 +125,7 @@ func _is_false(current, expected) -> bool:
 func _validate_callback(func_name :String, expected = null):
 	# if initial failed?
 	if _is_failed:
-		yield(Engine.get_main_loop(), "idle_frame")
+		await Engine.get_main_loop().idle_frame
 		return self
 	var caller = _caller.get_ref()
 	var assert_cb = funcref(self, "_" + func_name)
@@ -133,7 +133,7 @@ func _validate_callback(func_name :String, expected = null):
 	var timeout = Timer.new()
 	caller.add_child(timeout)
 	timeout.set_one_shot(true)
-	timeout.connect("timeout", self, "_on_timeout")
+	timeout.connect("timeout", Callable(self, "_on_timeout"))
 	timeout.start((_timeout/1000.0)*time_scale)
 	# sleep timer
 	var sleep := Timer.new()
@@ -141,7 +141,7 @@ func _validate_callback(func_name :String, expected = null):
 	_interrupted = false
 	
 	while true:
-		var current = yield(next_current_value(), "value_provided")
+		var current = await next_current_value().value_provided
 		if _interrupted:
 			break
 		var is_success = assert_cb.call_func(current, expected)
@@ -149,7 +149,7 @@ func _validate_callback(func_name :String, expected = null):
 		if _expect_result != EXPECT_FAIL and is_success:
 			break
 		sleep.start(0.05)
-		yield(sleep, "timeout")
+		await sleep.timeout
 	
 	sleep.stop()
 	sleep.queue_free()
@@ -170,8 +170,8 @@ func next_current_value():
 	var current = _current_value_provider.get_value()
 	if current is GDScriptFunctionState:
 		_fs = current
-		if not current.is_connected("completed", self, "_on_completed"):
-			current.connect("completed", self, "_on_completed")
+		if not current.is_connected("completed", Callable(self, "_on_completed")):
+			current.connect("completed", Callable(self, "_on_completed"))
 	else:
 		call_deferred("emit_signal", "value_provided", current)
 	return self
@@ -197,4 +197,4 @@ func disconnect_connections(obj :Object):
 			var source_ :Object = connection["source"]
 			var signal_ :String = connection["signal_name"]
 			var method_name_ :String = connection["method_name"]
-			source_.disconnect(signal_, obj, method_name_)
+			source_.disconnect(signal_, Callable(obj, method_name_))

@@ -1,5 +1,5 @@
 class_name GdFunctionDescriptor
-extends Reference
+extends RefCounted
 
 # https://github.com/godotengine/godot/issues/47449
 const METHOD_FLAG_VARARG = 128
@@ -54,7 +54,7 @@ func is_engine() -> bool:
 	return _is_engine
 
 func is_vararg() -> bool:
-	return not _varargs.empty()
+	return not _varargs.is_empty()
 
 func is_parameterized() -> bool:
 	for current in _args:
@@ -67,7 +67,7 @@ func return_type() -> int:
 	return _return_type
 	
 func return_type_as_string() -> String:
-	if return_type() == TYPE_OBJECT and not _return_class.empty():
+	if return_type() == TYPE_OBJECT and not _return_class.is_empty():
 		return _return_class
 	return GdObjects.type_as_string(return_type())
 
@@ -88,7 +88,7 @@ func typeless() -> String:
 	return "static " + func_signature if is_static() else func_signature
 
 func typeless_args() -> String:
-	var collect := PoolStringArray()
+	var collect := PackedStringArray()
 	for arg in args():
 		if arg.default() != GdFunctionArgument.UNDEFINED:
 			collect.push_back(arg.name() + "=" + arg.default())
@@ -96,15 +96,15 @@ func typeless_args() -> String:
 			collect.push_back(arg.name())
 	for arg in varargs():
 		collect.push_back(arg.name() + "=" + arg.default())
-	return collect.join(", ")
+	return ", ".join(collect)
 
 func typed_args() -> String:
-	var collect := PoolStringArray()
+	var collect := PackedStringArray()
 	for arg in args():
 		collect.push_back(arg._to_string())
 	for arg in varargs():
 		collect.push_back(arg._to_string())
-	return collect.join(", ")
+	return ", ".join(collect)
 
 func _to_string() -> String:
 	var fsignature := "virtual " if is_virtual() else ""
@@ -143,12 +143,12 @@ static func _extract_args(method_descriptor :Dictionary) -> Array:
 	var arguments :Array = method_descriptor["args"]
 	var defaults :Array = method_descriptor["default_args"]
 	# iterate backwards because the default values are stored from right to left
-	while not arguments.empty():
+	while not arguments.is_empty():
 		var arg :Dictionary = arguments.pop_back()
 		var arg_name := _argument_name(arg)
 		var arg_type := _argument_type_as_string(arg)
 		var arg_default := GdFunctionArgument.UNDEFINED
-		if not defaults.empty():
+		if not defaults.is_empty():
 			arg_default = _argument_default_value(arg, defaults.pop_back())
 		args.push_front(GdFunctionArgument.new(arg_name, arg_type, arg_default))
 	return args
@@ -177,7 +177,7 @@ static func _argument_type_as_string(arg :Dictionary) -> String:
 			return ""
 		TYPE_OBJECT:
 			var clazz_name :String = arg["class_name"]
-			if not clazz_name.empty():
+			if not clazz_name.is_empty():
 				return clazz_name
 			return ""
 		_:
@@ -196,9 +196,9 @@ static func _argument_default_value(arg :Dictionary, default_value) -> String:
 		TYPE_TRANSFORM2D:
 			var transform := default_value as Transform2D
 			return "Transform2D(Vector2%s, Vector2%s, Vector2%s)" % [transform.x, transform.y, transform.origin]
-		TYPE_COLOR_ARRAY:
-			var array := default_value as PoolColorArray
-			if array.empty():
+		TYPE_PACKED_COLOR_ARRAY:
+			var array := default_value as PackedColorArray
+			if array.is_empty():
 				return "[]"
 			else:
 				push_error("TODO, implemnt compile array values")

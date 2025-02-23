@@ -33,20 +33,20 @@ func convert_rtf_to_text(bbcode :String) -> String:
 	_rtf.clear()
 	_rtf.parse_bbcode(bbcode)
 	var as_text: = _rtf.text
-	var converted := PoolStringArray()
+	var converted := PackedStringArray()
 	var lines := as_text.split("\n")
 	for line in lines:
 		converted.append("<p>%s</p>" % line)
-	return converted.join("\n")
+	return "\n".join(converted)
 
 func create_record(report_dir :String) -> String:
 	return GdUnitHtmlPatterns.TABLE_RECORD_TESTCASE\
-		.replace(GdUnitHtmlPatterns.REPORT_STATE, report_state())\
-		.replace(GdUnitHtmlPatterns.TESTCASE_NAME, name())\
-		.replace(GdUnitHtmlPatterns.SKIPPED_COUNT, str(skipped_count()))\
-		.replace(GdUnitHtmlPatterns.ORPHAN_COUNT, str(orphan_count()))\
-		.replace(GdUnitHtmlPatterns.DURATION, LocalTime.elapsed(_duration))\
-		.replace(GdUnitHtmlPatterns.FAILURE_REPORT, failure_report())
+		super.replace(GdUnitHtmlPatterns.REPORT_STATE, report_state())\
+		super.replace(GdUnitHtmlPatterns.TESTCASE_NAME, name())\
+		super.replace(GdUnitHtmlPatterns.SKIPPED_COUNT, str(skipped_count()))\
+		super.replace(GdUnitHtmlPatterns.ORPHAN_COUNT, str(orphan_count()))\
+		super.replace(GdUnitHtmlPatterns.DURATION, LocalTime.elapsed(_duration))\
+		super.replace(GdUnitHtmlPatterns.FAILURE_REPORT, failure_report())
 
 func update(report :GdUnitTestCaseReport) -> void:
 	_error_count += report.error_count()

@@ -1,8 +1,8 @@
 class_name CmdOption
-extends Reference
+extends RefCounted
 
 
-var _commands :PoolStringArray
+var _commands :PackedStringArray
 var _help :String
 var _description :String
 var _type :int
@@ -21,7 +21,7 @@ func _init(commands :String, help :String, description :String, type :int = TYPE
 	_type = type
 	_arg_optional = arg_optional
 
-func commands() -> PoolStringArray:
+func commands() -> PackedStringArray:
 	return _commands
 
 func short_command() -> String:
@@ -43,7 +43,7 @@ func has_argument() -> bool:
 	return _type != TYPE_NIL
 	
 func describe() -> String:
-	if help().empty():
+	if help().is_empty():
 		return "  %-32s %s \n" % [commands(), description()]
 	return "  %-32s %s \n  %-32s %s\n" % [commands(), description(), "", help()]
 	

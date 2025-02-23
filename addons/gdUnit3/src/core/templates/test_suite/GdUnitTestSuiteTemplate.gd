@@ -1,5 +1,5 @@
 class_name GdUnitTestSuiteTemplate
-extends Reference
+extends RefCounted
 
 const TEMPLATE_ID_GD = 1000
 const TEMPLATE_ID_CS = 2000
@@ -81,10 +81,10 @@ const TAG_SOURCE_RESOURCE_PATH = "${source_resource_path}"
 static func build_template(source_path: String) -> String:
 	var clazz_name :String = GdObjects.to_pascal_case(GdObjects.extract_class_name(source_path).value())
 	return GdUnitSettings.get_setting(GdUnitSettings.TEMPLATE_TS_GD, DEFAULT_TEMP_TS_GD)\
-		.replace(TAG_TEST_SUITE_CLASS, clazz_name+"Test")\
-		.replace(TAG_SOURCE_RESOURCE_PATH, source_path)\
-		.replace(TAG_SOURCE_CLASS_NAME, clazz_name)\
-		.replace(TAG_SOURCE_CLASS_VARNAME, GdObjects.to_snake_case(clazz_name))
+		super.replace(TAG_TEST_SUITE_CLASS, clazz_name+"Test")\
+		super.replace(TAG_SOURCE_RESOURCE_PATH, source_path)\
+		super.replace(TAG_SOURCE_CLASS_NAME, clazz_name)\
+		super.replace(TAG_SOURCE_CLASS_VARNAME, GdObjects.to_snake_case(clazz_name))
 
 static func default_template(template_id :int) -> String:
 	if template_id != TEMPLATE_ID_GD and template_id != TEMPLATE_ID_CS:

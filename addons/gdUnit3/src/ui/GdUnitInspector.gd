@@ -1,5 +1,5 @@
+@tool
 class_name GdUnitInspecor
-tool
 extends Panel
 
 
@@ -52,8 +52,8 @@ const MENU_ID_TEST_DEBUG  := 1001
 const MENU_ID_CREATE_TEST := 1010
 
 # header
-onready var _runButton :Button = $VBoxContainer/Header/ToolBar/Tools/run
-onready var _signal_handler :SignalHandler = GdUnitSingleton.get_singleton(SignalHandler.SINGLETON_NAME)
+@onready var _runButton :Button = $VBoxContainer/Header/ToolBar/Tools/run
+@onready var _signal_handler :SignalHandler = GdUnitSingleton.get_singleton(SignalHandler.SINGLETON_NAME)
 
 # hold is current an test running
 var _is_running :bool = false
@@ -71,13 +71,13 @@ var _editor_interface :EditorInterface
 var _runner_config := GdUnitRunnerConfig.new()
 
 func _ready():
-	if not Engine.editor_hint:
+	if not Engine.is_editor_hint():
 		_signal_handler = GdUnitSingleton.add_singleton(SignalHandler.SINGLETON_NAME, "res://addons/gdUnit3/src/core/event/SignalHandler.gd")
 	_signal_handler.register_on_client_connected(self, "_on_client_connected")
 	_signal_handler.register_on_client_disconnected(self, "_on_client_disconnected")
 	_signal_handler.register_on_gdunit_events(self, "_on_event")
 
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		_getEditorThemes(_editor_interface)
 		add_file_system_dock_context_menu()
 		add_script_editor_context_menu()
@@ -135,8 +135,8 @@ func add_file_system_dock_context_menu() -> void:
 	var popups := GdObjects.find_nodes_by_class(filesystem_dock, "PopupMenu")
 	var file_tree := GdObjects.find_nodes_by_class(filesystem_dock, "Tree", true)
 	var context_menu :PopupMenu = popups[-1]
-	context_menu.connect("about_to_show", self, '_on_file_system_dock_context_menu_show', [context_menu])
-	context_menu.connect("id_pressed", self, "_on_file_system_dock_context_menu_pressed", [file_tree[-1]])
+	context_menu.connect("about_to_popup", Callable(self, '_on_file_system_dock_context_menu_show').bind(context_menu))
+	context_menu.connect("id_pressed", Callable(self, "_on_file_system_dock_context_menu_pressed").bind(file_tree[-1))
 
 func _on_file_system_dock_context_menu_show(context_menu :PopupMenu) -> void:
 	context_menu.add_separator()
@@ -168,8 +168,8 @@ func add_script_editor_context_menu():
 	# register tab changed to modify the context menu for all script editors
 	var tab_containers := GdObjects.find_nodes_by_class(script_editor, "TabContainer", true)
 	var tab_container := tab_containers[0] as TabContainer
-	if not tab_container.is_connected("tab_changed", self, "_on_script_editor_tab_changed"):
-		tab_container.connect("tab_changed", self, "_on_script_editor_tab_changed", [tab_container])
+	if not tab_container.is_connected("tab_changed", Callable(self, "_on_script_editor_tab_changed")):
+		tab_container.connect("tab_changed", Callable(self, "_on_script_editor_tab_changed").bind(tab_container))
 
 func _on_script_editor_tab_changed(tab_index :int, tab_container :TabContainer):
 	var tab := tab_container.get_tab_control(tab_index)
@@ -186,10 +186,10 @@ func extend_script_editor_popup(tab_container :Control) -> void:
 	var text_edits := GdObjects.find_nodes_by_class(tab_container, "TextEdit", true)
 	var text_edit :TextEdit = text_edits[0] as TextEdit
 	for popup in popups:
-		if not popup.is_connected("about_to_show", self, '_on_script_editor_context_menu_show'):
-			popup.connect("about_to_show", self, '_on_script_editor_context_menu_show', [popup])
-		if not popup.is_connected("id_pressed", self, '_on_fscript_editor_context_menu_pressed'):
-			popup.connect("id_pressed", self, "_on_fscript_editor_context_menu_pressed", [text_edit])
+		if not popup.is_connected("about_to_popup", Callable(self, '_on_script_editor_context_menu_show')):
+			popup.connect("about_to_popup", Callable(self, '_on_script_editor_context_menu_show').bind(popup))
+		if not popup.is_connected("id_pressed", Callable(self, '_on_fscript_editor_context_menu_pressed')):
+			popup.connect("id_pressed", Callable(self, "_on_fscript_editor_context_menu_pressed").bind(text_edit))
 
 func _on_script_editor_context_menu_show(context_menu :PopupMenu):
 	var current_script := _editor_interface.get_script_editor().get_current_script()
@@ -217,7 +217,7 @@ func _on_fscript_editor_context_menu_pressed(id :int, text_edit :TextEdit):
 	if current_script == null:
 		prints("no script selected")
 		return
-	var cursor_line := text_edit.cursor_get_line()
+	var cursor_line := text_edit.get_caret_line()
 	var current_line := text_edit.get_line(cursor_line)
 	# create new test case?
 	if id == MENU_ID_CREATE_TEST:
@@ -243,8 +243,8 @@ func run_test_suites(test_suite_paths :Array, debug :bool, rerun :bool=false) ->
 	# create new runner runner_config for fresh run otherwise use saved one
 	if not rerun:
 		var result := _runner_config.clear()\
-			.add_test_suites(test_suite_paths)\
-			.save()
+			super.add_test_suites(test_suite_paths)\
+			super.save()
 		if result.is_error():
 			push_error(result.error_message())
 			return
@@ -254,8 +254,8 @@ func run_test_case(test_suite_resource_path :String, test_case :String, test_par
 	# create new runner config for fresh run otherwise use saved one
 	if not rerun:
 		var result := _runner_config.clear()\
-			.add_test_case(test_suite_resource_path, test_case, test_param_index)\
-			.save()
+			super.add_test_case(test_suite_resource_path, test_case, test_param_index)\
+			super.save()
 		if result.is_error():
 			push_error(result.error_message())
 			return
@@ -308,7 +308,7 @@ func _gdUnit_stop(client_id :int) -> void:
 		return
 	_is_running = false
 	emit_signal("gdunit_runner_stop", client_id)
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	if _running_debug_mode:
 		_editor_interface.stop_playing_scene()
 	else: if _current_runner_process_id > 0:

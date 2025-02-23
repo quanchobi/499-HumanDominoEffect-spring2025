@@ -3,6 +3,6 @@
 extends RigidBody2D
 
 func init(type):
-	$AnimatedSprite.animation = type[0]
+	$AnimatedSprite2D.animation = type[0]
 	$Label.text = type[1]
-	$PopupDialog/Label.text = type[1]
+	$Popup/Label.text = type[1]

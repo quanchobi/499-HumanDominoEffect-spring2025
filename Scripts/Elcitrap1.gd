@@ -4,8 +4,8 @@ extends RigidBody2D
 
 
 # Declare member variables here. Examples:
-export var min_speed = 150  # Minimum speed range.
-export var max_speed = 250  # Maximum speed range.
+@export var min_speed = 150  # Minimum speed range.
+@export var max_speed = 250  # Maximum speed range.
 
 var current_type = null
 var captured = false
@@ -18,7 +18,7 @@ func _ready():
 	pass
 	
 func init(type):
-	$AnimatedSprite.animation = type[0]
+	$AnimatedSprite2D.animation = type[0]
 	$Label.text = type[1]
 	current_type = type
 	if len(type) > 2:
@@ -32,16 +32,16 @@ func _on_VisibilityNotifier2D_screen_exited():
 # if elcitrap has been captured, play captured animation
 func _physics_process(delta):
 	if captured:
-		$AnimatedSprite.stop()
-		$AnimatedSprite.animation = "static_" + current_type[0]
-		$AnimatedSprite.scale.x = 0.3
+		$AnimatedSprite2D.stop()
+		$AnimatedSprite2D.animation = "static_" + current_type[0]
+		$AnimatedSprite2D.scale.x = 0.3
 		$Label.visible = true
 		self.rotation = 0
 		self.linear_velocity = Vector2(0, 0)
 		
 		t += delta * 0.05
 		
-		self.position = self.position.linear_interpolate(Vector2(end_pos[0], end_pos[1]), t)
+		self.position = self.position.lerp(Vector2(end_pos[0], end_pos[1]), t)
 
 # Captures an elcitrap
 func capture_elcitrap() -> void:

@@ -42,7 +42,7 @@ func add_test_suite(resource_path :String) -> GdUnitRunnerConfig:
 	to_execute[resource_path] = to_execute.get(resource_path, Array())
 	return self
 
-func add_test_suites(resource_paths :PoolStringArray) -> GdUnitRunnerConfig:
+func add_test_suites(resource_paths :PackedStringArray) -> GdUnitRunnerConfig:
 	for resource_path in resource_paths:
 		add_test_suite(resource_path)
 	return self
@@ -71,7 +71,7 @@ func skip_test_suite(value :String) -> GdUnitRunnerConfig:
 		2: skip_test_case(parts[0], parts[1])
 	return self
 
-func skip_test_suites(resource_paths :PoolStringArray) -> GdUnitRunnerConfig:
+func skip_test_suites(resource_paths :PackedStringArray) -> GdUnitRunnerConfig:
 	for resource_path in resource_paths:
 		skip_test_suite(resource_path)
 	return self
@@ -95,12 +95,12 @@ func save(path :String = CONFIG_FILE) -> Result:
 	if err != OK:
 		return Result.error("Can't write test runner configuration '%s'! %s" % [path, GdUnitTools.error_as_string(err)])
 	_config[VERSION] = CONFIG_VERSION
-	file.store_string(to_json(_config))
+	file.store_string(JSON.new().stringify(_config))
 	file.close()
 	return Result.success(path)
 
 func load(path :String = CONFIG_FILE) -> Result:
-	if not Directory.new().file_exists(path):
+	if not DirAccess.new().file_exists(path):
 		return Result.error("Can't find test runner configuration '%s'! Please select a test to run." % path)
 		
 	var file := File.new()
@@ -108,9 +108,11 @@ func load(path :String = CONFIG_FILE) -> Result:
 	if err != OK:
 		return Result.error("Can't load test runner configuration '%s'! ERROR: %s." % [path, GdUnitTools.error_as_string(err)])
 	var content := file.get_as_text()
-	if not content.empty() and content[0] == '{':
+	if not content.is_empty() and content[0] == '{':
 		# Parse as json
-		var result := JSON.parse(content)
+		var test_json_conv = JSON.new()
+		test_json_conv.parse(content)
+		var result := test_json_conv.get_data()
 		if result.error != OK:
 			return Result.error("The runner configuration '%s' is invalid! The format is changed please delete it manually and start a new test run." % path)
 		_config = result.result as Dictionary

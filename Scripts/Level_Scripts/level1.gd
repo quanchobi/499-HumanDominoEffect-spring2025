@@ -3,11 +3,11 @@
 extends Node
 
 # Declare member variables here. Examples:
-export (PackedScene) var Elcitrap
-export var next_scene: PackedScene
-export var total_captured = 0
+@export var Elcitrap: PackedScene
+@export var next_scene: PackedScene
+@export var total_captured = 0
 
-export var trait_queue = [] + curriculum.traits
+@export var trait_queue = [] + curriculum.traits
 
 var players_ready = []
 
@@ -15,8 +15,8 @@ var dialogue = ["You now have the power to shape your future.",
 "Now, use your Oauabae to help you see through the chaos!"]
 var page = 0
 
-onready var dialogue_label = $DialogueBox/DialogueText  # Assumes dialogue is a RichTextLabel node
-onready var timer = $DialogueBox/Timer  # Assumes there's a Timer node for text animation
+@onready var dialogue_label = $DialogueBox/DialogueText  # Assumes dialogue is a RichTextLabel node
+@onready var timer = $DialogueBox/Timer  # Assumes there's a Timer node for text animation
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -48,7 +48,7 @@ func _on_ElcitrapTimer_timeout():
 		$EPath/EPathFollow.offset = randi()
 		
 		# Create a Mob instance and add it to the scene.
-		var elcitrap = Elcitrap.instance()
+		var elcitrap = Elcitrap.instantiate()
 		elcitrap.init(trait_queue[0])
 		trait_queue.pop_front()
 		add_child(elcitrap)
@@ -60,11 +60,11 @@ func _on_ElcitrapTimer_timeout():
 		elcitrap.position = $EPath/EPathFollow.position
 		
 		# Add some randomness to the direction/rotation.
-		direction += rand_range(-PI / 4, PI / 4)
+		direction += randf_range(-PI / 4, PI / 4)
 		elcitrap.rotation = direction
 		
 		# Set the velocity (speed & direction).
-		elcitrap.linear_velocity = Vector2(rand_range(elcitrap.min_speed, elcitrap.max_speed), 0)
+		elcitrap.linear_velocity = Vector2(randf_range(elcitrap.min_speed, elcitrap.max_speed), 0)
 		elcitrap.linear_velocity = elcitrap.linear_velocity.rotated(direction)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -76,20 +76,20 @@ func _process(delta):
 func _on_EndTimer_timeout() -> void:
 #	print('end timer end')
 	
-	if not get_tree().is_network_server():
+	if not get_tree().is_server():
 		# Tell server we are ready to start.
-		rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
+		rpc_id(1, "ready_to_start", get_tree().get_unique_id())
 	else:
-		ready_to_start(get_tree().get_network_unique_id())
+		ready_to_start(get_tree().get_unique_id())
 	
-remotesync func set_elcitraps(elcitraps):
-	gamestate.elcitraps[get_tree().get_rpc_sender_id()] = elcitraps
+@rpc("any_peer", "call_local") func set_elcitraps(elcitraps):
+	gamestate.elcitraps[get_tree().get_remote_sender_id()] = elcitraps
 	
-remote func start_game():
+@rpc("any_peer") func start_game():
 	get_parent().change_level(next_scene)
 
-remote func ready_to_start(id):
-	assert(get_tree().is_network_server())
+@rpc("any_peer") func ready_to_start(id):
+	assert(get_tree().is_server())
 
 	if not id in players_ready:
 		players_ready.append(id)

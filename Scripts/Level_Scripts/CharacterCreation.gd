@@ -2,12 +2,12 @@
 
 extends Node2D
 
-export var next_scene: PackedScene
-export (PackedScene) var Elcitrap
+@export var next_scene: PackedScene
+@export var Elcitrap: PackedScene
 
-export var hair_count = 12
-export var body_count = 4
-export var clothes_count = 5
+@export var hair_count = 12
+@export var body_count = 4
+@export var clothes_count = 5
 
 signal trigger_animation(anim_name)
 
@@ -23,11 +23,11 @@ func _ready() -> void:
 	#emit_signal("trigger_animation", "Screen_Unwipe") 
 	
 	# populate elcitraps with data from previous scene
-	for i in range(len(gamestate.elcitraps[get_tree().get_network_unique_id()])):
-		var elcitrap = Elcitrap.instance()
+	for i in range(len(gamestate.elcitraps[get_tree().get_unique_id()])):
+		var elcitrap = Elcitrap.instantiate()
 		add_child(elcitrap)
 		elcitrap.position = Vector2(60, 60*i + 200)
-		elcitrap.init((gamestate.elcitraps[get_tree().get_network_unique_id()])[i])
+		elcitrap.init((gamestate.elcitraps[get_tree().get_unique_id()])[i])
 		
 	MusicController.playMusic(ReferenceManager.get_reference("cave.ogg"))
 
@@ -69,26 +69,26 @@ func _on_clothes_right_pressed() -> void:
 func _on_next_pressed() -> void:
 	rpc("set_features", hair_num, body_num, clothes_num)
 	
-	if not get_tree().is_network_server():
+	if not get_tree().is_server():
 		# Tell server we are ready to start.
-		rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
+		rpc_id(1, "ready_to_start", get_tree().get_unique_id())
 	else:
-		ready_to_start(get_tree().get_network_unique_id())
+		ready_to_start(get_tree().get_unique_id())
 
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	$ZIndexSetter/ColorRect.visible = !$ZIndexSetter/ColorRect.visible 
 
 # set character features for player on every player's screen
-remotesync func set_features(hair, body, clothes):
-	gamestate.hair[get_tree().get_rpc_sender_id()] = hair
-	gamestate.body[get_tree().get_rpc_sender_id()] = body
-	gamestate.clothes[get_tree().get_rpc_sender_id()] = clothes
+@rpc("any_peer", "call_local") func set_features(hair, body, clothes):
+	gamestate.hair[get_tree().get_remote_sender_id()] = hair
+	gamestate.body[get_tree().get_remote_sender_id()] = body
+	gamestate.clothes[get_tree().get_remote_sender_id()] = clothes
 	
-remote func start_game():
+@rpc("any_peer") func start_game():
 	get_parent().change_level(next_scene)
 
-remote func ready_to_start(id):
-	assert(get_tree().is_network_server())
+@rpc("any_peer") func ready_to_start(id):
+	assert(get_tree().is_server())
 
 	if not id in players_ready:
 		players_ready.append(id)

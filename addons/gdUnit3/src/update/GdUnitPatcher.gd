@@ -1,5 +1,5 @@
 class_name GdUnitPatcher
-extends Reference
+extends RefCounted
 
 
 const _base_dir := "res://addons/gdUnit3/src/update/patches/"
@@ -32,35 +32,35 @@ func execute() -> void:
 				if not patch.execute():
 					prints("error on execution patch %s" % patch_root + "/" + path)
 
-func _collect_patch_versions(scan_path :String, current :GdUnit3Version) -> PoolStringArray:
+func _collect_patch_versions(scan_path :String, current :GdUnit3Version) -> PackedStringArray:
 	var patches := Array()
-	var dir := Directory.new()
+	var dir := DirAccess.new()
 	if not dir.dir_exists(scan_path):
-		return PoolStringArray()
+		return PackedStringArray()
 	if dir.open(scan_path) == OK:
-		dir.list_dir_begin()
+		dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var next := "."
 		while next != "":
 			next = dir.get_next()
-			if next.empty() or next == "." or next == "..":
+			if next.is_empty() or next == "." or next == "..":
 				continue
 			var version := GdUnit3Version.parse(next)
 			if version.is_greater(current):
 				patches.append(scan_path + next)
 	patches.sort()
-	return PoolStringArray(patches)
+	return PackedStringArray(patches)
 
-func _scan_patches(path :String) -> PoolStringArray:
+func _scan_patches(path :String) -> PackedStringArray:
 	var patches := Array()
-	var dir := Directory.new()
+	var dir := DirAccess.new()
 	if dir.open(path) == OK:
-		dir.list_dir_begin()
+		dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var next := "."
 		while next != "":
 			next = dir.get_next()
-			if next.empty() or next == "." or next == "..":
+			if next.is_empty() or next == "." or next == "..":
 				continue
 			patches.append(next)
 	# make sorted from lowest to high version
 	patches.sort()
-	return PoolStringArray(patches)
+	return PackedStringArray(patches)

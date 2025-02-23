@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/7.-You-deserve-to-have-a-vision-for-your-life….wav-780d38025569d1c93e7cec57b0a431ef.sample"
+type="AudioStreamWAV"
+uid="uid://blep82086y7aj"
+path="res://.godot/imported/7.-You-deserve-to-have-a-vision-for-your-life….wav-780d38025569d1c93e7cec57b0a431ef.sample"
 
 [deps]
 
 source_file="res://audio/Agency_Audio/7.-You-deserve-to-have-a-vision-for-your-life….wav"
-dest_files=[ "res://.import/7.-You-deserve-to-have-a-vision-for-your-life….wav-780d38025569d1c93e7cec57b0a431ef.sample" ]
+dest_files=["res://.godot/imported/7.-You-deserve-to-have-a-vision-for-your-life….wav-780d38025569d1c93e7cec57b0a431ef.sample"]
 
 [params]
 

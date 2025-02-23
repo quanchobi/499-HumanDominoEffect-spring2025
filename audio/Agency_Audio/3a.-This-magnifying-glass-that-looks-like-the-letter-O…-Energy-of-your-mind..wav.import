@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/3a.-This-magnifying-glass-that-looks-like-the-letter-O…-Energy-of-your-mind..wav-f17465e03b1d6c44a1758c399f1b0779.sample"
+type="AudioStreamWAV"
+uid="uid://076ycm6vt177"
+path="res://.godot/imported/3a.-This-magnifying-glass-that-looks-like-the-letter-O…-Energy-of-your-mind..wav-f17465e03b1d6c44a1758c399f1b0779.sample"
 
 [deps]
 
 source_file="res://audio/Agency_Audio/3a.-This-magnifying-glass-that-looks-like-the-letter-O…-Energy-of-your-mind..wav"
-dest_files=[ "res://.import/3a.-This-magnifying-glass-that-looks-like-the-letter-O…-Energy-of-your-mind..wav-f17465e03b1d6c44a1758c399f1b0779.sample" ]
+dest_files=["res://.godot/imported/3a.-This-magnifying-glass-that-looks-like-the-letter-O…-Energy-of-your-mind..wav-f17465e03b1d6c44a1758c399f1b0779.sample"]
 
 [params]
 

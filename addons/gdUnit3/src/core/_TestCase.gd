@@ -7,7 +7,7 @@ const ARGUMENT_TIMEOUT := "timeout"
 
 var _iterations: int = 1
 var _seed: int
-var _fuzzers: PoolStringArray = PoolStringArray()
+var _fuzzers: PackedStringArray = PackedStringArray()
 var _test_parameters := Array()
 var _test_param_index := -1
 var _line_number: int = -1
@@ -26,10 +26,10 @@ var _monitor := GodotGdErrorMonitor.new()
 func _init() -> void:
 	_default_timeout = GdUnitSettings.test_timeout()
 
-func configure(name: String, line_number: int, script_path: String, timeout :int = DEFAULT_TIMEOUT, fuzzers:= PoolStringArray(), iterations: int = 1, seed_ :int = -1, skipped := false) -> _TestCase:
+func configure(name: String, line_number: int, script_path: String, timeout :int = DEFAULT_TIMEOUT, fuzzers:= PackedStringArray(), iterations: int = 1, seed_ :int = -1, skipped := false) -> _TestCase:
 	set_name(name)
 	_line_number = line_number
-	if not fuzzers.empty():
+	if not fuzzers.is_empty():
 		_fuzzers = fuzzers
 		_iterations = iterations
 	_seed = seed_
@@ -44,13 +44,13 @@ func execute(test_parameter := Array(), iteration := 0):
 	if iteration == 0:
 		set_timeout()
 	_monitor.start()
-	if not test_parameter.empty():
+	if not test_parameter.is_empty():
 		update_fuzzers(test_parameter, iteration)
 		_fs = get_parent().callv(name, test_parameter)
 	else:
 		_fs = get_parent().call(name)
 	if GdUnitTools.is_yielded(_fs):
-		yield(_fs, "completed")
+		await _fs.completed
 	_monitor.stop()
 	for report in _monitor.reports():
 		GdUnitAssertImpl.new(get_parent(), null).send_report(report)
@@ -69,7 +69,7 @@ func set_timeout():
 	_timer = Timer.new()
 	add_child(_timer)
 	_timer.set_one_shot(true)
-	_timer.connect('timeout', self, '_test_case_timeout')
+	_timer.connect('timeout', Callable(self, '_test_case_timeout'))
 	_timer.set_wait_time(time)
 	_timer.set_autostart(false)
 	_timer.start()
@@ -83,8 +83,8 @@ func _test_case_timeout():
 func stop_timer() :
 	# finish outstanding timeouts
 	if is_instance_valid(_timer):
-		if _timer.is_connected("timeout", self, '_test_case_timeout'):
-			_timer.disconnect("timeout", self, '_test_case_timeout')
+		if _timer.is_connected("timeout", Callable(self, '_test_case_timeout')):
+			_timer.disconnect("timeout", Callable(self, '_test_case_timeout'))
 		_timer.stop()
 		_timer.call_deferred("free")
 
@@ -119,9 +119,9 @@ func seed_value() -> int:
 	return _seed
 	
 func has_fuzzer() -> bool:
-	return not _fuzzers.empty()
+	return not _fuzzers.is_empty()
 	
-func fuzzers() -> PoolStringArray:
+func fuzzers() -> PackedStringArray:
 	return _fuzzers
 
 func script_path() -> String:
@@ -150,8 +150,8 @@ func test_parameters() -> Array:
 func test_parameter_index() -> int:
 	return _test_param_index
 
-func test_case_names() -> PoolStringArray:
-	var test_case_names :=  PoolStringArray()
+func test_case_names() -> PackedStringArray:
+	var test_case_names :=  PackedStringArray()
 	var test_name = get_name()
 	for index in _test_parameters.size():
 		test_case_names.append("%s:%d %s" % [test_name, index, str(_test_parameters[index])])

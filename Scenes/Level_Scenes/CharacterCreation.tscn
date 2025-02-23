@@ -1,16 +1,16 @@
 [gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://UI/sprites/character_creation_background.jpeg" type="Texture" id=1]
+[ext_resource path="res://UI/sprites/character_creation_background.jpeg" type="Texture2D" id=1]
 [ext_resource path="res://Scripts/Level_Scripts/CharacterCreation.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/StaticElcitrap.tscn" type="PackedScene" id=3]
-[ext_resource path="res://UI/sprites/character_sprites/bodies/0.png" type="Texture" id=4]
-[ext_resource path="res://UI/sprites/left_arrow.png" type="Texture" id=5]
-[ext_resource path="res://UI/sprites/character_sprites/clothes/0.png" type="Texture" id=6]
+[ext_resource path="res://UI/sprites/character_sprites/bodies/0.png" type="Texture2D" id=4]
+[ext_resource path="res://UI/sprites/left_arrow.png" type="Texture2D" id=5]
+[ext_resource path="res://UI/sprites/character_sprites/clothes/0.png" type="Texture2D" id=6]
 [ext_resource path="res://Scenes/Asset_Scenes/Animated_Fire.tscn" type="PackedScene" id=7]
-[ext_resource path="res://UI/sprites/right_arrow.png" type="Texture" id=8]
-[ext_resource path="res://UI/sprites/next.png" type="Texture" id=9]
+[ext_resource path="res://UI/sprites/right_arrow.png" type="Texture2D" id=8]
+[ext_resource path="res://UI/sprites/next.png" type="Texture2D" id=9]
 [ext_resource path="res://Scenes/Level_Scenes/Pond.tscn" type="PackedScene" id=10]
-[ext_resource path="res://UI/sprites/character_sprites/front_hair/0.png" type="Texture" id=11]
+[ext_resource path="res://UI/sprites/character_sprites/front_hair/0.png" type="Texture2D" id=11]
 [ext_resource path="res://Scripts/Level_Scripts/CreationRect.gd" type="Script" id=12]
 [ext_resource path="res://Scripts/CreationAnimations.gd" type="Script" id=13]
 [ext_resource path="res://Scripts/Level_Scripts/CreationZoom.gd" type="Script" id=14]
@@ -24,8 +24,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
+"times": PackedFloat32Array(  ),
+"transitions": PackedFloat32Array(  ),
 "update": 0,
 "values": [  ]
 }
@@ -39,8 +39,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.1, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0.1, 1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
@@ -54,8 +54,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0.5, 0.5 ), Vector2( 1, 1 ) ]
 }
@@ -68,89 +68,89 @@ Elcitrap = ExtResource( 3 )
 [node name="TextureRect" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_scale = Vector2( 0.235, 0.246 )
+scale = Vector2( 0.235, 0.246 )
 texture = ExtResource( 1 )
 stretch_mode = 5
 
 [node name="Animated_Fire_Texture" parent="." instance=ExtResource( 7 )]
 
-[node name="clothes" type="Sprite" parent="."]
+[node name="clothes" type="Sprite2D" parent="."]
 light_mask = 2
 position = Vector2( 512, 332 )
 z_index = 2
 texture = ExtResource( 6 )
 
-[node name="body" type="Sprite" parent="."]
+[node name="body" type="Sprite2D" parent="."]
 light_mask = 2
 position = Vector2( 512, 319.5 )
 z_index = 1
 texture = ExtResource( 4 )
 
-[node name="front_hair" type="Sprite" parent="."]
+[node name="front_hair" type="Sprite2D" parent="."]
 light_mask = 2
 position = Vector2( 512, 332 )
 z_index = 2
 texture = ExtResource( 11 )
 
-[node name="back_hair" type="Sprite" parent="."]
+[node name="back_hair" type="Sprite2D" parent="."]
 light_mask = 2
 position = Vector2( 512, 332 )
 texture = ExtResource( 11 )
 
 [node name="hair_left" type="TextureButton" parent="."]
-margin_left = 328.0
-margin_top = 24.0
-margin_right = 840.0
-margin_bottom = 468.0
-rect_scale = Vector2( 0.214384, 0.214384 )
+offset_left = 328.0
+offset_top = 24.0
+offset_right = 840.0
+offset_bottom = 468.0
+scale = Vector2( 0.214384, 0.214384 )
 texture_normal = ExtResource( 5 )
 
 [node name="hair_right" type="TextureButton" parent="."]
-margin_left = 584.0
-margin_top = 24.0
-margin_right = 1096.0
-margin_bottom = 468.0
-rect_scale = Vector2( 0.214384, 0.214384 )
+offset_left = 584.0
+offset_top = 24.0
+offset_right = 1096.0
+offset_bottom = 468.0
+scale = Vector2( 0.214384, 0.214384 )
 texture_normal = ExtResource( 8 )
 
 [node name="body_left" type="TextureButton" parent="."]
-margin_left = 280.0
-margin_top = 136.0
-margin_right = 792.0
-margin_bottom = 580.0
-rect_scale = Vector2( 0.214384, 0.214384 )
+offset_left = 280.0
+offset_top = 136.0
+offset_right = 792.0
+offset_bottom = 580.0
+scale = Vector2( 0.214384, 0.214384 )
 texture_normal = ExtResource( 5 )
 
 [node name="body_right" type="TextureButton" parent="."]
-margin_left = 632.0
-margin_top = 136.0
-margin_right = 1144.0
-margin_bottom = 580.0
-rect_scale = Vector2( 0.214384, 0.214384 )
+offset_left = 632.0
+offset_top = 136.0
+offset_right = 1144.0
+offset_bottom = 580.0
+scale = Vector2( 0.214384, 0.214384 )
 texture_normal = ExtResource( 8 )
 
 [node name="clothes_left" type="TextureButton" parent="."]
-margin_left = 256.0
-margin_top = 264.0
-margin_right = 768.0
-margin_bottom = 708.0
-rect_scale = Vector2( 0.214384, 0.214384 )
+offset_left = 256.0
+offset_top = 264.0
+offset_right = 768.0
+offset_bottom = 708.0
+scale = Vector2( 0.214384, 0.214384 )
 texture_normal = ExtResource( 5 )
 
 [node name="clothes_right" type="TextureButton" parent="."]
-margin_left = 656.0
-margin_top = 264.0
-margin_right = 1168.0
-margin_bottom = 708.0
-rect_scale = Vector2( 0.214384, 0.214384 )
+offset_left = 656.0
+offset_top = 264.0
+offset_right = 1168.0
+offset_bottom = 708.0
+scale = Vector2( 0.214384, 0.214384 )
 texture_normal = ExtResource( 8 )
 
 [node name="next" type="TextureButton" parent="."]
-margin_left = 832.0
-margin_top = 392.0
-margin_right = 1464.0
-margin_bottom = 1129.0
-rect_scale = Vector2( 0.2, 0.2 )
+offset_left = 832.0
+offset_top = 392.0
+offset_right = 1464.0
+offset_bottom = 1129.0
+scale = Vector2( 0.2, 0.2 )
 texture_normal = ExtResource( 9 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -162,8 +162,8 @@ script = ExtResource( 13 )
 z_index = 6
 
 [node name="ColorRect" type="ColorRect" parent="ZIndexSetter"]
-margin_right = 1024.0
-margin_bottom = 600.0
+offset_right = 1024.0
+offset_bottom = 600.0
 color = Color( 0, 0, 0, 1 )
 script = ExtResource( 12 )
 

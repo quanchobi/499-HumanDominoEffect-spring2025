@@ -1,14 +1,14 @@
 extends Node
 
-onready var TutorialContainer = $Tutorial_Container
-onready var LevelSelectContainer = $LevelSelect_Container
+@onready var TutorialContainer = $Tutorial_Container
+@onready var LevelSelectContainer = $LevelSelect_Container
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	LevelSelectContainer.visible = false
 	
 	# gamestate.gd signal event listeners
-	gamestate.connect("player_list_changed", self, "refresh_lobby")
+	gamestate.connect("player_list_changed", Callable(self, "refresh_lobby"))
 	#Enable tutorial mode flag
 	gamestate.tutorial_mode = true 
 	# If user press start without selecting level automatically goes to the first level
@@ -31,7 +31,7 @@ func change_menu_smoothly(prev, target):
 
 	SFXController.playSFX(ReferenceManager.get_reference("next.wav"))
 	prev_animation.play_backwards("start")
-	yield(prev_animation, "animation_finished")
+	await prev_animation.animation_finished
 	
 	prev.visible = false
 	target.visible = true

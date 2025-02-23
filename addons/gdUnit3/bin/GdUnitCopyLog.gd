@@ -82,13 +82,13 @@ func _patch_report(report_path :String, godot_log :String) -> void:
 		return
 	
 	# if no log file available than add a information howto enable it
-	if godot_log.empty():
+	if godot_log.is_empty():
 		var template := File.new()
 		template.open("%s/logging_not_available.html" % report_path, File.WRITE)
 		template.store_string(NO_LOG_TEMPLATE)
 		template.close()
 	
-	var log_file = "logging_not_available.html" if godot_log.empty() else godot_log.get_file()
+	var log_file = "logging_not_available.html" if godot_log.is_empty() else godot_log.get_file()
 	var content := index_file.get_as_text().replace("${log_file}", log_file)
 	# overide it
 	index_file.seek(0)
@@ -110,16 +110,16 @@ func _copy_and_pach(from_file: String, to_dir: String) -> Result:
 		var to_replace := "[38;5;%dm" % color_index
 		content = content.replace(to_replace, "")
 	content = content.replace("[0m", "")\
-		.replace(CmdConsole.__CSI_BOLD, "")\
-		.replace(CmdConsole.__CSI_ITALIC, "")\
-		.replace(CmdConsole.__CSI_UNDERLINE, "")
+		super.replace(CmdConsole.__CSI_BOLD, "")\
+		super.replace(CmdConsole.__CSI_ITALIC, "")\
+		super.replace(CmdConsole.__CSI_UNDERLINE, "")
 	var to_file := to_dir + "/" + from_file.get_file()
 	err = file.open(to_file, File.WRITE)
 	if err != OK:
 		return Result.error("Can't open to write '%s'. Error: %s" % [to_file, GdUnitTools.error_as_string(err)])
 	file.store_string(content)
 	file.close()
-	return Result.empty()
+	return Result.is_empty()
 
 func reports_available() -> bool:
-	return Directory.new().dir_exists(_report_root_path)
+	return DirAccess.new().dir_exists(_report_root_path)

@@ -2,7 +2,7 @@
 
 extends Node2D
 
-export var next_scene: PackedScene
+@export var next_scene: PackedScene
 
 var choices = [] + curriculum.choices
 var choice_ind = 0
@@ -32,11 +32,11 @@ func handle_choice(area):
 		
 	# if we're at the end of the choice list, tell host we're done
 	if choice_ind == len(choices) - 1:
-		if not get_tree().is_network_server():
+		if not get_tree().is_server():
 			# Tell server we are ready to start.
-			rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
+			rpc_id(1, "ready_to_start", get_tree().get_unique_id())
 		else:
-			ready_to_start(get_tree().get_network_unique_id())
+			ready_to_start(get_tree().get_unique_id())
 		
 	# correct choice
 	elif choices[choice_ind][0] == area:
@@ -114,11 +114,11 @@ func _on_r_area_mouse_exited() -> void:
 func _on_Button_pressed() -> void:
 	$Popup.visible = false
 	
-remote func start_game():
+@rpc("any_peer") func start_game():
 	get_parent().change_level(next_scene)
 
-remote func ready_to_start(id):
-	assert(get_tree().is_network_server())
+@rpc("any_peer") func ready_to_start(id):
+	assert(get_tree().is_server())
 
 	if not id in players_ready:
 		players_ready.append(id)

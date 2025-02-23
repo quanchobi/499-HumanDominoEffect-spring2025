@@ -1,5 +1,5 @@
 class_name GdUnitMock
-extends Reference
+extends RefCounted
 
 # do call the real implementation
 const CALL_REAL_FUNC = "CALL_REAL_FUNC"

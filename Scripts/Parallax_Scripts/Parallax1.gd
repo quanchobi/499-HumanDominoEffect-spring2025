@@ -8,7 +8,7 @@ var speed = 100
 
 var direction = Vector2(1, 0)
 
-onready var parallax = $ParallaxBackground
+@onready var parallax = $ParallaxBackground
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

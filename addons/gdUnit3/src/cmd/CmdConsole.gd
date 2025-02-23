@@ -1,7 +1,7 @@
 # prototype of console with CSI support
 # https://notes.burke.libbey.me/ansi-escape-codes/
 class_name CmdConsole
-extends Reference
+extends RefCounted
 
 const BOLD = 0x1
 const ITALIC = 0x2
@@ -78,10 +78,10 @@ func underline(enable :bool) -> CmdConsole:
 	return self
 
 func prints_error(message :String) -> CmdConsole:
-	return color(Color.crimson).printl(message).end_color().new_line()
+	return color(Color.CRIMSON).printl(message).end_color().new_line()
 
 func prints_warning(message :String) -> CmdConsole:
-	return color(Color.goldenrod).printl(message).end_color().new_line()
+	return color(Color.GOLDENROD).printl(message).end_color().new_line()
 	return self
 
 func prints_color(message :String, color :Color, flags := 0) -> CmdConsole:
@@ -89,14 +89,14 @@ func prints_color(message :String, color :Color, flags := 0) -> CmdConsole:
 
 func print_color( message :String, color :Color, flags := 0) -> CmdConsole:
 	return color(color)\
-		.bold(flags&BOLD == BOLD)\
-		.italic(flags&ITALIC == ITALIC)\
-		.underline(flags&UNDERLINE == UNDERLINE)\
-		.printl(message)\
-		.end_color()
+		super.bold(flags&BOLD == BOLD)\
+		super.italic(flags&ITALIC == ITALIC)\
+		super.underline(flags&UNDERLINE == UNDERLINE)\
+		super.printl(message)\
+		super.end_color()
 
 func print_color_table():
-	prints_color("Color Table 6x6x6", Color.antiquewhite)
+	prints_color("Color Table 6x6x6", Color.ANTIQUE_WHITE)
 	_debug_show_color_codes = true
 	for green in range(0, 6):
 		for red in range(0, 6):
@@ -105,7 +105,7 @@ func print_color_table():
 			new_line()
 		new_line()
 		
-	prints_color("Color Table RGB", Color.antiquewhite)
+	prints_color("Color Table RGB", Color.ANTIQUE_WHITE)
 	_color_mode = COLOR_RGB
 	for green in range(0, 6):
 		for red in range(0, 6):

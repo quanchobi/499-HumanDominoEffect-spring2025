@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/4. Now we have the chance to learn from the past, and work together… .wav-b968fd26da2afa7994b03db10c665275.sample"
+type="AudioStreamWAV"
+uid="uid://cag84ukso8f55"
+path="res://.godot/imported/4. Now we have the chance to learn from the past, and work together… .wav-b968fd26da2afa7994b03db10c665275.sample"
 
 [deps]
 
 source_file="res://audio/Parallax_Audio/4. Now we have the chance to learn from the past, and work together… .wav"
-dest_files=[ "res://.import/4. Now we have the chance to learn from the past, and work together… .wav-b968fd26da2afa7994b03db10c665275.sample" ]
+dest_files=["res://.godot/imported/4. Now we have the chance to learn from the past, and work together… .wav-b968fd26da2afa7994b03db10c665275.sample"]
 
 [params]
 

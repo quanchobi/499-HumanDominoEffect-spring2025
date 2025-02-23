@@ -61,11 +61,11 @@ func _idle(_delta):
 func exit(code :int, message :String = "") -> void:
 	_status = EXIT
 	if code == RETURN_ERROR:
-		if not message.empty():
+		if not message.is_empty():
 			_console.prints_error(message)
 		_console.prints_error("Abnormal exit with %d" % code)
 	else:
-		_console.prints_color("Exit code: %d" % RETURN_SUCCESS, Color.darksalmon)
+		_console.prints_color("Exit code: %d" % RETURN_SUCCESS, Color.DARK_SALMON)
 	quit(code)
 
 func print_json_result(result :Dictionary) -> void:
@@ -78,15 +78,15 @@ func print_json_error(error :String) -> void:
 	prints('JSON_RESULT:{"Error" : "%s"}' % error)
 
 func show_options(show_advanced :bool = false) -> void:
-	_console.prints_color(" Usage:", Color.darksalmon)
-	_console.prints_color("	build -scp <source_path> -scl <line_number>", Color.darksalmon)
-	_console.prints_color("-- Options ---------------------------------------------------------------------------------------", Color.darksalmon).new_line()
+	_console.prints_color(" Usage:", Color.DARK_SALMON)
+	_console.prints_color("	build -scp <source_path> -scl <line_number>", Color.DARK_SALMON)
+	_console.prints_color("-- Options ---------------------------------------------------------------------------------------", Color.DARK_SALMON).new_line()
 	for option in _cmd_options.default_options():
 		descripe_option(option)
 
 func descripe_option(cmd_option :CmdOption) -> void:
 	_console.print_color("  %-40s" % str(cmd_option.commands()), Color.cornflower)
-	_console.prints_color(cmd_option.description(), Color.lightgreen)
-	if not cmd_option.help().empty():
-		_console.prints_color("%-4s %s" % ["", cmd_option.help()], Color.darkturquoise)
+	_console.prints_color(cmd_option.description(), Color.LIGHT_GREEN)
+	if not cmd_option.help().is_empty():
+		_console.prints_color("%-4s %s" % ["", cmd_option.help()], Color.DARK_TURQUOISE)
 	_console.new_line()

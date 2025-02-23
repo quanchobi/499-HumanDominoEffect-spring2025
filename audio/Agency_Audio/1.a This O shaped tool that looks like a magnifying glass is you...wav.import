@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/1.a This O shaped tool that looks like a magnifying glass is you...wav-699c16d58df2dc1a5540a52044f4214a.sample"
+type="AudioStreamWAV"
+uid="uid://7228ido664wd"
+path="res://.godot/imported/1.a This O shaped tool that looks like a magnifying glass is you...wav-699c16d58df2dc1a5540a52044f4214a.sample"
 
 [deps]
 
 source_file="res://audio/Agency_Audio/1.a This O shaped tool that looks like a magnifying glass is you...wav"
-dest_files=[ "res://.import/1.a This O shaped tool that looks like a magnifying glass is you...wav-699c16d58df2dc1a5540a52044f4214a.sample" ]
+dest_files=["res://.godot/imported/1.a This O shaped tool that looks like a magnifying glass is you...wav-699c16d58df2dc1a5540a52044f4214a.sample"]
 
 [params]
 

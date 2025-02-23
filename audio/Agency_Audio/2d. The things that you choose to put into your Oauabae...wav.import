@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/2d. The things that you choose to put into your Oauabae...wav-67c4ac5d0294ee2ace58961615c06f7e.sample"
+type="AudioStreamWAV"
+uid="uid://iu228rnsin6i"
+path="res://.godot/imported/2d. The things that you choose to put into your Oauabae...wav-67c4ac5d0294ee2ace58961615c06f7e.sample"
 
 [deps]
 
 source_file="res://audio/Agency_Audio/2d. The things that you choose to put into your Oauabae...wav"
-dest_files=[ "res://.import/2d. The things that you choose to put into your Oauabae...wav-67c4ac5d0294ee2ace58961615c06f7e.sample" ]
+dest_files=["res://.godot/imported/2d. The things that you choose to put into your Oauabae...wav-67c4ac5d0294ee2ace58961615c06f7e.sample"]
 
 [params]
 

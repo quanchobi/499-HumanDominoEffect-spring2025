@@ -93,7 +93,7 @@ func create_temp_file(relative_path :String, file_name :String, mode :=File.WRIT
 	return GdUnitTools.create_temp_file(relative_path, file_name, mode)
 
 # Reads a resource by given path <resource_path> into a PoolStringArray.
-func resource_as_array(resource_path :String) -> PoolStringArray:
+func resource_as_array(resource_path :String) -> PackedStringArray:
 	return GdUnitTools.resource_as_array(resource_path)
 
 # Reads a resource by given path <resource_path> and returned the content as String.
@@ -102,7 +102,7 @@ func resource_as_string(resource_path :String) -> String:
 
 # Reads a resource by given path <resource_path> and return Variand translated by str2var
 func resource_as_var(resource_path :String):
-	return str2var(GdUnitTools.resource_as_string(resource_path))
+	return str_to_var(GdUnitTools.resource_as_string(resource_path))
 
 # clears the debuger error list 
 # PROTOTYPE!!!! Don't use it for now
@@ -118,13 +118,13 @@ func await_signal_on(source :Object, signal_name :String, args :Array = [], time
 	# fail fast if the given source instance invalid
 	if not is_instance_valid(source):
 		GdUnitAssertImpl.new(self, signal_name)\
-			.report_error(GdAssertMessages.error_await_signal_on_invalid_instance(source, signal_name, args), GdUnitAssertImpl._get_line_number())
+			super.report_error(GdAssertMessages.error_await_signal_on_invalid_instance(source, signal_name, args), GdUnitAssertImpl._get_line_number())
 		return await_idle_frame()
-	return yield(GdUnitAwaiter.await_signal_on(weakref(self), source, signal_name, args, timeout), "completed")
+	return await GdUnitAwaiter.await_signal_on(weakref(self), source, signal_name, args, timeout).completed
 
 # Waits until the next idle frame
 func await_idle_frame() -> GDScriptFunctionState:
-	return yield(GdUnitAwaiter.await_idle_frame(), "completed")
+	return await GdUnitAwaiter.await_idle_frame().completed
 
 # Waits for for a given amount of milliseconds
 # example:
@@ -132,7 +132,7 @@ func await_idle_frame() -> GDScriptFunctionState:
 #    yield(await_millis(myNode, 100), "completed")
 # use this waiter and not `yield(get_tree().create_timer(), "timeout") to prevent errors when a test case is timed out
 func await_millis(timeout :int) -> GDScriptFunctionState:
-	return yield(GdUnitAwaiter.await_millis(self, timeout), "completed")
+	return await GdUnitAwaiter.await_millis(self, timeout).completed
 
 # Creates a new scene runner to allow simulate interactions on a scene.
 # The runner will manage the scene instance and release after the runner is released
@@ -199,7 +199,7 @@ static func any_int() -> GdUnitArgumentMatcher:
 
 # Argument matcher to match any float value
 static func any_float() -> GdUnitArgumentMatcher:
-	return GdUnitArgumentMatchers.by_type(TYPE_REAL)
+	return GdUnitArgumentMatchers.by_type(TYPE_FLOAT)
 
 # Argument matcher to match any string value
 static func any_string() -> GdUnitArgumentMatcher:
@@ -227,7 +227,7 @@ static func any_plane() -> GdUnitArgumentMatcher:
 
 # Argument matcher to match any Quat value
 static func any_quat() -> GdUnitArgumentMatcher:
-	return GdUnitArgumentMatchers.by_type(TYPE_QUAT)
+	return GdUnitArgumentMatchers.by_type(TYPE_QUATERNION)
 
 # Argument matcher to match any AABB value
 static func any_aabb() -> GdUnitArgumentMatcher:
@@ -239,7 +239,7 @@ static func any_basis() -> GdUnitArgumentMatcher:
 
 # Argument matcher to match any Transform value
 static func any_transform() -> GdUnitArgumentMatcher:
-	return GdUnitArgumentMatchers.by_type(TYPE_TRANSFORM)
+	return GdUnitArgumentMatchers.by_type(TYPE_TRANSFORM3D)
 
 # Argument matcher to match any Transform2D value
 static func any_transform_2d() -> GdUnitArgumentMatcher:
@@ -267,31 +267,31 @@ static func any_array() -> GdUnitArgumentMatcher:
 
 # Argument matcher to match any PoolByteArray value
 static func any_pool_byte_array() -> GdUnitArgumentMatcher:
-	return GdUnitArgumentMatchers.by_type(TYPE_RAW_ARRAY)
+	return GdUnitArgumentMatchers.by_type(TYPE_PACKED_BYTE_ARRAY)
 
 # Argument matcher to match any PoolIntArray value
 static func any_pool_int_array() -> GdUnitArgumentMatcher:
-	return GdUnitArgumentMatchers.by_type(TYPE_INT_ARRAY)
+	return GdUnitArgumentMatchers.by_type(TYPE_PACKED_INT32_ARRAY)
 
 # Argument matcher to match any PoolRealArray value
 static func any_pool_float_array() -> GdUnitArgumentMatcher:
-	return GdUnitArgumentMatchers.by_type(TYPE_REAL_ARRAY)
+	return GdUnitArgumentMatchers.by_type(TYPE_PACKED_FLOAT32_ARRAY)
 
 # Argument matcher to match any PoolStringArray value
 static func any_pool_string_array() -> GdUnitArgumentMatcher:
-	return GdUnitArgumentMatchers.by_type(TYPE_STRING_ARRAY)
+	return GdUnitArgumentMatchers.by_type(TYPE_PACKED_STRING_ARRAY)
 
 # Argument matcher to match any PoolVector2Array value
 static func any_pool_vector2_array() -> GdUnitArgumentMatcher:
-	return GdUnitArgumentMatchers.by_type(TYPE_VECTOR2_ARRAY)
+	return GdUnitArgumentMatchers.by_type(TYPE_PACKED_VECTOR2_ARRAY)
 
 # Argument matcher to match any PoolVector3Array value
 static func any_pool_vector3_array() -> GdUnitArgumentMatcher:
-	return GdUnitArgumentMatchers.by_type(TYPE_VECTOR3_ARRAY)
+	return GdUnitArgumentMatchers.by_type(TYPE_PACKED_VECTOR3_ARRAY)
 
 # Argument matcher to match any PoolColorArray value
 static func any_pool_color_array() -> GdUnitArgumentMatcher:
-	return GdUnitArgumentMatchers.by_type(TYPE_COLOR_ARRAY)
+	return GdUnitArgumentMatchers.by_type(TYPE_PACKED_COLOR_ARRAY)
 
 # Argument matcher to match any instance of given class
 static func any_class(clazz :Object) -> GdUnitArgumentMatcher:
@@ -318,7 +318,7 @@ func assert_that(current, expect_result: int = GdUnitAssert.EXPECT_SUCCESS) -> G
 			return assert_bool(current, expect_result)
 		TYPE_INT:
 			return assert_int(current, expect_result)
-		TYPE_REAL:
+		TYPE_FLOAT:
 			return assert_float(current, expect_result)
 		TYPE_STRING:
 			return assert_str(current, expect_result)

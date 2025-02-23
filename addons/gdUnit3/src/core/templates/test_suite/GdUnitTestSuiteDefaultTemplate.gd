@@ -1,5 +1,5 @@
 class_name GdUnitTestSuiteDefaultTemplate
-extends Reference
+extends RefCounted
 
 
 const DEFAULT_TEMP_TS_GD = \

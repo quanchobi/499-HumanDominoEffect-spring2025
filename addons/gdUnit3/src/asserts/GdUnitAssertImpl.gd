@@ -14,7 +14,7 @@ var _caller :WeakRef
 # Scans the current stack trace for the root cause to extract the line number
 static func _get_line_number() -> int:
 	var stack_trace := get_stack()
-	if stack_trace == null or stack_trace.empty():
+	if stack_trace == null or stack_trace.is_empty():
 		return -1
 	for stack_info in stack_trace:
 		var function :String = stack_info.get("function")
@@ -22,7 +22,7 @@ static func _get_line_number() -> int:
 		if function.begins_with("assert_"):
 			continue
 		var source :String = stack_info.get("source")
-		if source.empty() \
+		if source.is_empty() \
 		 or source.ends_with("AssertImpl.gd") \
 		 or source.ends_with("GdUnitTestSuite.gd") \
 		 or source.ends_with("GdUnitSceneRunnerImpl.gd") \

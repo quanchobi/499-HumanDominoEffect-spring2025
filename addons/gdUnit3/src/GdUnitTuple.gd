@@ -1,6 +1,6 @@
 # A tuple implementation to hold two or many values 
 class_name GdUnitTuple
-extends Reference
+extends RefCounted
 
 const NO_ARG = GdUnitConstants.NO_ARG
 

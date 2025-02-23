@@ -1,4 +1,4 @@
-tool
+@tool
 extends EditorPlugin
 
 var _gd_inspector :Node
@@ -12,23 +12,23 @@ func _enter_tree():
 	GdUnitSettings.setup()
 	# show possible update notification when is enabled
 	if GdUnitSettings.is_update_notification_enabled():
-		_update_tool = load("res://addons/gdUnit3/src/update/GdUnitUpdate.tscn").instance()
+		_update_tool = load("res://addons/gdUnit3/src/update/GdUnitUpdate.tscn").instantiate()
 		add_control_to_container(EditorPlugin.CONTAINER_TOOLBAR, _update_tool)
 	
 	# install SignalHandler singleton
 	GdUnitSingleton.add_singleton(SignalHandler.SINGLETON_NAME, "res://addons/gdUnit3/src/core/event/SignalHandler.gd")
 	# install the GdUnit inspector
-	_gd_inspector = load("res://addons/gdUnit3/src/ui/GdUnitInspector.tscn").instance()
+	_gd_inspector = load("res://addons/gdUnit3/src/ui/GdUnitInspector.tscn").instantiate()
 	_gd_inspector.set_editor_interface(get_editor_interface())
 	add_control_to_dock(EditorPlugin.DOCK_SLOT_LEFT_UR, _gd_inspector)
 	# install the GdUnit Console
-	_gd_console = load("res://addons/gdUnit3/src/ui/GdUnitConsole.tscn").instance()
+	_gd_console = load("res://addons/gdUnit3/src/ui/GdUnitConsole.tscn").instantiate()
 	add_control_to_bottom_panel(_gd_console, "gdUnitConsole")
 	# needs to wait before we can add a child to the root
-	yield(get_tree(), "idle_frame")
-	_server_node = load("res://addons/gdUnit3/src/network/GdUnitServer.tscn").instance()
+	await get_tree().idle_frame
+	_server_node = load("res://addons/gdUnit3/src/network/GdUnitServer.tscn").instantiate()
 	add_child(_server_node)
-	var err := _gd_inspector.connect("gdunit_runner_stop", _server_node, "_on_gdunit_runner_stop")
+	var err := _gd_inspector.connect("gdunit_runner_stop", Callable(_server_node, "_on_gdunit_runner_stop"))
 	if err != OK:
 		prints("ERROR", GdUnitTools.error_as_string(err))
 	prints("Loading GdUnit3 Plugin success")

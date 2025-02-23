@@ -168,7 +168,7 @@ func contains(expected) -> GdUnitArrayAssert:
 	var diffs := array_div(current_, expected_)
 	var not_expect := diffs[0] as Array
 	var not_found := diffs[1] as Array
-	if not not_found.empty():
+	if not not_found.is_empty():
 		return report_error(GdAssertMessages.error_arr_contains(current_, expected_, [], not_found))
 	return report_success()
 
@@ -205,7 +205,7 @@ func contains_exactly_in_any_order(expected) -> GdUnitArrayAssert:
 	var diffs := array_div(current_, expected_, false)
 	var not_expect := diffs[0] as Array
 	var not_found := diffs[1] as Array
-	if not_expect.empty() and not_found.empty():
+	if not_expect.is_empty() and not_found.is_empty():
 		return report_success()
 	return report_error(GdAssertMessages.error_arr_contains_exactly_in_any_order(current_, expected_, not_expect, not_found))
 

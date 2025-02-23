@@ -85,13 +85,13 @@ func is_not_equal_ignoring_case(expected) -> GdUnitStringAssert:
 
 func is_empty() -> GdUnitStringAssert:
 	var current = __current()
-	if current == null or not current.empty():
+	if current == null or not current.is_empty():
 		return report_error(GdAssertMessages.error_is_empty(current))
 	return report_success()
 
 func is_not_empty() -> GdUnitStringAssert:
 	var current = __current()
-	if current == null or current.empty():
+	if current == null or current.is_empty():
 		return report_error(GdAssertMessages.error_is_not_empty())
 	return report_success()
 

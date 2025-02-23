@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/3d. Move your Oauabae around the shoreline… .wav-07255db8f9b01a3e77adb1645c06bd93.sample"
+type="AudioStreamWAV"
+uid="uid://c5iam1304p5w1"
+path="res://.godot/imported/3d. Move your Oauabae around the shoreline… .wav-07255db8f9b01a3e77adb1645c06bd93.sample"
 
 [deps]
 
 source_file="res://audio/Agency_Audio/3d. Move your Oauabae around the shoreline… .wav"
-dest_files=[ "res://.import/3d. Move your Oauabae around the shoreline… .wav-07255db8f9b01a3e77adb1645c06bd93.sample" ]
+dest_files=["res://.godot/imported/3d. Move your Oauabae around the shoreline… .wav-07255db8f9b01a3e77adb1645c06bd93.sample"]
 
 [params]
 

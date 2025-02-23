@@ -1,10 +1,10 @@
-extends Reference
+extends RefCounted
 class_name GdUnit3MonoAPI
 
 const _instance : = []
 
 static func instance() :
-	if not _instance.empty():
+	if not _instance.is_empty():
 		return _instance[0]
 	var instance =  load("res://addons/gdUnit3/src/mono/GdUnit3MonoAPI.cs").new()
 	_instance.append(instance)
@@ -21,7 +21,7 @@ static func create_test_suite(source_path :String, line_number :int, test_suite_
 static func is_test_suite(resource_path :String) -> bool:
 	if not is_csharp_file(resource_path) or not GdUnitTools.is_mono_supported():
 		return false
-	if resource_path.empty():
+	if resource_path.is_empty():
 		if GdUnitSettings.is_report_push_errors():
 			push_error("Can't create test suite. Missing resource path.")
 		return  false

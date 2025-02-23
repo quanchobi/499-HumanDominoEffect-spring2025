@@ -1,6 +1,6 @@
 # This is the base interface for value extraction
 class_name GdUnitValueExtractor
-extends Reference
+extends RefCounted
 
 # Extracts a value by given implementation
 func extract_value(value):

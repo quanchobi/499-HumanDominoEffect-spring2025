@@ -18,7 +18,7 @@ func _init(from: int, to: int, mode :int = NORMAL):
 	_mode = mode
 
 func next_value() -> int:
-	var value = rand_range(_from, _to) as int
+	var value = randf_range(_from, _to) as int
 	match _mode:
 		NORMAL:
 			return value

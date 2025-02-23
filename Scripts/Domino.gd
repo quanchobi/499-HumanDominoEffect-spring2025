@@ -2,16 +2,16 @@
 class_name Domino
 extends Node2D
 
-export var top_num = 0
-export var bottom_num = 0
-export var top_element = ""
-export var bottom_element = ""
+@export var top_num = 0
+@export var bottom_num = 0
+@export var top_element = ""
+@export var bottom_element = ""
 
 var original_pos = null
 var og_scale = 1.3
 var hover_scale = og_scale + 0.05
 var selected = false
-export var placed = false
+@export var placed = false
 
 # Reference to world node to minimize `get_parent()` calls
 var _world = null
@@ -27,8 +27,7 @@ func _ready() -> void:
 
 
 func init(bottom, top, bottom_elm, top_elm, initial):
-	bottom_num = bottom
-	top_num = top
+	bottom_num = bottom top_num = top
 
 	if not bottom_elm:
 		bottom_element = ""
@@ -44,11 +43,11 @@ func init(bottom, top, bottom_elm, top_elm, initial):
 
 
 func _on_Area2D_mouse_entered() -> void:
-	$Sprite.scale = Vector2(hover_scale, hover_scale)
+	$Sprite2D.scale = Vector2(hover_scale, hover_scale)
 
 
 func _on_Area2D_mouse_exited() -> void:
-	$Sprite.scale = Vector2(og_scale, og_scale)
+	$Sprite2D.scale = Vector2(og_scale, og_scale)
 
 
 func _on_Area2D_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
@@ -61,7 +60,7 @@ func _on_Area2D_input_event(_viewport: Node, event: InputEvent, _shape_idx: int)
 						selected = true
 				else:
 					#TODO: Below line delays returning the domino in case the domino is being placed. This should be done in a better way
-					yield(get_tree().create_timer(0.05), "timeout")
+					await get_tree().create_timer(0.05).timeout
 					# TODO: Need to fix position of domnio
 					_world.clear_selected_domino()
 					selected = false

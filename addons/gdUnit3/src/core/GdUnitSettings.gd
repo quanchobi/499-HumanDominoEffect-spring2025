@@ -1,6 +1,6 @@
-tool
+@tool
 class_name GdUnitSettings
-extends Reference
+extends RefCounted
 
 const MAIN_CATEGORY = "gdunit3"
 # Common Settings
@@ -72,13 +72,13 @@ static func setup():
 	create_property_if_need(INSPECTOR_NODE_COLLAPSE, true, "Enables/disables that the testsuite node is closed after a successful test run.")
 	create_property_if_need(TEMPLATE_TS_GD, GdUnitTestSuiteDefaultTemplate.DEFAULT_TEMP_TS_GD, "Defines the test suite template")
 
-static func create_property_if_need(name :String, default, help :="", value_set := PoolStringArray()) -> void:
+static func create_property_if_need(name :String, default, help :="", value_set := PackedStringArray()) -> void:
 	if not ProjectSettings.has_setting(name):
 		#prints("GdUnit3: Set inital settings '%s' to '%s'." % [name, str(default)])
 		ProjectSettings.set_setting(name, default)
 		
 	ProjectSettings.set_initial_value(name, default)
-	var hint_string := help + ("" if value_set.empty() else " %s" % value_set)
+	var hint_string := help + ("" if value_set.is_empty() else " %s" % value_set)
 	var info = {
 			"name": name,
 			"type": typeof(default),
@@ -157,12 +157,12 @@ static func list_settings(category :String) -> Array:
 			settings.append(GdUnitProperty.new(property_name, property["type"], value, default, help, value_set))
 	return settings
 
-static func extract_value_set_from_help(value :String) -> PoolStringArray:
+static func extract_value_set_from_help(value :String) -> PackedStringArray:
 	var regex := RegEx.new()
 	regex.compile("\\[(.+)\\]")
 	var matches := regex.search_all(value)
-	if matches.empty():
-		return PoolStringArray()
+	if matches.is_empty():
+		return PackedStringArray()
 	var values :String =  matches[0].get_string(1)
 	return values.replacen(" ", "").split(",", false)
 
@@ -210,4 +210,4 @@ static func dump_to_tmp() -> void:
 	ProjectSettings.save_custom("user://project_settings.godot")
 
 static func restore_dump_from_tmp() -> void:
-	Directory.new().copy("user://project_settings.godot", "res://project.godot")
+	DirAccess.new().copy("user://project_settings.godot", "res://project.godot")

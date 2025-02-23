@@ -1,5 +1,5 @@
 class_name GdUnitScriptType
-extends Reference
+extends RefCounted
 
 const UNKNOWN := ""
 const CS := "cs"

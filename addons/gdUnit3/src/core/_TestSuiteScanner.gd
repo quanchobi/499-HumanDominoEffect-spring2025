@@ -17,7 +17,7 @@ func scan_testsuite_classes() -> void:
 
 func scan(resource_path :String) -> Array:
 	scan_testsuite_classes()
-	var base_dir := Directory.new()
+	var base_dir := DirAccess.new()
 	# if single testsuite requested
 	if base_dir.file_exists(resource_path):
 		var test_suite := _parse_is_test_suite(resource_path)
@@ -29,14 +29,14 @@ func scan(resource_path :String) -> Array:
 			return []
 	return _scan_test_suites(base_dir, [])
 
-func _scan_test_suites(dir :Directory, collected_suites :Array) -> Array:
+func _scan_test_suites(dir :DirAccess, collected_suites :Array) -> Array:
 	prints("Scanning for test suites in:", dir.get_current_dir())
-	dir.list_dir_begin(true, true)
+	dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	var file_name := dir.get_next()
 	while file_name != "":
 		var resource_path = _file(dir, file_name)
 		if dir.current_is_dir():
-			var sub_dir := Directory.new()
+			var sub_dir := DirAccess.new()
 			if sub_dir.open(resource_path) == OK:
 				_scan_test_suites(sub_dir, collected_suites)
 		else:
@@ -46,7 +46,7 @@ func _scan_test_suites(dir :Directory, collected_suites :Array) -> Array:
 		file_name = dir.get_next()
 	return collected_suites
 
-static func _file(dir :Directory, file_name :String) -> String:
+static func _file(dir :DirAccess, file_name :String) -> String:
 	var current_dir := dir.get_current_dir()
 	if current_dir.ends_with("/"):
 		return current_dir + file_name
@@ -79,7 +79,7 @@ func _parse_test_suite(script :GDScript) -> GdUnitTestSuite:
 	_parse_and_add_test_cases(test_suite, script, test_case_names)
 	# not all test case parsed?
 	# we have to scan the base class to
-	if not test_case_names.empty():
+	if not test_case_names.is_empty():
 		var base_script :GDScript = test_suite.get_script().get_base_script()
 		while base_script is GDScript:
 			# do not parse testsuite itself
@@ -88,8 +88,8 @@ func _parse_test_suite(script :GDScript) -> GdUnitTestSuite:
 			base_script = base_script.get_base_script()
 	return test_suite
 
-func _extract_test_case_names(script :GDScript) -> PoolStringArray:
-	var names := PoolStringArray()
+func _extract_test_case_names(script :GDScript) -> PackedStringArray:
+	var names := PackedStringArray()
 	for method in script.get_script_method_list():
 		#prints(method["flags"], method["name"] )
 		var flags :int = method["flags"]
@@ -101,7 +101,7 @@ func _extract_test_case_names(script :GDScript) -> PoolStringArray:
 static func parse_test_suite_name(script :Script) -> String:
 	return script.resource_path.get_file().replace(".gd", "")
 
-func _parse_and_add_test_cases(test_suite, script :GDScript, test_case_names :PoolStringArray):
+func _parse_and_add_test_cases(test_suite, script :GDScript, test_case_names :PackedStringArray):
 	var test_cases_to_find = Array(test_case_names)
 	var source := _script_parser.load_source_code(script, [script.resource_path])
 	var functions = _script_parser.parse_functions(source, "", [script.resource_path], test_case_names)
@@ -111,7 +111,7 @@ func _parse_and_add_test_cases(test_suite, script :GDScript, test_case_names :Po
 			var timeout := _TestCase.DEFAULT_TIMEOUT
 			var iterations := Fuzzer.ITERATION_DEFAULT_COUNT
 			var seed_value := -1
-			var fuzzers := PoolStringArray()
+			var fuzzers := PackedStringArray()
 			for arg in fd.args():
 				var fa := arg as GdFunctionArgument
 				if fa.name() == _TestCase.ARGUMENT_TIMEOUT and fa.default() != null:
@@ -130,7 +130,7 @@ func _parse_and_add_test_cases(test_suite, script :GDScript, test_case_names :Po
 			if fd.is_parameterized():
 				var test_paramaters := GdTestParameterSet.extract_test_parameters(test_suite.get_script(), fd)
 				var error := GdTestParameterSet.validate(fd.args(), test_paramaters)
-				if not error.empty():
+				if not error.is_empty():
 					test.skip(true, error)
 				test.set_test_parameters(test_paramaters)
 
@@ -153,7 +153,7 @@ static func resolve_test_suite_path(source_script_path :String, test_root_folder
 	var file_extension := source_script_path.get_extension()
 	var file_name = source_script_path.get_basename().get_file()
 	var suite_name := _to_naming_convention(file_name)
-	if test_root_folder.empty():
+	if test_root_folder.is_empty():
 		return source_script_path.replace(file_name, suite_name)
 	
 	# is user tmp
@@ -181,8 +181,8 @@ static func resolve_test_suite_path(source_script_path :String, test_root_folder
 
 static func create_test_suite(test_suite_path :String, source_path :String) -> Result:
 	# create directory if not exists
-	if not Directory.new().dir_exists(test_suite_path.get_base_dir()):
-		var error := Directory.new().make_dir_recursive(test_suite_path.get_base_dir())
+	if not DirAccess.new().dir_exists(test_suite_path.get_base_dir()):
+		var error := DirAccess.new().make_dir_recursive(test_suite_path.get_base_dir())
 		if error != OK:
 			return Result.error("Can't create directoy  at: %s. Error code %s" % [test_suite_path.get_base_dir(), error])
 	var file_extension := test_suite_path.get_extension()

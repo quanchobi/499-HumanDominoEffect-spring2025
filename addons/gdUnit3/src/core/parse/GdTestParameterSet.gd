@@ -1,5 +1,5 @@
 class_name GdTestParameterSet
-extends Reference
+extends RefCounted
 
 const CLASS_TEMPLATE = """
 class_name _ParameterExtractor extends '${clazz_path}'
@@ -20,7 +20,7 @@ static func validate(input_arguments :Array, input_value_set :Array) -> String:
 			if current_arg_count != expected_arg_count:
 				return "\n	The parameter set at index [%d] does not match the expected input parameters!\n	The test case requires [%d] input parameters, but the set contains [%d]" % [parameter_set_index, expected_arg_count, current_arg_count]
 			var error := validate_parameter_types(input_arguments, input_values, parameter_set_index)
-			if not error.empty():
+			if not error.is_empty():
 				return error
 		else:
 			return "\n	The parameter set at index [%d] does not match the expected input parameters!\n	Expecting an array of input values." % parameter_set_index
@@ -47,8 +47,8 @@ static func validate_parameter_types(input_arguments :Array, input_values :Array
 static func extract_test_parameters(source :GDScript, fd :GdFunctionDescriptor) -> Array:
 	var parameter_arg := GdFunctionArgument.get_parameter_set(fd.args())
 	var source_code = CLASS_TEMPLATE\
-		.replace("${clazz_path}", source.resource_path)\
-		.replace("${test_params}", parameter_arg.default())
+		super.replace("${clazz_path}", source.resource_path)\
+		super.replace("${test_params}", parameter_arg.default())
 	var script = GDScript.new()
 	script.source_code =  source_code
 	# enable this lines only for debuging

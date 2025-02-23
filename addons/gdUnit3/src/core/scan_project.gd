@@ -1,5 +1,5 @@
+@tool
 #!/usr/bin/env -S godot -s
-tool
 extends SceneTree
 
 enum {
@@ -18,7 +18,7 @@ func _init():
 	_state = SCAN
 
 func _idle(delta):
-	yield(root.get_tree(), "idle_frame")
+	await root.get_tree().idle_frame
 	if _state != SCAN:
 		return
 	_counter += delta
@@ -36,7 +36,7 @@ func fix_cache_bug():
 				if child is EditorResourcePreview:
 					var prewview := child as EditorResourcePreview
 					prewview.check_for_invalidation("res://")
-	yield(root.get_tree(), "idle_frame")
+	await root.get_tree().idle_frame
 
 func exit():
 	prints("Exit")
@@ -49,14 +49,14 @@ func key_pressed(key_code :int, command := false):
 
 func key_press(key_code :int, command := false):
 	var action = InputEventKey.new()
-	action.pressed = true
-	action.scancode = key_code
+	action.button_pressed = true
+	action.keycode = key_code
 	action.command = command
 	input_event(action)
 
 func key_release(key_code :int,command := false):
 	var action = InputEventKey.new()
-	action.pressed = false
-	action.scancode = key_code
+	action.button_pressed = false
+	action.keycode = key_code
 	action.command = command
 	input_event(action)

@@ -1,9 +1,9 @@
+@tool
 # Custom RichTextLabel with custom background colors
 # MIT License
 # Copyright (c) 2023 Mike Schulze
 # https://github.com/MikeSchulze/gdUnit3/blob/master/LICENSE
 
-tool
 extends RichTextLabel
 class_name RichTextLabelExt
 
@@ -29,7 +29,7 @@ func _update_ui_settings():
 	updateMinSize()
 
 func set_bbcode(code) -> void:
-	.parse_bbcode(code)
+	super.parse_bbcode(code)
 	_effect.reset()
 	updateMinSize()
 
@@ -40,7 +40,7 @@ func append_bbcode(bbcode :String):
 		if line.length() == 0:
 			for i in _indent:
 				bbcode = bbcode.indent("\t")
-	var error := .append_bbcode(bbcode)
+	var error := super.append_bbcode(bbcode)
 	_effect.reset()
 	updateMinSize()
 	return error
@@ -59,8 +59,8 @@ func pop_indent(indent :int) -> void:
 # to fit the full text to on line, to avoid line wrapping
 func updateMinSize() -> void:
 	# reset curren min size
-	rect_min_size.x = 0
-	var font := get("custom_fonts/font") as Font
+	custom_minimum_size.x = 0
+	var font := get("theme_override_fonts/font") as Font
 	var lines := get_text().split("\n")
 	# calculate additional indent characters
 	var indent_chars = _max_indent * get_tab_size()
@@ -68,8 +68,8 @@ func updateMinSize() -> void:
 	
 	for line in lines:
 		var line_size := font.get_string_size(line + extra_chars)
-		if rect_min_size < line_size:
-			rect_min_size = line_size
+		if custom_minimum_size < line_size:
+			custom_minimum_size = line_size
 	# add extra spacing of 40px for possible scrollbar
-	rect_min_size.x += 40
+	custom_minimum_size.x += 40
 

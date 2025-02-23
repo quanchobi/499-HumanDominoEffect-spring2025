@@ -29,7 +29,7 @@ func create(source :Script, line_number :int) -> Result:
 	var lines := source.source_code.split("\n")
 	var current_line := lines[line_number]
 	var func_name := parser.parse_func_name(current_line)
-	if func_name.empty():
+	if func_name.is_empty():
 		return Result.error("No function found at line: %d." % line_number)
 	return _TestSuiteScanner.create_test_case(test_suite_path, func_name, source.resource_path)
 

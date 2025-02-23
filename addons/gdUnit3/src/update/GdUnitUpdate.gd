@@ -1,17 +1,17 @@
-tool
+@tool
 class_name GdUnitUpdate
-extends WindowDialog
+extends Window
 
 signal request_completed(response)
 
-onready var _md_reader :GdMarkDownReader = $GdMarkDownReader
-onready var _update_client :GdUnitUpdateClient = $GdUnitUpdateClient
-onready var _header :Label = $GridContainer/PanelContainer/header
-onready var _content :RichTextLabel = $GridContainer/PanelContainer2/ScrollContainer/content
-onready var _info_popup :Popup = $UpdateProgress
-onready var _info_content :Label = $UpdateProgress/Progress/label
-onready var _info_progress :ProgressBar = $UpdateProgress/Progress/bar
-onready var _update_button :Button = $GridContainer/Panel/HBoxContainer/update
+@onready var _md_reader :GdMarkDownReader = $GdMarkDownReader
+@onready var _update_client :GdUnitUpdateClient = $GdUnitUpdateClient
+@onready var _header :Label = $GridContainer/PanelContainer/header
+@onready var _content :RichTextLabel = $GridContainer/PanelContainer2/ScrollContainer/content
+@onready var _info_popup :Popup = $UpdateProgress
+@onready var _info_content :Label = $UpdateProgress/Progress/label
+@onready var _info_progress :ProgressBar = $UpdateProgress/Progress/bar
+@onready var _update_button :Button = $GridContainer/Panel/HBoxContainer/update
 
 const MENU_ACTION_FILE_CLOSE_ALL = 13
 
@@ -28,7 +28,7 @@ func _ready():
 	request_releases()
 
 func request_releases():
-	var response :GdUnitUpdateClient.HttpResponse = yield(_update_client.request_latest_version(), "completed")
+	var response :GdUnitUpdateClient.HttpResponse = await _update_client.request_latest_version().completed
 	if response.code() != 200:
 		push_warning("Update information cannot be retrieved from GitHub! \n %s" % response.response())
 		return
@@ -49,19 +49,19 @@ func _h4_message(message :String, color :Color) -> String:
 func _process(_delta):
 	if _show_update:
 		var spinner := "res://addons/gdUnit3/src/ui/assets/spinner.tres"
-		_content.bbcode_text = _h4_message("\n\n\nRequest release infos ... [img=24x24]%s[/img]" % spinner, Color.snow)
+		_content.text = _h4_message("\n\n\nRequest release infos ... [img=24x24]%s[/img]" % spinner, Color.SNOW)
 		popup_centered_ratio(.5)
 		_show_update = false
-		var response :GdUnitUpdateClient.HttpResponse = yield(_update_client.request_releases(), "completed")
+		var response :GdUnitUpdateClient.HttpResponse = await _update_client.request_releases().completed
 		if response.code() == 200:
-			var content :String = yield(extract_releases(response, _current_version), "completed")
+			var content :String = await extract_releases(response, _current_version).completed
 			# finally force rescan to import images as textures
 			if Engine.is_editor_hint():
-				yield(rescan(), "completed")
-			_content.bbcode_text = content
+				await rescan().completed
+			_content.text = content
 			_update_button.set_disabled(false)
 		else:
-			_content.bbcode_text = _h4_message("\n\n\nError on request available releases!", Color.red)
+			_content.text = _h4_message("\n\n\nError on request available releases!", Color.RED)
 
 static func extract_latest_version(response :GdUnitUpdateClient.HttpResponse) -> GdUnit3Version:
 	var body :Array = response.response()
@@ -72,24 +72,24 @@ static func extract_zip_url(response :GdUnitUpdateClient.HttpResponse) -> String
 	return body[0]["zipball_url"]
 
 func extract_releases(response :GdUnitUpdateClient.HttpResponse, current_version :GdUnit3Version) -> String:
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	var result :String = ""
 	for release in response.response():
 		if GdUnit3Version.parse(release["tag_name"]).equals(current_version):
 			break
 		var release_description :String = release["body"]
-		var bbcode = yield(_md_reader.to_bbcode(release_description), "completed")
+		var bbcode = await _md_reader.to_bbcode(release_description).completed
 		result += bbcode
 		result += "\n"
 	return result
 
 func rescan(update_scripts :bool = false) -> void:
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	var plugin := EditorPlugin.new()
 	var fs := plugin.get_editor_interface().get_resource_filesystem()
 	fs.scan_sources()
 	while fs.is_scanning():
-		yield(get_tree().create_timer(1), "timeout")
+		await get_tree().create_timer(1).timeout
 	if update_scripts:
 		plugin.get_editor_interface().get_resource_filesystem().update_script_classes()
 	plugin.free()
@@ -98,7 +98,7 @@ func is_update_in_progress() -> bool:
 	return _update_in_progress
 
 func init_progress(max_value : int) -> void:
-	_info_popup.popup_centered_minsize()
+	_info_popup.popup_centered_clamped()
 	_info_progress.max_value = max_value
 	_info_progress.value = 0
 
@@ -118,7 +118,7 @@ static func close_open_editor_scripts() -> void:
 	plugin.free()
 
 func delete_obsolete_files() -> void:
-	var dir := Directory.new()
+	var dir := DirAccess.new()
 	for file_to_delete in ["res://gdUnit3.csproj", "res://gdUnit3.sln"]:
 		if dir.file_exists(file_to_delete):
 			dir.remove(file_to_delete)
@@ -141,18 +141,18 @@ func _on_update_pressed():
 	var zip_file = paths.get("zip_file")
 	var tmp_path = paths.get("tmp_path")
 	
-	var response :GdUnitUpdateClient.HttpResponse = yield(_update_client.request_zip_package(_download_zip_url, zip_file), "completed")
+	var response :GdUnitUpdateClient.HttpResponse = await _update_client.request_zip_package(_download_zip_url, zip_file).completed
 	if response.code() != 200:
 		push_warning("Update information cannot be retrieved from GitHub! \n Error code: %d : %s" % [response.code(), response.response()])
 		update_progress("Update failed! Try it later again.")
-		yield(get_tree().create_timer(3), "timeout")
+		await get_tree().create_timer(3).timeout
 		stop_progress()
 		return
 	update_progress("disable GdUnit3 ..")
 	
 	# remove update content to prevent resource loading issues during update (deleted resources)
 	_content.text = ""
-	_content.bbcode_text = _colored("### Updating ...", Color.snow)
+	_content.text = _colored("### Updating ...", Color.SNOW)
 	# close gdUnit scripts before update
 	close_open_editor_scripts()
 	disable_gdUnit()
@@ -165,15 +165,15 @@ func _on_update_pressed():
 	var result := GdUnitTools.extract_package(source, dest)
 	if result.is_error():
 		update_progress("Update failed! %s" % result.error_message())
-		yield(get_tree().create_timer(3), "timeout")
+		await get_tree().create_timer(3).timeout
 		stop_progress()
 		enable_gdUnit()
 		return
 	
 	# find extracted directory name
-	var dir := Directory.new()
+	var dir := DirAccess.new()
 	dir.open(tmp_path)
-	dir.list_dir_begin()
+	dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	var file_name = dir.get_next()
 	while file_name != "":
 		if dir.current_is_dir() and file_name.begins_with("MikeSchulze-gdUnit3"):
@@ -191,15 +191,15 @@ func _on_update_pressed():
 	delete_obsolete_files()
 	
 	update_progress("refresh editor resources ..")
-	yield(rescan(true), "completed")
+	await rescan(true).completed
 	
 	update_progress("executing patches ..")
 	_patcher.execute()
 	
 	update_progress("enable GdUnit3 ..")
-	yield(get_tree().create_timer(.5), "timeout")
+	await get_tree().create_timer(.5).timeout
 	update_progress("New GdUnit successfully installed")
-	yield(get_tree().create_timer(1), "timeout")
+	await get_tree().create_timer(1).timeout
 	hide()
 	enable_gdUnit()
 	queue_free()
@@ -222,12 +222,12 @@ func _on_cancel_pressed():
 	queue_free()
 
 func _on_content_meta_clicked(meta :String):
-	var properties = str2var(meta)
+	var properties = str_to_var(meta)
 	if properties.has("url"):
 		OS.shell_open(properties.get("url"))
 
 func _on_content_meta_hover_started(meta :String):
-	var properties = str2var(meta)
+	var properties = str_to_var(meta)
 	if properties.has("tool_tip"):
 		_content.set_tooltip(properties.get("tool_tip"))
 

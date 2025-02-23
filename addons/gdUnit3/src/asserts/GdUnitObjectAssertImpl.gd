@@ -9,7 +9,7 @@ func _init(caller :Object, current, expect_result :int):
 		return
 	if _base.__validate_value_type(current, TYPE_BOOL)\
 		or _base.__validate_value_type(current, TYPE_INT)\
-		or _base.__validate_value_type(current, TYPE_REAL)\
+		or _base.__validate_value_type(current, TYPE_FLOAT)\
 		or _base.__validate_value_type(current, TYPE_STRING):
 			report_error("GdUnitObjectAssert inital error, unexpected type <%s>" % GdObjects.typeof_as_string(current))
 

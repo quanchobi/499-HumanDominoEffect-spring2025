@@ -16,7 +16,7 @@ var runner: GdUnitSceneRunner
 # Test cases
 # Before all tests are ran
 func before():
-	test_domino = load(__prefab_source).instance()
+	test_domino = load(__prefab_source).instantiate()
 	domino_spy = spy(test_domino)
 	runner = scene_runner(domino_spy)
 
@@ -55,7 +55,7 @@ func test_init_initial(
 		assert_float(domino_spy.original_pos.y).is_equal(domino_spy.position.y)
 
 	# Do some validation when running find_node() or variants. Test suite won't catch null values.
-	var label = test_domino.find_node("Label")
+	var label = test_domino.find_child("Label")
 	assert_object(label).is_instanceof(Label)
 
 	# Verify that the label output is set correctly
@@ -66,19 +66,19 @@ func test_mouse_entered_scale_up():
 	# Pre-check mouse is not hovering over domino
 	runner.set_mouse_pos(Vector2(500, 500))
 	# Wait a few frames before `*_Area2D_*` event is emitted
-	yield(runner.simulate_frames(5, 10), "completed")
+	await runner.simulate_frames(5, 10).completed
 
 	# Get sprite scale before mouse entered
 	# Get value only copy of node, rather than a reference
-	var pre_sprite: Sprite = auto_free(test_domino.find_node("Sprite").duplicate())
+	var pre_sprite: Sprite2D = auto_free(test_domino.find_child("Sprite2D").duplicate())
 
 	# Simulate mouse movement to center of domino
 	runner.simulate_mouse_move(Vector2(0, 0))
 	# Wait a few frames before `*_Area2D_*` event is emitted
-	yield(runner.simulate_frames(5, 10), "completed")
+	await runner.simulate_frames(5, 10).completed
 
 	# Verify that sprite scale changed
-	var sprite: Sprite = test_domino.find_node("Sprite")
+	var sprite: Sprite2D = test_domino.find_child("Sprite2D")
 	assert_vector2(sprite.scale).is_not_equal(pre_sprite.scale)
 	assert_vector2(sprite.scale).is_equal(Vector2(domino_spy.hover_scale, domino_spy.hover_scale))
 
@@ -87,18 +87,18 @@ func test_mouse_exited_scale_down():
 	# Pre-check mouse is hovering over domino
 	runner.set_mouse_pos(Vector2(0, 0))
 	# Wait a few frames before `*_Area2D_*` event is emitted
-	yield(runner.simulate_frames(5, 10), "completed")
+	await runner.simulate_frames(5, 10).completed
 
 	# Get value only copy of node, rather than a reference
-	var pre_sprite: Sprite = auto_free(test_domino.find_node("Sprite").duplicate())
+	var pre_sprite: Sprite2D = auto_free(test_domino.find_child("Sprite2D").duplicate())
 
 	# Simulate mouse movement away from domino
 	runner.simulate_mouse_move(Vector2(500, 500))
 	# Wait a few frames before `*_Area2D_*` event is emitted
-	yield(runner.simulate_frames(5, 10), "completed")
+	await runner.simulate_frames(5, 10).completed
 
 	# Verify that sprite scale changed
-	var sprite: Sprite = test_domino.find_node("Sprite")
+	var sprite: Sprite2D = test_domino.find_child("Sprite2D")
 	assert_vector2(sprite.scale).is_not_equal(pre_sprite.scale)
 	assert_vector2(sprite.scale).is_equal(Vector2(domino_spy.og_scale, domino_spy.og_scale))
 
@@ -112,12 +112,12 @@ func test_input_event_pickup_domino():
 
 	# Pre-check mouse is hovering over domino
 	runner.set_mouse_pos(Vector2(0, 0))
-	yield(await_idle_frame(), "completed")
+	await await_idle_frame().completed
 
 	assert_bool(domino_spy.selected).is_false()
 
-	runner.simulate_mouse_button_pressed(BUTTON_LEFT)
-	yield(await_idle_frame(), "completed")
+	runner.simulate_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	await await_idle_frame().completed
 	assert_bool(domino_spy.selected).is_true()
 
 
@@ -130,18 +130,18 @@ func test_input_event_drop_domino():
 
 	# Pre-check mouse is hovering over domino and clicked to pick up.
 	runner.set_mouse_pos(Vector2(0, 0))
-	runner.simulate_mouse_button_pressed(BUTTON_LEFT)
-	yield(await_idle_frame(), "completed")
+	runner.simulate_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	await await_idle_frame().completed
 
 	assert_bool(domino_spy.selected).is_true()
 
 	do_return(true).on(world_mock).is_domino_selected(test_domino)
 
 	# Click on domino again. Should place.
-	runner.simulate_mouse_button_pressed(BUTTON_LEFT)
+	runner.simulate_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	# Account for timed pause when clicking on domino
-	yield(runner.simulate_frames(5, 10), "completed")
-	yield(await_idle_frame(), "completed")
+	await runner.simulate_frames(5, 10).completed
+	await await_idle_frame().completed
 
 	assert_bool(domino_spy.selected).is_false()
 

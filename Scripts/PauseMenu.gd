@@ -11,7 +11,7 @@ func _ready():
 #	pass
 
 #variable to manipulate when game is paused
-var is_paused = false setget set_is_paused
+var is_paused = false: set = set_is_paused
 
 #open and close pause menu using the escape button
 func _unhandled_input(event):
@@ -30,7 +30,7 @@ func _on_ResumeBtn_pressed():
 
 #returns to main menu
 func _on_MainBtn_pressed():
-	get_tree().change_scene("res://Scenes/GAME_START.tscn")
+	get_tree().change_scene_to_file("res://Scenes/GAME_START.tscn")
 	
 
 #quits to desktop, will need to add a save function here when save data is added

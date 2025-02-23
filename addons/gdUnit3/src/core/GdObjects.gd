@@ -18,30 +18,30 @@ const TYPE_AS_STRING_MAPPINGS := {
 	TYPE_NIL: "null",
 	TYPE_BOOL: "bool",
 	TYPE_INT: "int",
-	TYPE_REAL: "float",
+	TYPE_FLOAT: "float",
 	TYPE_STRING: "String",
 	TYPE_VECTOR2: "Vector2",
 	TYPE_RECT2: "Rect2",
 	TYPE_VECTOR3: "Vector3",
 	TYPE_TRANSFORM2D: "Transform2D",
 	TYPE_PLANE: "Plane",
-	TYPE_QUAT: "Quat",
+	TYPE_QUATERNION: "Quaternion",
 	TYPE_AABB: "AABB",
 	TYPE_BASIS: "Basis",
-	TYPE_TRANSFORM: "Transform",
+	TYPE_TRANSFORM3D: "Transform3D",
 	TYPE_COLOR: "Color",
 	TYPE_NODE_PATH: "NodePath",
 	TYPE_RID: "RID",
 	TYPE_OBJECT: "Object",
 	TYPE_DICTIONARY: "Dictionary",
 	TYPE_ARRAY: "Array",
-	TYPE_RAW_ARRAY: "PoolByteArray",
-	TYPE_INT_ARRAY: "PoolIntArray",
-	TYPE_REAL_ARRAY: "PoolRealArray",
-	TYPE_STRING_ARRAY: "PoolStringArray",
-	TYPE_VECTOR2_ARRAY: "PoolVector2Array",
-	TYPE_VECTOR3_ARRAY: "PoolVector3Array",
-	TYPE_COLOR_ARRAY: "PoolColorArray",
+	TYPE_PACKED_BYTE_ARRAY: "PackedByteArray",
+	TYPE_PACKED_INT32_ARRAY: "PackedInt32Array",
+	TYPE_PACKED_FLOAT32_ARRAY: "PackedFloat32Array",
+	TYPE_PACKED_STRING_ARRAY: "PackedStringArray",
+	TYPE_PACKED_VECTOR2_ARRAY: "PackedVector2Array",
+	TYPE_PACKED_VECTOR3_ARRAY: "PackedVector3Array",
+	TYPE_PACKED_COLOR_ARRAY: "PackedColorArray",
 	TYPE_VOID: "void",
 	TYPE_VARARG: "VarArg",
 	TYPE_FUNC: "Func",
@@ -56,30 +56,30 @@ const DEFAULT_VALUES_BY_TYPE := {
 	TYPE_NIL: null,
 	TYPE_BOOL: false,
 	TYPE_INT: 0,
-	TYPE_REAL: 0.0,
+	TYPE_FLOAT: 0.0,
 	TYPE_STRING: "",
 	TYPE_VECTOR2: Vector2.ZERO,
 	TYPE_RECT2: Rect2(),
 	TYPE_VECTOR3: Vector3.ZERO,
 	TYPE_TRANSFORM2D: Transform2D(),
 	TYPE_PLANE: Plane(),
-	TYPE_QUAT: Quat(),
+	TYPE_QUATERNION: Quaternion(),
 	TYPE_AABB: AABB(),
 	TYPE_BASIS: Basis(),
-	TYPE_TRANSFORM: Transform(),
+	TYPE_TRANSFORM3D: Transform3D(),
 	TYPE_COLOR: Color(),
 	TYPE_NODE_PATH: NodePath(),
 	TYPE_RID: RID(),
 	TYPE_OBJECT: null,
 	TYPE_DICTIONARY: Dictionary(),
 	TYPE_ARRAY: Array(),
-	TYPE_RAW_ARRAY: PoolByteArray(),
-	TYPE_INT_ARRAY: PoolIntArray(),
-	TYPE_REAL_ARRAY: PoolRealArray(),
-	TYPE_STRING_ARRAY: PoolStringArray(),
-	TYPE_VECTOR2_ARRAY: PoolVector2Array(),
-	TYPE_VECTOR3_ARRAY: PoolVector3Array(),
-	TYPE_COLOR_ARRAY: PoolColorArray(),
+	TYPE_PACKED_BYTE_ARRAY: PackedByteArray(),
+	TYPE_PACKED_INT32_ARRAY: PackedInt32Array(),
+	TYPE_PACKED_FLOAT32_ARRAY: PackedFloat32Array(),
+	TYPE_PACKED_STRING_ARRAY: PackedStringArray(),
+	TYPE_PACKED_VECTOR2_ARRAY: PackedVector2Array(),
+	TYPE_PACKED_VECTOR3_ARRAY: PackedVector3Array(),
+	TYPE_PACKED_COLOR_ARRAY: PackedColorArray(),
 }
 
 const NOTIFICATION_AS_STRING_MAPPINGS := {
@@ -95,27 +95,27 @@ const NOTIFICATION_AS_STRING_MAPPINGS := {
 	Node.NOTIFICATION_PROCESS: "PROCESS",
 	Node.NOTIFICATION_PARENTED: "PARENTED",
 	Node.NOTIFICATION_UNPARENTED: "UNPARENTED",
-	Node.NOTIFICATION_INSTANCED: "INSTANCED",
+	Node.NOTIFICATION_SCENE_INSTANTIATED: "INSTANCED",
 	Node.NOTIFICATION_DRAG_BEGIN: "DRAG_BEGIN",
 	Node.NOTIFICATION_DRAG_END: "DRAG_END",
-	Node.NOTIFICATION_PATH_CHANGED: "PATH_CHANGED",
+	Node.NOTIFICATION_PATH_RENAMED: "PATH_CHANGED",
 	Node.NOTIFICATION_INTERNAL_PROCESS: "INTERNAL_PROCESS",
 	Node.NOTIFICATION_INTERNAL_PHYSICS_PROCESS: "INTERNAL_PHYSICS_PROCESS",
 	Node.NOTIFICATION_POST_ENTER_TREE: "POST_ENTER_TREE",
 	Node.NOTIFICATION_WM_MOUSE_ENTER: "WM_MOUSE_ENTER",
 	Node.NOTIFICATION_WM_MOUSE_EXIT: "NOTIFICATION_WM_MOUSE_EXIT",
-	Node.NOTIFICATION_WM_FOCUS_IN: "WM_FOCUS_IN",
-	Node.NOTIFICATION_WM_FOCUS_OUT: "WM_FOCUS_OUT",
+	Node.NOTIFICATION_APPLICATION_FOCUS_IN: "WM_FOCUS_IN",
+	Node.NOTIFICATION_APPLICATION_FOCUS_OUT: "WM_FOCUS_OUT",
 	Node.NOTIFICATION_WM_QUIT_REQUEST: "WM_QUIT_REQUEST",
 	Node.NOTIFICATION_WM_GO_BACK_REQUEST: "WM_GO_BACK_REQUEST",
-	Node.NOTIFICATION_WM_UNFOCUS_REQUEST: "WM_UNFOCUS_REQUEST",
+	Node.NOTIFICATION_WM_WINDOW_FOCUS_OUT: "WM_UNFOCUS_REQUEST",
 	Node.NOTIFICATION_OS_MEMORY_WARNING: "OS_MEMORY_WARNING",
 	Node.NOTIFICATION_TRANSLATION_CHANGED: "TRANSLATION_CHANGED",
 	Node.NOTIFICATION_WM_ABOUT: "WM_ABOUT",
 	Node.NOTIFICATION_CRASH: "CRASH",
 	Node.NOTIFICATION_OS_IME_UPDATE: "OS_IME_UPDATE",
-	Node.NOTIFICATION_APP_RESUMED: "APP_RESUMED",
-	Node.NOTIFICATION_APP_PAUSED: "APP_PAUSED",
+	Node.NOTIFICATION_APPLICATION_RESUMED: "APP_RESUMED",
+	Node.NOTIFICATION_APPLICATION_PAUSED: "APP_PAUSED",
 	Container.NOTIFICATION_SORT_CHILDREN: "SORT_CHILDREN",
 	Popup.NOTIFICATION_POST_POPUP: "POST_POPUP",
 	Popup.NOTIFICATION_POPUP_HIDE: "POPUP_HIDE",
@@ -133,25 +133,25 @@ const NOTIFICATION_AS_STRING_MAPPINGS := {
 	CanvasItem.NOTIFICATION_VISIBILITY_CHANGED: "VISIBILITY_CHANGED",
 	CanvasItem.NOTIFICATION_ENTER_CANVAS: "ENTER_CANVAS",
 	CanvasItem.NOTIFICATION_EXIT_CANVAS: "EXIT_CANVAS",
-	Skeleton.NOTIFICATION_UPDATE_SKELETON: "UPDATE_SKELETON",
-	Spatial.NOTIFICATION_TRANSFORM_CHANGED: "TRANSFORM_CHANGED",
-	Spatial.NOTIFICATION_ENTER_WORLD: "ENTER_WORLD",
-	Spatial.NOTIFICATION_EXIT_WORLD: "EXIT_WORLD",
-	Spatial.NOTIFICATION_VISIBILITY_CHANGED: "VISIBILITY_CHANGED",
+	Skeleton3D.NOTIFICATION_UPDATE_SKELETON: "UPDATE_SKELETON",
+	Node3D.NOTIFICATION_TRANSFORM_CHANGED: "TRANSFORM_CHANGED",
+	Node3D.NOTIFICATION_ENTER_WORLD: "ENTER_WORLD",
+	Node3D.NOTIFICATION_EXIT_WORLD: "EXIT_WORLD",
+	Node3D.NOTIFICATION_VISIBILITY_CHANGED: "VISIBILITY_CHANGED",
 	MainLoop.NOTIFICATION_WM_MOUSE_ENTER: "WM_MOUSE_ENTER",
 	MainLoop.NOTIFICATION_WM_MOUSE_EXIT: "WM_MOUSE_EXIT",
-	MainLoop.NOTIFICATION_WM_FOCUS_IN: "WM_FOCUS_IN",
-	MainLoop.NOTIFICATION_WM_FOCUS_OUT: "WM_FOCUS_OUT",
+	MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN: "WM_FOCUS_IN",
+	MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT: "WM_FOCUS_OUT",
 	MainLoop.NOTIFICATION_WM_QUIT_REQUEST: "WM_QUIT_REQUEST",
 	MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST: "WM_GO_BACK_REQUEST",
-	MainLoop.NOTIFICATION_WM_UNFOCUS_REQUEST: "WM_UNFOCUS_REQUEST",
+	MainLoop.NOTIFICATION_WM_WINDOW_FOCUS_OUT: "WM_UNFOCUS_REQUEST",
 	MainLoop.NOTIFICATION_OS_MEMORY_WARNING: "OS_MEMORY_WARNING",
 	MainLoop.NOTIFICATION_TRANSLATION_CHANGED: "TRANSLATION_CHANGED",
 	MainLoop.NOTIFICATION_WM_ABOUT: "WM_ABOUT",
 	MainLoop.NOTIFICATION_CRASH: "CRASH",
 	MainLoop.NOTIFICATION_OS_IME_UPDATE: "OS_IME_UPDATE",
-	MainLoop.NOTIFICATION_APP_RESUMED: "APP_RESUMED",
-	MainLoop.NOTIFICATION_APP_PAUSED: "APP_PAUSED",
+	MainLoop.NOTIFICATION_APPLICATION_RESUMED: "APP_RESUMED",
+	MainLoop.NOTIFICATION_APPLICATION_PAUSED: "APP_PAUSED",
 	EditorSettings.NOTIFICATION_EDITOR_SETTINGS_CHANGED: "EDITOR_SETTINGS_CHANGED",
 }
 
@@ -167,8 +167,8 @@ static func is_type_equivalent(type_a, type_b) -> bool:
 	if GdUnitSettings.is_strict_number_type_compare():
 		return type_a == type_b
 	return (
-		(type_a == TYPE_REAL and type_b == TYPE_INT)
-		or (type_a == TYPE_INT and type_b == TYPE_REAL)
+		(type_a == TYPE_FLOAT and type_b == TYPE_INT)
+		or (type_a == TYPE_INT and type_b == TYPE_FLOAT)
 		or type_a == type_b)
 
 # prototype of better object to dictionary
@@ -180,7 +180,7 @@ static func obj2dict(obj :Object, hashed_objects := Dictionary()) -> Dictionary:
 	var clazz_path := ""
 	
 	if is_instance_valid(obj) and obj.get_script() != null:
-		var d := inst2dict(obj)
+		var d := inst_to_dict(obj)
 		clazz_path = d["@path"]
 		if d["@subpath"] != NodePath(""):
 			clazz_name = d["@subpath"]
@@ -235,8 +235,8 @@ static func equals(obj_a, obj_b, case_sensitive :bool = false, deep_check :bool 
 					return false
 				if obj_a.get_class() != obj_b.get_class():
 					return false
-				var a = inst2dict(obj_a) if is_instance_valid(obj_a) and obj_a.get_script() != null else var2str(obj_a)
-				var b = inst2dict(obj_b) if is_instance_valid(obj_b) and obj_b.get_script() != null else var2str(obj_b)
+				var a = inst_to_dict(obj_a) if is_instance_valid(obj_a) and obj_a.get_script() != null else var_to_str(obj_a)
+				var b = inst_to_dict(obj_b) if is_instance_valid(obj_b) and obj_b.get_script() != null else var_to_str(obj_b)
 				return str(a) == str(b)
 			return obj_a == obj_b
 		TYPE_ARRAY:
@@ -277,7 +277,7 @@ static func string_to_type(value :String) -> int:
 
 static func to_camel_case(value :String) -> String:
 	var p := to_pascal_case(value)
-	if not p.empty():
+	if not p.is_empty():
 		p[0] = p[0].to_lower()
 	return p
 
@@ -285,13 +285,13 @@ static func to_pascal_case(value :String) -> String:
 	return value.capitalize().replace(" ", "")
 
 static func to_snake_case(value :String) -> String:
-	var result = PoolStringArray()
+	var result = PackedStringArray()
 	for ch in value:
 		var lower_ch = ch.to_lower()
 		if ch != lower_ch and result.size() > 1:
 			result.append('_')
 		result.append(lower_ch)
-	return result.join('')
+	return ''.join(result)
 
 static func is_snake_case(value :String) -> bool:
 	for ch in value:
@@ -307,12 +307,12 @@ static func type_as_string(type :int) -> String:
 static func typeof_as_string(value) -> String:
 	return TYPE_AS_STRING_MAPPINGS.get(typeof(value), "Unknown type")
 
-static func all_types() -> PoolIntArray:
-	return PoolIntArray(TYPE_AS_STRING_MAPPINGS.keys())
+static func all_types() -> PackedInt32Array:
+	return PackedInt32Array(TYPE_AS_STRING_MAPPINGS.keys())
 
 static func string_as_typeof(type :String) -> int:
 	# init STRING_AS_TYPE_MAPPINGS if empty by build a flipped copy
-	if STRING_AS_TYPE_MAPPINGS.empty():
+	if STRING_AS_TYPE_MAPPINGS.is_empty():
 		for key in TYPE_AS_STRING_MAPPINGS.keys():
 			var value = TYPE_AS_STRING_MAPPINGS[key]
 			STRING_AS_TYPE_MAPPINGS[value] = key
@@ -326,7 +326,7 @@ static func is_primitive_type(value) -> bool:
 			return true
 		TYPE_INT:
 			return true
-		TYPE_REAL:
+		TYPE_FLOAT:
 			return true
 	return false
 
@@ -337,19 +337,19 @@ static func is_type_array(type :int) -> bool:
 	match type:
 		TYPE_ARRAY:
 			return true
-		TYPE_COLOR_ARRAY:
+		TYPE_PACKED_COLOR_ARRAY:
 			return true
-		TYPE_INT_ARRAY:
+		TYPE_PACKED_INT32_ARRAY:
 			return true
-		TYPE_RAW_ARRAY:
+		TYPE_PACKED_BYTE_ARRAY:
 			return true
-		TYPE_REAL_ARRAY:
+		TYPE_PACKED_FLOAT32_ARRAY:
 			return true
-		TYPE_STRING_ARRAY:
+		TYPE_PACKED_STRING_ARRAY:
 			return true
-		TYPE_VECTOR2_ARRAY:
+		TYPE_PACKED_VECTOR2_ARRAY:
 			return true
-		TYPE_VECTOR3_ARRAY:
+		TYPE_PACKED_VECTOR3_ARRAY:
 			return true
 	return false
 
@@ -367,7 +367,7 @@ static func is_type(value) -> bool:
 	if is_engine_type(value):
 		return true
 	# is a custom class type
-	if value is GDScript and value.can_instance():
+	if value is GDScript and value.can_instantiate():
 		return true
 	return false
 
@@ -420,7 +420,7 @@ static func is_cs_test_suite(instance :Node) -> bool:
 static func is_gd_testsuite(script :Script) -> bool:
 	if is_gd_script(script):
 		var stack := [script]
-		while not stack.empty():
+		while not stack.is_empty():
 			var current := stack.pop_front() as Script
 			var base := current.get_base_script() as Script
 			if base != null:
@@ -447,13 +447,13 @@ static func is_instance(value) -> bool:
 static func is_instance_scene(instance) -> bool:
 	if instance is Node:
 		var node := instance as Node
-		return node.get_filename() != null and not node.get_filename().empty()
+		return node.get_scene_file_path() != null and not node.get_scene_file_path().is_empty()
 	return false
 
 static func is_instanceof(obj :Object, type) -> bool:
 	return is_type(type) and obj is type
 
-static func can_instance(obj :Object) -> bool:
+static func can_instantiate(obj :Object) -> bool:
 	if not obj:
 		return false
 	for method in obj.get_method_list():
@@ -473,9 +473,9 @@ static func create_instance(clazz) -> Result:
 			if ClassDB.class_exists(clazz):
 				if Engine.has_singleton(clazz):
 					return Result.error("Not allowed to create a instance for singelton '%s'." % clazz)
-				if not ClassDB.can_instance(clazz):
+				if not ClassDB.can_instantiate(clazz):
 					return  Result.error("Can't instance Engine class '%s'." % clazz)
-				return Result.success(ClassDB.instance(clazz))
+				return Result.success(ClassDB.instantiate(clazz))
 			else:
 				var clazz_path = extract_class_path(clazz)
 				if not File.new().file_exists(clazz_path):
@@ -487,8 +487,8 @@ static func create_instance(clazz) -> Result:
 					return Result.error("Can't create instance for '%s'." % clazz)
 	return Result.error("Can't create instance for class '%s'." % clazz)
 
-static func extract_class_path(clazz) -> PoolStringArray:
-	var clazz_path := PoolStringArray()
+static func extract_class_path(clazz) -> PackedStringArray:
+	var clazz_path := PackedStringArray()
 	if clazz is String:
 		clazz_path.append(clazz)
 		return clazz_path
@@ -504,18 +504,18 @@ static func extract_class_path(clazz) -> PoolStringArray:
 		# if not found we go the expensive way and extract the path form the script by creating an instance
 		var arg_list := build_function_default_arguments(clazz, "_init")
 		var instance = clazz.callv("new", arg_list)
-		var clazz_info := inst2dict(instance)
+		var clazz_info := inst_to_dict(instance)
 		GdUnitTools.free_instance(instance)
 		clazz_path.append(clazz_info["@path"])
 		if clazz_info.has("@subpath"):
 			var sub_path :String = clazz_info["@subpath"]
-			if not sub_path.empty():
+			if not sub_path.is_empty():
 				var sub_paths := sub_path.split("/")
 				clazz_path += sub_paths
 		return clazz_path
 	return clazz_path
 
-static func extract_class_name_from_class_path(clazz_path :PoolStringArray) -> String:
+static func extract_class_name_from_class_path(clazz_path :PackedStringArray) -> String:
 	var base_clazz := clazz_path[0]
 	# return original class name if engine class
 	if ClassDB.class_exists(base_clazz):
@@ -548,7 +548,7 @@ static func extract_class_name(clazz) -> Result:
 		return Result.error("Can't extract class name for an primitive '%s'" % type_as_string(typeof(clazz)))
 
 	if is_script(clazz):
-		if clazz.resource_path.empty():
+		if clazz.resource_path.is_empty():
 			var class_path = extract_class_name_from_class_path(extract_class_path(clazz))
 			return Result.success(class_path);
 		return extract_class_name(clazz.resource_path)
@@ -561,8 +561,8 @@ static func extract_class_name(clazz) -> Result:
 	GdUnitTools.free_instance(instance)
 	return result
 
-static func extract_inner_clazz_names(clazz_name :String, script_path :PoolStringArray) -> PoolStringArray:
-	var inner_classes := PoolStringArray()
+static func extract_inner_clazz_names(clazz_name :String, script_path :PackedStringArray) -> PackedStringArray:
+	var inner_classes := PackedStringArray()
 
 	if ClassDB.class_exists(clazz_name):
 		return inner_classes
@@ -575,11 +575,11 @@ static func extract_inner_clazz_names(clazz_name :String, script_path :PoolStrin
 			inner_classes.append(class_path[1])
 	return inner_classes
 
-static func extract_class_functions(clazz_name :String, script_path :PoolStringArray) -> Array:
+static func extract_class_functions(clazz_name :String, script_path :PackedStringArray) -> Array:
 	if ClassDB.class_get_method_list(clazz_name):
 		return ClassDB.class_get_method_list(clazz_name)
 
-	if not Directory.new().file_exists(script_path[0]):
+	if not DirAccess.new().file_exists(script_path[0]):
 		return Array()
 	var script = load(script_path[0])
 	var clazz_functions :Array = script.get_method_list()
@@ -624,7 +624,7 @@ static func default_value_by_type(type :int):
 static func array_to_string(elements :Array, delimiter := "\n", max_elements := -1) -> String:
 	if elements == null:
 		return "Null"
-	if elements.empty():
+	if elements.is_empty():
 		return "empty"
 	var formatted := ""
 	var index := 0

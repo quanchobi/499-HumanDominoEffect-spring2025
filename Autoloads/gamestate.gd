@@ -15,7 +15,7 @@ const MAX_PEERS = 6
 const num_domino_rounds = 6
 
 # list of [top number, bottom number] lists
-export var dominos = []
+@export var dominos = []
 
 # Consts for footprint tiles
 const num_outer_tiles = 36
@@ -48,15 +48,15 @@ var players = {}
 var players_ready = []
 
 # Character Data in id:data format
-export var total_points = {}
-export var lydia_lion = {}
-export var alloys = {}
-export var footprint_tiles = {}
-export var wellness_beads = {}
-export var elcitraps = {}
-export var hair = {}
-export var clothes = {}
-export var body = {}
+@export var total_points = {}
+@export var lydia_lion = {}
+@export var alloys = {}
+@export var footprint_tiles = {}
+@export var wellness_beads = {}
+@export var elcitraps = {}
+@export var hair = {}
+@export var clothes = {}
+@export var body = {}
 
 var first_level = "Agency"
 
@@ -163,7 +163,7 @@ func _player_connected(id):
 # Callback from SceneTree.
 func _player_disconnected(id):
 	if has_node("/root/World"): # Game is in progress.
-		if get_tree().is_network_server():
+		if get_tree().is_server():
 			emit_signal("game_error", "Player " + players[id] + " disconnected")
 			end_game()
 	else: # Game is not in progress.
@@ -184,13 +184,13 @@ func _server_disconnected():
 
 # Callback from SceneTree, only for clients (not server).
 func _connected_fail():
-	get_tree().set_network_peer(null) # Remove peer
+	get_tree().set_multiplayer_peer(null) # Remove peer
 	emit_signal("connection_failed")
 
 
 # Lobby management functions.
-remotesync func register_player(new_player_name,cpunum):
-	var id = get_tree().get_rpc_sender_id()+cpunum
+@rpc("any_peer", "call_local") func register_player(new_player_name,cpunum):
+	var id = get_tree().get_remote_sender_id()+cpunum
 	var CharacterFound = false
 	players[id] = new_player_name
 	if(SaveManager.loaded_data):
@@ -231,13 +231,13 @@ func unregister_player(id):
 	emit_signal("player_list_changed")
 
 
-remote func pre_start_game():
+@rpc("any_peer") func pre_start_game():
 	# Change scene.
 #	print(players)
 
-	if not get_tree().is_network_server():
+	if not get_tree().is_server():
 		# Tell server we are ready to start.
-		rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
+		rpc_id(1, "ready_to_start", get_tree().get_unique_id())
 	elif players.size() == 1:
 		# small loop to add CPUs with unique names and ids
 		var cpusAdded = 0
@@ -247,12 +247,12 @@ remote func pre_start_game():
 		post_start_game()
 
 
-remote func post_start_game():
+@rpc("any_peer") func post_start_game():
 	gamestate.players_ready = []
 	var world = load("res://Scenes/Level_Scenes/Manager.tscn")
 	
 			
-	if get_tree().get_network_unique_id() != 1:
+	if get_tree().get_unique_id() != 1:
 		for top in range(10):
 			for bottom in range(top+1):
 				dominos.append([bottom, top])
@@ -261,53 +261,53 @@ remote func post_start_game():
 		dominos.shuffle()
 #		print(dominos)
 	
-	get_tree().change_scene_to(world)
+	get_tree().change_scene_to_packed(world)
 
 # tell host we're ready to start
-remote func ready_to_start(id):
-	assert(get_tree().is_network_server())
+@rpc("any_peer") func ready_to_start(id):
+	assert(get_tree().is_server())
 
 	if not id in players_ready:
 		players_ready.append(id)
 
 	if players_ready.size() == players.size()-1:
 		for p in players:
-			if p != get_tree().get_network_unique_id():
+			if p != get_tree().get_unique_id():
 				rpc_id(p, "post_start_game")
 		post_start_game()
 
 func host_game(new_player_name):
 	player_name = new_player_name
-	peer = NetworkedMultiplayerENet.new()
+	peer = ENetMultiplayerPeer.new()
 	peer.create_server(DEFAULT_PORT, MAX_PEERS)
-	get_tree().set_network_peer(peer)
+	get_tree().set_multiplayer_peer(peer)
 	
-	var id = get_tree().get_network_unique_id()
+	var id = get_tree().get_unique_id()
 	
 	rpc("register_player", player_name, 0)
 
 func join_game(ip, new_player_name):
 	player_name = new_player_name
-	peer = NetworkedMultiplayerENet.new()
+	peer = ENetMultiplayerPeer.new()
 	peer.create_client(ip, DEFAULT_PORT)
-	get_tree().set_network_peer(peer)
+	get_tree().set_multiplayer_peer(peer)
 	
 # host sends level to player who asked
-remote func get_level():
-	var id = get_tree().get_rpc_sender_id()
+@rpc("any_peer") func get_level():
+	var id = get_tree().get_remote_sender_id()
 	rpc_id(id, "set_level", first_level)
 	
 # player sets their level
-remote func set_level(level):
+@rpc("any_peer") func set_level(level):
 	first_level = level
 	
 # host sends random seed to player who asked
-remote func get_random_seed():
-	var id = get_tree().get_rpc_sender_id()
+@rpc("any_peer") func get_random_seed():
+	var id = get_tree().get_remote_sender_id()
 	rpc_id(id, "set_random_seed", random_seed)
 	
 # player sets their random seed
-remote func set_random_seed(rando_seed):
+@rpc("any_peer") func set_random_seed(rando_seed):
 	random_seed = rando_seed
 #	print("seed: ", random_seed)
 
@@ -322,11 +322,11 @@ func begin_game():
 	if tutorial_mode:
 		start_tutorial()
 	else:
-		assert(get_tree().is_network_server())
+		assert(get_tree().is_server())
 
 		# Call to pre-start game with the spawn points.
 		for p in players:
-			if p != get_tree().get_network_unique_id():
+			if p != get_tree().get_unique_id():
 				rpc_id(p, "pre_start_game")
 
 		pre_start_game()
@@ -338,7 +338,7 @@ func start_tutorial():
 	dominos = tutorial_dominos
 	random_seed = 12345 #Fixed Seed for Tutorial consistency
 	
-	get_tree().change_scene_to(tutorial_scene)
+	get_tree().change_scene_to_packed(tutorial_scene)
 
 func get_tutorial_mode():
 	return tutorial_mode
@@ -356,8 +356,8 @@ func save_scene_path(scene_path):
 	prev_scene = scene_path
 
 func _ready():
-	get_tree().connect("network_peer_connected", self, "_player_connected")
-	get_tree().connect("network_peer_disconnected", self,"_player_disconnected")
-	get_tree().connect("connected_to_server", self, "_connected_ok")
-	get_tree().connect("connection_failed", self, "_connected_fail")
-	get_tree().connect("server_disconnected", self, "_server_disconnected")
+	get_tree().connect("peer_connected", Callable(self, "_player_connected"))
+	get_tree().connect("peer_disconnected", Callable(self, "_player_disconnected"))
+	get_tree().connect("connected_to_server", Callable(self, "_connected_ok"))
+	get_tree().connect("connection_failed", Callable(self, "_connected_fail"))
+	get_tree().connect("server_disconnected", Callable(self, "_server_disconnected"))

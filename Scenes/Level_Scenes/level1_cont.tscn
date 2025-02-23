@@ -1,17 +1,17 @@
 [gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://UI/sprites/beachbg.png" type="Texture" id=1]
+[ext_resource path="res://UI/sprites/beachbg.png" type="Texture2D" id=1]
 [ext_resource path="res://Scenes/StaticOauabae.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/Level_Scripts/level1_cont.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/CapturedElcitrap.tscn" type="PackedScene" id=4]
-[ext_resource path="res://UI/Fonts/Nunito/Nunito-Regular.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://UI/Fonts/Nunito/Nunito-Regular.ttf" type="FontFile" id=5]
 [ext_resource path="res://Scenes/Parallax_Scenes/Parallax4.tscn" type="PackedScene" id=6]
-[ext_resource path="res://UI/sprites/next.png" type="Texture" id=7]
+[ext_resource path="res://UI/sprites/next.png" type="Texture2D" id=7]
 [ext_resource path="res://Scenes/Narration.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scripts/Level1Animations.gd" type="Script" id=9]
 [ext_resource path="res://Scripts/Level1Button.gd" type="Script" id=10]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="FontFile" id=1]
 size = 25
 font_data = ExtResource( 5 )
 
@@ -25,8 +25,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4, 0.7 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.4, 0.7 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 0, 0, 1 ) ]
 }
@@ -40,8 +40,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
@@ -56,20 +56,20 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 5, 7.7, 8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.5, 5, 7.7, 8 ),
+"transitions": PackedFloat32Array( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 0.0, 1.0, 1.0, 0.0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath(".:custom_colors/default_color")
+tracks/1/path = NodePath(".:theme_override_colors/default_color")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5, 6.8, 7.7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.5, 6.8, 7.7 ),
+"transitions": PackedFloat32Array( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
@@ -94,20 +94,20 @@ gravity = 1024.0
 
 [node name="Button" type="TextureButton" parent="."]
 visible = false
-margin_left = 800.0
-margin_top = 384.0
-margin_right = 1432.0
-margin_bottom = 1121.0
-rect_scale = Vector2( 0.2, 0.2 )
+offset_left = 800.0
+offset_top = 384.0
+offset_right = 1432.0
+offset_bottom = 1121.0
+scale = Vector2( 0.2, 0.2 )
 texture_normal = ExtResource( 7 )
 script = ExtResource( 10 )
 
 [node name="Label" type="Label" parent="Button"]
-margin_left = 30.9447
-margin_top = 9.36
-margin_right = 131.945
-margin_bottom = 44.36
-custom_fonts/font = SubResource( 1 )
+offset_left = 30.9447
+offset_top = 9.36
+offset_right = 131.945
+offset_bottom = 44.36
+theme_override_fonts/font = SubResource( 1 )
 text = "Continue"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -118,11 +118,11 @@ script = ExtResource( 9 )
 [node name="End" type="Timer" parent="."]
 
 [node name="Narration" parent="." instance=ExtResource( 8 )]
-margin_left = 16.0
-margin_top = 64.0
-margin_right = 232.0
-margin_bottom = 512.0
-custom_colors/default_color = Color( 1, 1, 1, 0 )
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 232.0
+offset_bottom = 512.0
+theme_override_colors/default_color = Color( 1, 1, 1, 0 )
 
 [node name="TextAnimationPlayer" parent="Narration" index="1"]
 anims/Reveal = SubResource( 4 )
@@ -133,8 +133,8 @@ z_index = 1
 [node name="ColorRect" type="ColorRect" parent="ZIndexSetter"]
 process_priority = 1
 visible = false
-margin_right = 1024.0
-margin_bottom = 600.0
+offset_right = 1024.0
+offset_bottom = 600.0
 color = Color( 0, 0, 0, 1 )
 
 [connection signal="five_selected" from="." to="Button" method="_on_level1_cont_five_selected" flags=6]

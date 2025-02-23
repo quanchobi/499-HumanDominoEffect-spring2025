@@ -1,5 +1,5 @@
 class_name GdFunctionArgument
-extends Reference
+extends RefCounted
 
 var _name: String
 var _type: String
@@ -33,7 +33,7 @@ static func get_parameter_set(parameters :Array) -> GdFunctionArgument:
 
 func _to_string() -> String:
 	var s = _name
-	if not _type.empty():
+	if not _type.is_empty():
 		s += ":" + _type
 	if _default_value != UNDEFINED:
 		s += "=" + str(_default_value)
