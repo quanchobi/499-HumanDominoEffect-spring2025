@@ -30,6 +30,6 @@ Welcome to the official GitHub repository for the Human Domino Effect (HDE) virt
 
 ---
 
-### Additional Development Information
+### Developer and Contributor Information
 
 If you are a UKY CS 499 student or are otherwise contributing to the HDE video game project, please take a look at the [documentation](./docs/index.md) included in this repository.
