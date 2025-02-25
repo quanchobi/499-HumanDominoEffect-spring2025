@@ -14,18 +14,18 @@ func _ready():
 	original_pos = self.position
 	
 func init(type, pos):
-	$AnimatedSprite.animation = type[0]
+	$AnimatedSprite2D.animation = type[0]
 	$Label.text = type[1]
 	current_type = type
 	original_pos = pos
-	$PopupDialog/AnimatedSprite.animation = anim_table[current_type[0]]
+	$Popup/AnimatedSprite2D.animation = anim_table[current_type[0]]
 
 func _on_CapturedElcitrap_mouse_entered() -> void:
 	if not selected:
-		$PopupDialog.visible = true
+		$Popup.visible = true
 
 func _on_CapturedElcitrap_mouse_exited() -> void:
-	$PopupDialog.visible = false
+	$Popup.visible = false
 
 # when clicked add to chosen elcitraps or remove from chosen elcitraps
 func _on_CapturedElcitrap_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
@@ -34,7 +34,7 @@ func _on_CapturedElcitrap_input_event(viewport: Node, event: InputEvent, shape_i
 			if selected or len(get_parent().selected) < 5:
 				selected = not selected
 			if selected:
-				self.position = Vector2(500 + rand_range(-125, 125), 300 + rand_range(-125, 125))
+				self.position = Vector2(500 + randf_range(-125, 125), 300 + randf_range(-125, 125))
 				get_parent().selected.append(current_type)
 				$Select.playing = true
 				

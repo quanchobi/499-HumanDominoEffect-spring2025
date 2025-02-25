@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://UI/sprites/radial_gradient.png" type="Texture" id=1]
+[ext_resource path="res://UI/sprites/radial_gradient.png" type="Texture2D" id=1]
 [ext_resource path="res://Scripts/Fire.gd" type="Script" id=2]
 
 [sub_resource type="Shader" id=1]
@@ -28,7 +28,7 @@ void fragment() {
 	
 }"
 
-[sub_resource type="OpenSimplexNoise" id=2]
+[sub_resource type="FastNoiseLite" id=2]
 
 [sub_resource type="NoiseTexture" id=3]
 seamless = true
@@ -47,7 +47,7 @@ glow_bicubic_upscale = true
 
 [node name="Animated_Fire_Texture" type="Node2D"]
 
-[node name="Fire" type="Sprite" parent="."]
+[node name="Fire" type="Sprite2D" parent="."]
 self_modulate = Color( 1, 1, 1, 0.596078 )
 material = SubResource( 4 )
 position = Vector2( 621, 392 )
@@ -55,7 +55,7 @@ scale = Vector2( 0.264649, 0.282226 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 
-[node name="Light2D" type="Light2D" parent="Fire"]
+[node name="PointLight2D" type="PointLight2D" parent="Fire"]
 position = Vector2( -3.39087, 46.8291 )
 scale = Vector2( 1, 0.880246 )
 texture = ExtResource( 1 )

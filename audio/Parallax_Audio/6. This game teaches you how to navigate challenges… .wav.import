@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/6. This game teaches you how to navigate challenges… .wav-fc5e8c66c2f99a618f0315bc8b6338f2.sample"
+type="AudioStreamWAV"
+uid="uid://fgllbp2bp3w2"
+path="res://.godot/imported/6. This game teaches you how to navigate challenges… .wav-fc5e8c66c2f99a618f0315bc8b6338f2.sample"
 
 [deps]
 
 source_file="res://audio/Parallax_Audio/6. This game teaches you how to navigate challenges… .wav"
-dest_files=[ "res://.import/6. This game teaches you how to navigate challenges… .wav-fc5e8c66c2f99a618f0315bc8b6338f2.sample" ]
+dest_files=["res://.godot/imported/6. This game teaches you how to navigate challenges… .wav-fc5e8c66c2f99a618f0315bc8b6338f2.sample"]
 
 [params]
 

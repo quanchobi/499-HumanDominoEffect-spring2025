@@ -2,7 +2,7 @@
 
 extends Node
 
-export var next_scene: PackedScene
+@export var next_scene: PackedScene
 
 var players_ready = []
 
@@ -21,12 +21,12 @@ var dialogue = ["This O-shaped tool that looks like a magnifying glass is you. W
 ]
 
 var page = 0
-onready var dialogue_label = $DialogueBox/DialogueText  # Assumes dialogue is a RichTextLabel node
-onready var timer = $DialogueBox/Timer  # Assumes there's a Timer node for text animation
+@onready var dialogue_label = $DialogueBox/DialogueText  # Assumes dialogue is a RichTextLabel node
+@onready var timer = $DialogueBox/Timer  # Assumes there's a Timer node for text animation
 
 
 func _ready() -> void:
-	$Oauabae/AnimatedSprite.animation = "default"
+	$Oauabae/AnimatedSprite2D.animation = "default"
 	#$Narration.text = "This O-shaped tool that looks like a magnifying glass is you. Well, it's you for this game, for the first part of the game, before you create your own avatar. You are controlling this magnifying tool." 
 	dialogue_label.set_bbcode(dialogue[page])
 	dialogue_label.set_visible_characters(0)
@@ -36,21 +36,21 @@ func _ready() -> void:
 	MusicController.playMusic(ReferenceManager.get_reference("quantum.ogg"))
 
 func _on_End_timeout() -> void:
-	if not get_tree().is_network_server():
+	if not get_tree().is_server():
 		# Tell server we are ready to start.
-		rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
+		rpc_id(1, "ready_to_start", get_tree().get_unique_id())
 	else:
-		ready_to_start(get_tree().get_network_unique_id())
+		ready_to_start(get_tree().get_unique_id())
 	
 # tell all player's what each player's chosen elcitraps are
-remotesync func set_elcitraps(elcitraps):
-	gamestate.elcitraps[get_tree().get_rpc_sender_id()] = elcitraps
+@rpc("any_peer", "call_local") func set_elcitraps(elcitraps):
+	gamestate.elcitraps[get_tree().get_remote_sender_id()] = elcitraps
 	
-remote func start_game():
+@rpc("any_peer") func start_game():
 	get_parent().change_level(next_scene)
 
-remote func ready_to_start(id):
-	assert(get_tree().is_network_server())
+@rpc("any_peer") func ready_to_start(id):
+	assert(get_tree().is_server())
 
 	if not id in players_ready:
 		players_ready.append(id)

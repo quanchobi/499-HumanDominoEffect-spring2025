@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/7. Are you ready to join the Human family….wav-469d20d06a117985e98ab9eafcaaace7.sample"
+type="AudioStreamWAV"
+uid="uid://qncom1n0gjy5"
+path="res://.godot/imported/7. Are you ready to join the Human family….wav-469d20d06a117985e98ab9eafcaaace7.sample"
 
 [deps]
 
 source_file="res://audio/Parallax_Audio/7. Are you ready to join the Human family….wav"
-dest_files=[ "res://.import/7. Are you ready to join the Human family….wav-469d20d06a117985e98ab9eafcaaace7.sample" ]
+dest_files=["res://.godot/imported/7. Are you ready to join the Human family….wav-469d20d06a117985e98ab9eafcaaace7.sample"]
 
 [params]
 

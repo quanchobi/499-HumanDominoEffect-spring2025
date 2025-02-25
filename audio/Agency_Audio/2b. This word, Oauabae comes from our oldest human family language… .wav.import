@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/2b. This word, Oauabae comes from our oldest human family language… .wav-130edc605e65dd34c3cc10896e542c34.sample"
+type="AudioStreamWAV"
+uid="uid://dj1frqw16hml3"
+path="res://.godot/imported/2b. This word, Oauabae comes from our oldest human family language… .wav-130edc605e65dd34c3cc10896e542c34.sample"
 
 [deps]
 
 source_file="res://audio/Agency_Audio/2b. This word, Oauabae comes from our oldest human family language… .wav"
-dest_files=[ "res://.import/2b. This word, Oauabae comes from our oldest human family language… .wav-130edc605e65dd34c3cc10896e542c34.sample" ]
+dest_files=["res://.godot/imported/2b. This word, Oauabae comes from our oldest human family language… .wav-130edc605e65dd34c3cc10896e542c34.sample"]
 
 [params]
 

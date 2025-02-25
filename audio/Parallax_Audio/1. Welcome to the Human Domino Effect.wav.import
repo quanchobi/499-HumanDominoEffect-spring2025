@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/1. Welcome to the Human Domino Effect.wav-abbbb38adb5b18510072bc95d2ef9563.sample"
+type="AudioStreamWAV"
+uid="uid://b301jynjfl21l"
+path="res://.godot/imported/1. Welcome to the Human Domino Effect.wav-abbbb38adb5b18510072bc95d2ef9563.sample"
 
 [deps]
 
 source_file="res://audio/Parallax_Audio/1. Welcome to the Human Domino Effect.wav"
-dest_files=[ "res://.import/1. Welcome to the Human Domino Effect.wav-abbbb38adb5b18510072bc95d2ef9563.sample" ]
+dest_files=["res://.godot/imported/1. Welcome to the Human Domino Effect.wav-abbbb38adb5b18510072bc95d2ef9563.sample"]
 
 [params]
 

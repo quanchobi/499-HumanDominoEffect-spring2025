@@ -12,8 +12,8 @@ var FootprintTile = load(ReferenceManager.get_reference("FootprintTile.gd"))
 const default_scale = Vector2(0.5, 0.5)
 const tile_rotation_offset = PI / 2
 
-export var radius_outer = 700
-export var radius_inner = 550
+@export var radius_outer = 700
+@export var radius_inner = 550
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -29,7 +29,7 @@ func _init(parent = null) -> void:
 	
 	while i < gamestate.num_outer_tiles + gamestate.num_inner_tiles:
 		var tile = FootprintTile.new(i, true)
-		var connect_val = tile.connect("display_footprint", parent, "display_footprint_tile")
+		var connect_val = tile.connect("display_footprint", Callable(parent, "display_footprint_tile"))
 		assert(connect_val == OK)
 		var radius = (radius_outer if tile.in_outer_ring_layer() else radius_inner)
 		var theta = (i % gamestate.num_outer_tiles) * \

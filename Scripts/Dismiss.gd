@@ -8,4 +8,4 @@ extends Button
 
 
 func _on_Button_pressed() -> void:
-	get_parent().get_parent().get_node("PopupDialog").visible = false
+	get_parent().get_parent().get_node("Popup").visible = false

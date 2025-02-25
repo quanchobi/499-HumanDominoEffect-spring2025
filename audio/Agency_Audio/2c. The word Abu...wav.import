@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/2c. The word Abu...wav-64e148e0964855d1be5d9ecb48c96bba.sample"
+type="AudioStreamWAV"
+uid="uid://cwcuiwot15157"
+path="res://.godot/imported/2c. The word Abu...wav-64e148e0964855d1be5d9ecb48c96bba.sample"
 
 [deps]
 
 source_file="res://audio/Agency_Audio/2c. The word Abu...wav"
-dest_files=[ "res://.import/2c. The word Abu...wav-64e148e0964855d1be5d9ecb48c96bba.sample" ]
+dest_files=["res://.godot/imported/2c. The word Abu...wav-64e148e0964855d1be5d9ecb48c96bba.sample"]
 
 [params]
 

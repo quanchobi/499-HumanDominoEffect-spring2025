@@ -17,6 +17,9 @@ export_presets.cfg
 *.pfk
 *.cer
 
+# Ignore compiled GDScript files
+*.gdc
+
 # Imported translations (automatically generated from CSV files)
 *.translation
 

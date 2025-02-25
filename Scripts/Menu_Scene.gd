@@ -18,7 +18,7 @@ func change_scene_with_animation(target_scene):
 	$Menu_Container/AnimationPlayer.play("transition_out")
 
 	# Wait for transition to finish.
-	yield($Menu_Container/AnimationPlayer, "animation_finished")
+	await $Menu_Container/AnimationPlayer.animation_finished
 	
 	# Change scene to 'target_scene'
 	if parent:

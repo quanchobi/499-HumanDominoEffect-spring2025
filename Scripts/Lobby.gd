@@ -4,12 +4,12 @@ extends Control
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-onready var LobbyContainer = $Lobby_Container
-onready var LevelSelectContainer = $LevelSelect_Container
-onready var WaitRoomContainer = $WaitRoom_Container
+@onready var LobbyContainer = $Lobby_Container
+@onready var LevelSelectContainer = $LevelSelect_Container
+@onready var WaitRoomContainer = $WaitRoom_Container
 
-onready var waitroom_host_name = $WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Host_Username
-onready var waitroom_host_ip = $WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Host_IP
+@onready var waitroom_host_name = $WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Host_Username
+@onready var waitroom_host_ip = $WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Host_IP
 
 var local_ip = get_local_ip()
 
@@ -19,7 +19,7 @@ func _ready():
 	WaitRoomContainer.visible = false
 	
 	# gamestate.gd signal event listeners
-	gamestate.connect("player_list_changed", self, "refresh_lobby")
+	gamestate.connect("player_list_changed", Callable(self, "refresh_lobby"))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -73,7 +73,7 @@ func change_menu_smoothly(prev, target):
 
 	SFXController.playSFX(ReferenceManager.get_reference("next.wav"))
 	prev_animation.play_backwards("start")
-	yield(prev_animation, "animation_finished")
+	await prev_animation.animation_finished
 	
 	prev.visible = false
 	target.visible = true
@@ -86,7 +86,7 @@ func refresh_lobby():
 	for p in players:
 		$WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/VBoxContainer/Menu/MarginContainer/ItemList.add_item(p)
 
-	$WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Start_Button.disabled = not get_tree().is_network_server()
+	$WaitRoom_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Start_Button.disabled = not get_tree().is_server()
 
 # handle which level to begin at / randomize dominos
 func handle_level(level):
@@ -115,10 +115,11 @@ func handle_level(level):
 	
 ##### VVV HELPER FUNCTIONS VVV #####
 
-func get_name() -> String:
+func get_lobby_name() -> String:
+	print($Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Name/NinePatchRect/MarginContainer/LineEdit.text)
 	return $Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Name/NinePatchRect/MarginContainer/LineEdit.text
 	
-func set_name(name: String):
+func set_lobby_name(name: String):
 	$Lobby_Container/HBoxContainer/MenuContainer/Menu/MarginContainer/VBoxContainer/Name/NinePatchRect/MarginContainer/LineEdit.set_text(name)
 
 func set_error_label(text: String):

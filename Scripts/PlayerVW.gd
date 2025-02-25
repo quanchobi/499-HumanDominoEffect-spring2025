@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 #added in Fall 2024
 
@@ -28,7 +28,9 @@ func read_input():
 		
 	#to make sure the player's speed is normal when going in odd directions (diagonally)
 	velocity = velocity.normalized()
-	velocity = move_and_slide(velocity * 200)
+	set_velocity(velocity * 200)
+	move_and_slide()
+	velocity = velocity
 
 #needed for maintaining collision control with objects in the level
 func _physics_process(delta):

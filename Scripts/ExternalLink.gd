@@ -7,11 +7,11 @@ func _init(name: String = "") -> void:
 	var url = curriculum.external_link_dict.get(name)
 	self.bbcode_enabled = url != null
 	if self.bbcode_enabled:
-		self.bbcode_text = "[color=blue][url=" + url + "]" + name
+		self.text = "[color=blue][url=" + url + "]" + name
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if connect("meta_clicked", self, "meta_clicked"): # if connect call fails
+	if connect("meta_clicked", Callable(self, "meta_clicked")): # if connect call fails
 		print("ERROR: ExternalLink.gd failed to override meta_clicked function.")
 
 func meta_clicked(meta: String) -> void:

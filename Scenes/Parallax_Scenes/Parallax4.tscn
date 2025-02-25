@@ -1,16 +1,16 @@
 [gd_scene load_steps=23 format=2]
 
-[ext_resource path="res://UI/Parallax/cavepan/cavepan_1.png" type="Texture" id=1]
-[ext_resource path="res://UI/Parallax/cavepan/cavepan_2.png" type="Texture" id=2]
-[ext_resource path="res://UI/Parallax/cavepan/cavepan_4.png" type="Texture" id=3]
-[ext_resource path="res://UI/Parallax/cavepan/cavepan_5.png" type="Texture" id=4]
-[ext_resource path="res://UI/Parallax/cavepan/cavepan_3.png" type="Texture" id=5]
+[ext_resource path="res://UI/Parallax/cavepan/cavepan_1.png" type="Texture2D" id=1]
+[ext_resource path="res://UI/Parallax/cavepan/cavepan_2.png" type="Texture2D" id=2]
+[ext_resource path="res://UI/Parallax/cavepan/cavepan_4.png" type="Texture2D" id=3]
+[ext_resource path="res://UI/Parallax/cavepan/cavepan_5.png" type="Texture2D" id=4]
+[ext_resource path="res://UI/Parallax/cavepan/cavepan_3.png" type="Texture2D" id=5]
 [ext_resource path="res://Scripts/CavepanTimer.gd" type="Script" id=6]
 [ext_resource path="res://Scenes/Level_Scenes/CharacterCreation.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scripts/Parallax_Scripts/Parallax4.gd" type="Script" id=8]
 [ext_resource path="res://Scripts/Parallax4Animations.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/Parallax_Scenes/Parallax4Zoom.gd" type="Script" id=11]
-[ext_resource path="res://UI/Fonts/Non_Nunito/domino_font/human_domino.otf" type="DynamicFontData" id=12]
+[ext_resource path="res://UI/Fonts/Non_Nunito/domino_font/human_domino.otf" type="FontFile" id=12]
 [ext_resource path="res://audio/Parallax_Audio/1. Welcome to the Human Domino Effect.wav" type="AudioStream" id=13]
 [ext_resource path="res://audio/Parallax_Audio/5. In the Human Domino Effect every and The Human Domino Effect, every decision you make...wav" type="AudioStream" id=14]
 [ext_resource path="res://audio/Parallax_Audio/2. Get ready to embark on an adventure… .wav" type="AudioStream" id=15]
@@ -19,7 +19,7 @@
 [ext_resource path="res://audio/Parallax_Audio/6. This game teaches you how to navigate challenges… .wav" type="AudioStream" id=18]
 [ext_resource path="res://audio/Parallax_Audio/7. Are you ready to join the Human family….wav" type="AudioStream" id=19]
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="FontFile" id=5]
 size = 22
 font_data = ExtResource( 12 )
 
@@ -33,8 +33,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1.5 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
@@ -48,8 +48,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
@@ -63,8 +63,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 0.6, 0.6 ) ]
 }
@@ -75,8 +75,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 6125, 0 ), Vector2( 6125, 25 ) ]
 }
@@ -92,16 +92,16 @@ next_scene = ExtResource( 7 )
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2( 248, 475 )
 color = Color( 0.305882, 0.305882, 0.305882, 0.760784 )
-polygon = PoolVector2Array( -152, 77, 680, 77, 680, -91, -152, -91 )
+polygon = PackedVector2Array( -152, 77, 680, 77, 680, -91, -152, -91 )
 
 [node name="dialogue" type="RichTextLabel" parent="Polygon2D"]
-margin_left = -96.0
-margin_top = -75.0
-margin_right = 624.0
-margin_bottom = 61.0
-custom_fonts/normal_font = SubResource( 5 )
+offset_left = -96.0
+offset_top = -75.0
+offset_right = 624.0
+offset_bottom = 61.0
+theme_override_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
-bbcode_text = "We are all connected across generations by a shared legacy. From our first small group of ancestors, you know, our shared ancient grandparents. We've grown to nearly 8 billion people! 8 billion human family cousins all living on our earth today. We’ve built civilizations, created art, and advanced our human knowledge through all kinds of technology!"
+text = "We are all connected across generations by a shared legacy. From our first small group of ancestors, you know, our shared ancient grandparents. We've grown to nearly 8 billion people! 8 billion human family cousins all living on our earth today. We’ve built civilizations, created art, and advanced our human knowledge through all kinds of technology!"
 text = "We are all connected across generations by a shared legacy. From our first small group of ancestors, you know, our shared ancient grandparents. We've grown to nearly 8 billion people! 8 billion human family cousins all living on our earth today. We’ve built civilizations, created art, and advanced our human knowledge through all kinds of technology!"
 
 [node name="Timer" type="Timer" parent="Polygon2D"]
@@ -142,7 +142,7 @@ bus = "Narration"
 motion_scale = Vector2( 0.012, 1 )
 motion_offset = Vector2( 0, -30 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/Sky"]
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Sky"]
 position = Vector2( -525, 0 )
 scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 4 )
@@ -152,7 +152,7 @@ centered = false
 motion_scale = Vector2( 0.06, 1 )
 motion_offset = Vector2( 0, 80 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/Mountains"]
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Mountains"]
 scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 3 )
 centered = false
@@ -162,7 +162,7 @@ offset = Vector2( -650, 0 )
 motion_scale = Vector2( 0.2, 1 )
 motion_offset = Vector2( 0, 75 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/Hills"]
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Hills"]
 scale = Vector2( 0.54, 0.56 )
 texture = ExtResource( 5 )
 centered = false
@@ -172,7 +172,7 @@ offset = Vector2( -775, 0 )
 motion_scale = Vector2( 0.4, 1 )
 motion_offset = Vector2( 0, 145 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/Flatlands"]
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Flatlands"]
 position = Vector2( -2, 0 )
 scale = Vector2( 0.54, 0.56 )
 texture = ExtResource( 2 )
@@ -183,7 +183,7 @@ offset = Vector2( -575, 0 )
 motion_scale = Vector2( 0.65, 1 )
 motion_offset = Vector2( 0, 50 )
 
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/Beach"]
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Beach"]
 scale = Vector2( 0.54, 0.56 )
 texture = ExtResource( 1 )
 centered = false
@@ -212,8 +212,8 @@ visible = false
 z_index = 1
 
 [node name="ColorRect" type="ColorRect" parent="Camera2D/ZIndexSetter"]
-margin_right = 1024.0
-margin_bottom = 600.0
+offset_right = 1024.0
+offset_bottom = 600.0
 color = Color( 0, 0, 0, 1 )
 
 [connection signal="pan_stopped" from="." to="CavepanTimer" method="_on_Parallax4_pan_stopped" flags=6]

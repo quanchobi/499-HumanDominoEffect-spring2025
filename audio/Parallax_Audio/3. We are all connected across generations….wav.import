@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/3. We are all connected across generations….wav-e5f36a0958ca4f71206e36874ef4bc6f.sample"
+type="AudioStreamWAV"
+uid="uid://ddhwy7eb0urj3"
+path="res://.godot/imported/3. We are all connected across generations….wav-e5f36a0958ca4f71206e36874ef4bc6f.sample"
 
 [deps]
 
 source_file="res://audio/Parallax_Audio/3. We are all connected across generations….wav"
-dest_files=[ "res://.import/3. We are all connected across generations….wav-e5f36a0958ca4f71206e36874ef4bc6f.sample" ]
+dest_files=["res://.godot/imported/3. We are all connected across generations….wav-e5f36a0958ca4f71206e36874ef4bc6f.sample"]
 
 [params]
 
