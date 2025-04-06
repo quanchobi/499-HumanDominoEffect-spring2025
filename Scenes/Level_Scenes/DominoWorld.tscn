@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://UI/sprites/reference.png" type="Texture" id=1]
 [ext_resource path="res://UI/Menu_Sprites/background.png" type="Texture" id=2]
@@ -28,6 +28,7 @@
 [ext_resource path="res://UI/Miscellaneous/DominoHint.png" type="Texture" id=26]
 [ext_resource path="res://UI/sprites/help.png" type="Texture" id=27]
 [ext_resource path="res://UI/sprites/close.png" type="Texture" id=28]
+[ext_resource path="res://Scenes/PauseMenu.tscn" type="PackedScene" id=29]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Zoom In"
@@ -271,10 +272,10 @@ layer = -2
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -3609.0
-margin_top = -3884.0
-margin_right = -3609.0
-margin_bottom = -3484.0
+margin_left = -4545.0
+margin_top = -4301.0
+margin_right = -4545.0
+margin_bottom = -3901.0
 rect_scale = Vector2( 8, 5 )
 mouse_filter = 2
 texture = ExtResource( 2 )
@@ -893,6 +894,16 @@ custom_styles/hover = SubResource( 19 )
 custom_styles/pressed = SubResource( 21 )
 custom_styles/normal = SubResource( 17 )
 
+[node name="PauseMenu" parent="." instance=ExtResource( 29 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -946.0
+margin_top = -526.0
+margin_right = -946.0
+margin_bottom = -526.0
+rect_scale = Vector2( 10, 10 )
+
 [connection signal="pressed" from="AlloyPopup/Close" to="." method="_close_Alloy_popup"]
 [connection signal="pressed" from="WellnessBeadPopup/Close" to="." method="_close_WellnessBead_popup"]
 [connection signal="pressed" from="FootprintTilePopup/Close" to="." method="_close_FootprintTile_popup"]
@@ -911,8 +922,8 @@ custom_styles/normal = SubResource( 17 )
 [connection signal="pressed" from="EnterCodeMenu/MarginContainer/VBoxContainer/MarginContainer/Enter" to="." method="_on_EnterButton_pressed"]
 [connection signal="pressed" from="EnterCodeMenu/X" to="." method="_on_X_pressed"]
 [connection signal="pressed" from="HelpMenu/HelpButton" to="." method="_on_HelpButton_pressed"]
-[connection signal="pressed" from="HelpMenu/HelpImage/CloseButton" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="HelpMenu/HelpImage/CloseButton" to="." method="_on_CloseButton_pressed"]
+[connection signal="pressed" from="HelpMenu/HelpImage/CloseButton" to="." method="_on_Button_pressed"]
 
 [editable path="Character Bubble1"]
 [editable path="Character Bubble1/Score"]
