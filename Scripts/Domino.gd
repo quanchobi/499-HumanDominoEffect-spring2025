@@ -2,45 +2,38 @@
 class_name Domino
 extends Node2D
 
-export var top_num = 0
-export var bottom_num = 0
-export var top_element = ""
-export var bottom_element = ""
+@export var top_num: int = 0
+@export var bottom_num: int = 0
+@export var top_element: String = ""
+@export var bottom_element: String = ""
+@export var placed: bool = false
 
-var original_pos = null
-var og_scale = 1.3
-var hover_scale = og_scale + 0.05
-var selected = false
-export var placed = false
+var original_pos: Vector2 = Vector2.ZERO
+var og_scale: float = 1.3
+var hover_scale: float = og_scale + 0.05
+var selected: bool = false
 
-# Reference to world node to minimize `get_parent()` calls
-var _world = null
+# Reference to world node to minimize get_parent() calls
+var _world: Node = null
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_world = get_parent()
-	# change domino appearance
 	if not placed:
 		add_to_group("dominos")
 	original_pos = position
 
 
-func init(bottom, top, bottom_elm, top_elm, initial):
+func init(bottom: int, top: int, bottom_elm: String, top_elm: String, initial: bool) -> void:
 	bottom_num = bottom
 	top_num = top
+	bottom_element = bottom_elm if bottom_elm else ""
+	top_element = top_elm if top_elm else ""
 
-	if not bottom_elm:
-		bottom_element = ""
-	else:
-		bottom_element = bottom_elm
-	if not top_elm:
-		top_element = ""
-	else:
-		top_element = top_elm
 	if initial:
-		original_pos = self.position
-	$Label.text = bottom_element + "\n" + str(bottom) + " | " + str(top) + "\n" + top_element
+		original_pos = position
+
+	$Label.text = bottom_element + "\n" + str(bottom_num) + " | " + str(top_num) + "\n" + top_element
 
 
 func _on_Area2D_mouse_entered() -> void:
@@ -52,25 +45,21 @@ func _on_Area2D_mouse_exited() -> void:
 
 
 func _on_Area2D_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	# Click once to "pick up" a domino
-	if event is InputEventMouseButton:
-		if event.is_pressed():
-			if !placed:
-				if !_world.is_domino_selected(self):
-					if _world.select_domino(self):
-						selected = true
+	if event is InputEventMouseButton and event.pressed:
+		if not placed:
+			if not _world.is_domino_selected(self):
+				if _world.select_domino(self):
+					selected = true
 				else:
-					#TODO: Below line delays returning the domino in case the domino is being placed. This should be done in a better way
-					yield(get_tree().create_timer(0.05), "timeout")
-					# TODO: Need to fix position of domino
+					await get_tree().create_timer(0.05).timeout
 					_world.clear_selected_domino()
 					selected = false
 
 
-func _physics_process(_delta):
+func _physics_process(_delta: float) -> void:
 	if selected and not placed:
-		var mousePos = get_global_mouse_position()
-		position.x = 2* (mousePos.x);
-		position.y = 2* mousePos.y ;
+		var mouse_pos: Vector2 = get_global_mouse_position()
+		position.x = 2 * mouse_pos.x
+		position.y = 2 * mouse_pos.y
 	else:
 		position = original_pos
