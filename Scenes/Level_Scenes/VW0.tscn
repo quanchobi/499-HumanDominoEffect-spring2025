@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://UI/AssetsVW/Tilemaps/VW0.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/PlayerVW.tscn" type="PackedScene" id=2]
@@ -6,7 +6,13 @@
 [ext_resource path="res://UI/AssetsVW/Tilemaps/VW0_Objects.tres" type="TileSet" id=4]
 [ext_resource path="res://UI/AssetsVW/Objects/Era0/Spear.tscn" type="PackedScene" id=5]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 368.5, 5.25 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10, 290.5 )
+
+[node name="VirtualWorld" type="Node2D"]
 
 [node name="Background" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
@@ -41,5 +47,31 @@ cell_size = Vector2( 32, 32 )
 cell_quadrant_size = 32
 format = 1
 tile_data = PackedInt32Array( -458757, 15, 0, -131065, 13, 0, 262137, 12, 0 )
+
+[node name="Boundaries" type="Node2D" parent="."]
+
+[node name="TopWall" type="StaticBody2D" parent="Boundaries"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/TopWall"]
+position = Vector2( -16, -289.5 )
+shape = SubResource( 1 )
+
+[node name="RightWall" type="StaticBody2D" parent="Boundaries"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/RightWall"]
+position = Vector2( 362, 7 )
+shape = SubResource( 2 )
+
+[node name="LeftWall" type="StaticBody2D" parent="Boundaries"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/LeftWall"]
+position = Vector2( -394, 2.5 )
+shape = SubResource( 2 )
+
+[node name="BottomWall" type="StaticBody2D" parent="Boundaries"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/BottomWall"]
+position = Vector2( -17, 293 )
+shape = SubResource( 1 )
 
 [editable path="GUI"]
