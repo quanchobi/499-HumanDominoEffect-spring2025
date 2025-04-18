@@ -2,8 +2,6 @@
 class_name DominoWorld
 extends Node2D
 
-# foo
-
 @export var Domino: PackedScene
 # NOTE: If domino game performance is low, try switching to preload
 #const FootprintTile = preload("res://Scripts/FootprintTile.gd")
@@ -116,11 +114,20 @@ func _init_players() -> void:
 			else:
 				get_node(path + "Footprint_number").text = str(gamestate.footprint_tiles[player_id])
 		# set self number and make own path bubble visible
-		if player_id == get_tree().get_unique_id():
+		if player_id == multiplayer.get_unique_id():
 			self_num = ind - 1
-			get_node("Path3D" + str(ind)).visible = true
+			#get_node("Path2D" + str(ind)).visible = true
+			var path_node = get_node("Path" + str(ind))
+			if path_node:
+				path_node.visible = true
+				print("Found and made visible: Path" + str(ind))
+			else:
+				print("Could not find node: Path" + str(ind))
+				# Print all child nodes to see what's actually available
+				for child in get_children():
+					print("Found child node: ", child.name)
 		else:
-			get_node("Path3D" + str(ind)).temp = true
+			get_node("Path2D" + str(ind)).temp = true
 
 		ind += 1
 
@@ -131,7 +138,7 @@ func _init_players() -> void:
 	MusicController.playMusic(ReferenceManager.get_reference("main.ogg"))
 
 	# add start game and next round buttons to host screen
-	if get_tree().get_unique_id() == 1:
+	if multiplayer.get_unique_id() == 1:
 		$Start.visible = true
 
 	$Turn.text = gamestate.players[1] + "'s\nTurn"
@@ -176,11 +183,19 @@ func draw_7():
 		add_child(domino)
 
 		# set domino position
+		#if i < 4:
+		#	domino.position = Vector2(2000, 400 * i - 600)
+		#else:
+		#	domino.position = Vector2(2250, 400 * (i - 4) - 600)
+		
+		# Scaled down Domino position
 		if i < 4:
-			domino.position = Vector2(2000, 400 * i - 600)
+			domino.position = Vector2(100, 96 * i - 144)
+			domino.scale = Vector2(0.55, 0.55)  # Adjust this as needed, this scales the dominos in hand
 		else:
-			domino.position = Vector2(2250, 400 * (i - 4) - 600)
-
+			domino.position = Vector2(150, 96 * (i - 4) - 144)
+			domino.scale = Vector2(0.55, 0.55) 
+		
 		# initialize domino
 		domino.init(
 			domino_nums[0],
@@ -199,7 +214,7 @@ func draw_domino():
 	var nums = dominos.pop_front()
 	# print("len: ", len(dominos))
 	if nums[0] < nums[1]:
-		nums.invert()
+		nums.reverse()
 	# print(nums, len(dominos))
 
 	# update every player's deck to stay in sync
@@ -285,16 +300,21 @@ func place_domino(num):
 			selected_domino.position = position_table[num] + placed_domino_offset[num]  # handles where the domnio is placed
 			path_ends[num] = selected_domino.top_num
 			end_dominos[num] = selected_domino
-
-			placed_domino_offset[num] = placed_domino_offset[num] + Vector2(160, -176)
-
+			
+			# Original
+			#placed_domino_offset[num] = placed_domino_offset[num] + Vector2(160, -176)
+			
+			# CS499 Feb 2025 Scaled Down .4x
+			placed_domino_offset[num] = placed_domino_offset[num] + Vector2(64, -70)
+			
 			num_placed += 1
 
 			turn = (turn + 1) % len(gamestate.players)
 			$Turn.text = gamestate.players[sorted_players[turn]] + "'s\nTurn"
 
 			# if helped another player on their path, get a wellness bead
-			if num < 6 and get_node("Path3D" + str(num + 1)).temp == true:
+			var path_node = get_node_or_null("Path2D" + str(num + 1))
+			if num < 6 and (path_node and path_node.temp == true):
 				increment_wellness_beads(self_num + 1)
 				rpc("increment_wellness_beads", self_num + 1)
 				display_wellness_prompt()
@@ -493,7 +513,15 @@ func replace_domino():
 	# reset path visibility
 	for i in range(1, 7):
 		if i != self_num + 1:
-			get_node("Path3D" + str(i)).visible = false
+			var path_node = get_node("Path" + str(i))
+			if path_node:
+				path_node.visible = true
+				print("Found and made visible: Path" + str(i))
+			else:
+				print("Could not find node: Path" + str(i))
+				# Print all child nodes to see what's actually available
+				for child in get_children():
+					print("Found child node: ", child.name)
 
 # handle when next round button pressed by host
 func _on_Next_pressed() -> void:
@@ -561,12 +589,12 @@ func _on_Help_pressed() -> void:
 @rpc("any_peer") func add_path(num):
 	turn = (turn + 1) % len(gamestate.players)
 	$Turn.text = gamestate.players[sorted_players[turn]] + "'s\nTurn"
-	get_node("Path3D" + str(num)).visible = true
+	get_node("Path2D" + str(num)).visible = true
 
 # remove player's path denoted by num from all player's screens
 @rpc("any_peer") func remove_path(num):
-	if get_node("Path3D" + str(num)).temp:
-		get_node("Path3D" + str(num)).visible = false
+	if get_node("Path2D" + str(num)).temp:
+		get_node("Path2D" + str(num)).visible = false
 
 func _close_WellnessBead_popup() -> void:
 	$WellnessBeadPopup.visible = false
@@ -669,7 +697,7 @@ func _on_Start_mouse_exited():
 
 func _on_HelpButton_pressed():
 	$HelpMenu/HelpImage.visible = true
-	$HelpMenu.raise()
+	$HelpMenu.move_to_front()
 	
 func _on_CloseButton_pressed():
 	$HelpMenu/HelpImage.visible = false

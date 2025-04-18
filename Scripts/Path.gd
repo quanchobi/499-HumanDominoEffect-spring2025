@@ -1,6 +1,6 @@
 # node for domino path bubble
 
-extends Sprite2D
+extends Node2D
 
 @export var num = 0
 @export var temp = false

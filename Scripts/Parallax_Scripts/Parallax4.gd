@@ -27,7 +27,7 @@ var page = 0
 
 func _ready():
 	emit_signal("trigger_animation", "Screen_Unwipe")  # Emit animation signal
-	dialogue_label.set_bbcode(dialogue[page])
+	dialogue_label.text = dialogue[page]
 	dialogue_label.set_visible_characters(0)
 	timer.start()  # Start text reveal effect
 	play_audio(page)  # Play first dialogue's audio
@@ -46,7 +46,7 @@ func _input(event):
 		if dialogue_label.get_visible_characters() >= dialogue_label.get_total_character_count():
 			if page < dialogue.size() - 1:
 				page += 1
-				dialogue_label.set_bbcode(dialogue[page])
+				dialogue_label.text = dialogue[page]
 				dialogue_label.set_visible_characters(0)
 				timer.start()  # Restart text reveal effect
 				play_audio(page)  # Play next dialogue's audio
@@ -71,4 +71,3 @@ func play_audio(page_index):
 		current_player.play()
 	else:
 		print("Audio node not found: ", audio_node_name)
-

@@ -9,7 +9,7 @@ var FootprintTile = load(ReferenceManager.get_reference("FootprintTile.gd"))
 
 # CONST VARIABLES
 
-const default_scale = Vector2(0.5, 0.5)
+const default_scale = Vector2(0.162, 0.162)
 const tile_rotation_offset = PI / 2
 
 @export var radius_outer = 700
@@ -17,7 +17,7 @@ const tile_rotation_offset = PI / 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	rotate_ring_counterclockwise(-19)
 
 
 func _init(parent = null) -> void:
@@ -34,7 +34,7 @@ func _init(parent = null) -> void:
 		var radius = (radius_outer if tile.in_outer_ring_layer() else radius_inner)
 		var theta = (i % gamestate.num_outer_tiles) * \
 			(delta_theta_outer if tile.in_outer_ring_layer() else delta_theta_inner)
-		tile.position = polar2cartesian(radius, theta)
+		tile.position = Vector2.from_angle(theta) * radius
 		tile.rotation = theta + tile_rotation_offset
 		tile.visible = false
 		add_child(tile)
@@ -50,6 +50,14 @@ func show_round(round_num: int) -> void:
 		while i < gamestate.tiles_per_round:
 			self.show_tile(i, round_num)
 			i += 1
+
+# Correct the ring by rotating it counterclockwise
+func rotate_ring_counterclockwise(degrees: float) -> void:
+	# Convert degrees to radians (positive value for counterclockwise in Godot)
+	var radians = deg_to_rad(degrees)
+	
+	# Add to the current rotation
+	rotation += radians
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

@@ -8,7 +8,8 @@ extends Node2D
 @export var bottom_element = ""
 
 var original_pos = null
-var og_scale = 1.3
+# Affects the Domino hand as well
+var og_scale = .5 # Hard coded to fit scale of CentralDomino Node2D in DominoWorld.tscn
 var hover_scale = og_scale + 0.05
 var selected = false
 @export var placed = false
@@ -23,11 +24,15 @@ func _ready() -> void:
 	# change domino appearance
 	if not placed:
 		add_to_group("dominos")
+	# Set initial scale to og_scale
+	$Sprite2D.scale = Vector2(og_scale, og_scale)
+	# Store original position for reference
 	original_pos = position
 
 
 func init(bottom, top, bottom_elm, top_elm, initial):
-	bottom_num = bottom top_num = top
+	bottom_num = bottom
+	top_num = top
 
 	if not bottom_elm:
 		bottom_element = ""

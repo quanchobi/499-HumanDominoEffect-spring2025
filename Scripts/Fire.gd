@@ -5,7 +5,7 @@ extends Sprite2D
 # var a = 2
 # var b = "text"
 var time = 0
-@onready var n = (get_material().get_shader_parameter("noise") as NoiseTexture)
+@onready var n = (get_material().get_shader_parameter("noise") as NoiseTexture2D)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -20,15 +20,15 @@ func init(type, pos):
 	original_pos = pos
 	$Popup/AnimatedSprite2D.animation = anim_table[current_type[0]]
 
-func _on_CapturedElcitrap_mouse_entered() -> void:
+func _on_mouse_entered() -> void:
 	if not selected:
 		$Popup.visible = true
 
-func _on_CapturedElcitrap_mouse_exited() -> void:
+func _on_mouse_exited() -> void:
 	$Popup.visible = false
 
 # when clicked add to chosen elcitraps or remove from chosen elcitraps
-func _on_CapturedElcitrap_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed:
 			if selected or len(get_parent().selected) < 5:
@@ -41,5 +41,5 @@ func _on_CapturedElcitrap_input_event(viewport: Node, event: InputEvent, shape_i
 			if not selected:
 				self.position = original_pos
 				var ind = get_parent().selected.find(current_type)
-				get_parent().selected.remove(ind)
+				get_parent().selected.remove_at(ind)
 				$Deselect.playing = true

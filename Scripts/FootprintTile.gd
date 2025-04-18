@@ -112,7 +112,7 @@ var shape_sprites = [
 # each element is a PoolVector2Array which contain coordinates for a CollisionPolygon2D Node
 # this array is ordered to correspond to the shape_sprites const above.
 const shape_collisions = [
-	PackedVector2Array([
+	[
 		Vector2(67, 82),
 		Vector2(70, -57),
 		Vector2(9, -87),
@@ -121,21 +121,21 @@ const shape_collisions = [
 		Vector2(-70, -40),
 		Vector2(-68, 99),
 		Vector2(0, 44)
-	]),
-	PackedVector2Array([
+	],
+	[
 		Vector2(70, -87),
 		Vector2(-71, -27),
 		Vector2(-55, 45),
 		Vector2(55, 89)
-	]),
-	PackedVector2Array([
+	],
+	[
 		Vector2(-49, 86),
 		Vector2(-73, -33),
 		Vector2(1, -89),
 		Vector2(71, -47),
 		Vector2(42, 92),
 		Vector2(-9, 58)
-	])
+	]
 ]
 
 const shape_scales_for_ring = [

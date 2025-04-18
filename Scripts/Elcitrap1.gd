@@ -9,7 +9,7 @@ extends RigidBody2D
 
 var current_type = null
 var captured = false
-var end_pos = null
+var end_pos = null 
 
 var t = 0.0
 
@@ -25,7 +25,7 @@ func init(type):
 		end_pos = type[2]
 	
 # recycle elcitrap into queue when it leaves the screen
-func _on_VisibilityNotifier2D_screen_exited():
+func _on_visibility_notifier_2d_screen_exited():
 	get_parent().trait_queue.append(current_type)
 	queue_free()
 
@@ -43,8 +43,18 @@ func _physics_process(delta):
 		
 		self.position = self.position.lerp(Vector2(end_pos[0], end_pos[1]), t)
 
+# Handle mouse input to capture the elcitrap
+func _input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton and event.pressed:
+		capture_elcitrap()
+
 # Captures an elcitrap
 func capture_elcitrap() -> void:
 	if not captured:
 		get_parent().total_captured += 1
 	captured = true
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	get_parent().trait_queue.append(current_type)
+	queue_free()

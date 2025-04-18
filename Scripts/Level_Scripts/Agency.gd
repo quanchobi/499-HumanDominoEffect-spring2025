@@ -28,7 +28,7 @@ var page = 0
 func _ready() -> void:
 	$Oauabae/AnimatedSprite2D.animation = "default"
 	#$Narration.text = "This O-shaped tool that looks like a magnifying glass is you. Well, it's you for this game, for the first part of the game, before you create your own avatar. You are controlling this magnifying tool." 
-	dialogue_label.set_bbcode(dialogue[page])
+	dialogue_label.text = dialogue[page]
 	dialogue_label.set_visible_characters(0)
 	timer.start()  # Start text reveal effect
 	play_audio(page)  # Play first dialogue's audio    
@@ -36,21 +36,21 @@ func _ready() -> void:
 	MusicController.playMusic(ReferenceManager.get_reference("quantum.ogg"))
 
 func _on_End_timeout() -> void:
-	if not get_tree().is_server():
+	if not multiplayer.is_server():
 		# Tell server we are ready to start.
-		rpc_id(1, "ready_to_start", get_tree().get_unique_id())
+		rpc_id(1, "ready_to_start", multiplayer.get_unique_id())
 	else:
-		ready_to_start(get_tree().get_unique_id())
+		ready_to_start(multiplayer.get_unique_id())
 	
 # tell all player's what each player's chosen elcitraps are
 @rpc("any_peer", "call_local") func set_elcitraps(elcitraps):
-	gamestate.elcitraps[get_tree().get_remote_sender_id()] = elcitraps
+	gamestate.elcitraps[multiplayer.get_remote_sender_id()] = elcitraps
 	
 @rpc("any_peer") func start_game():
 	get_parent().change_level(next_scene)
 
 @rpc("any_peer") func ready_to_start(id):
-	assert(get_tree().is_server())
+	assert(multiplayer.is_server())
 
 	if not id in players_ready:
 		players_ready.append(id)
@@ -70,12 +70,12 @@ func _input(event):
 		if page == len(dialogue)-1:
 			$DialogueBox.hide()
 			$String.input_pickable = true
-			print("hi")
+			#print("hi")
 		else:
 			if dialogue_label.get_visible_characters() >= dialogue_label.get_total_character_count():
 				if page < dialogue.size() - 1:
 					page += 1
-					dialogue_label.set_bbcode(dialogue[page])
+					dialogue_label.text = dialogue[page]
 					dialogue_label.set_visible_characters(0)
 					timer.start()  # Restart text reveal effect
 					play_audio(page)  # Play next dialogue's audio

@@ -67,3 +67,11 @@ func _on_Return_pressed():
 	$Checklist/CanvasLayer.hide()
 	$MenuLayout.show()
 	pass # Replace with function body.
+
+
+
+
+
+
+
+

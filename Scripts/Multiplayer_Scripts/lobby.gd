@@ -2,7 +2,6 @@
 class_name Lobby
 extends Control
 
-
 func _ready():
 	# Called every time the node is added to the scene.
 	gamestate.connect("connection_failed", Callable(self, "_on_connection_failed"))
@@ -18,6 +17,7 @@ func _ready():
 		var desktop_path = OS.get_system_dir(0).replace("\\", "/").split("/")
 		set_name_text(desktop_path[desktop_path.size() - 2])
 
+#test commit push
 	
 	$LoadButton.visible = false
 	
@@ -38,7 +38,7 @@ func _on_host_pressed():
 
 	$Connect.hide()
 	$TitleBox/Title.visible = false
-	$LevelSelect/Popup.visible = true
+	$LevelSelect/Popup.visible = false
 	$LoadButton.visible = true
 	set_error_text("")
 	#$Players/FindPublicIP.text = "IP: " + $Connect/JoinBox/IPAddress.text
@@ -129,7 +129,7 @@ func handle_level(level):
 
 	gamestate.dominos.shuffle()
 	$LoadButton.visible = false
-	$LevelSelect/Popup.visible = false
+	$LevelSelect/Popup.visible = true
 	$Players.show()
 	$TitleBox/Title.visible = true
 	var player_name = $Connect/StartBox/Name.text
@@ -163,4 +163,3 @@ func get_name_text() -> String:
 
 func set_error_text(new_error: String):
 	$Connect/ErrorLabel.set_text(new_error)
-

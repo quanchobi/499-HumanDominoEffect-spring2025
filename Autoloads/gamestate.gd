@@ -163,7 +163,7 @@ func _player_connected(id):
 # Callback from SceneTree.
 func _player_disconnected(id):
 	if has_node("/root/World"): # Game is in progress.
-		if get_tree().is_server():
+		if multiplayer.is_server():
 			emit_signal("game_error", "Player " + players[id] + " disconnected")
 			end_game()
 	else: # Game is not in progress.
@@ -184,13 +184,13 @@ func _server_disconnected():
 
 # Callback from SceneTree, only for clients (not server).
 func _connected_fail():
-	get_tree().multiplayer.multiplayer_peer = null # Remove peer
+	multiplayer.multiplayer_peer = null # Remove peer
 	emit_signal("connection_failed")
 
 
 # Lobby management functions.
 @rpc("any_peer", "call_local") func register_player(new_player_name,cpunum):
-	var id = get_tree().get_remote_sender_id()+cpunum
+	var id = multiplayer.get_remote_sender_id()+cpunum
 	var CharacterFound = false
 	players[id] = new_player_name
 	if(SaveManager.loaded_data):
@@ -235,9 +235,9 @@ func unregister_player(id):
 	# Change scene.
 #	print(players)
 
-	if not get_tree().is_server():
+	if not multiplayer.is_server():
 		# Tell server we are ready to start.
-		rpc_id(1, "ready_to_start", get_tree().get_unique_id())
+		rpc_id(1, "ready_to_start", multiplayer.get_unique_id())
 	elif players.size() == 1:
 		# small loop to add CPUs with unique names and ids
 		var cpusAdded = 0
@@ -252,7 +252,7 @@ func unregister_player(id):
 	var world = load("res://Scenes/Level_Scenes/Manager.tscn")
 	
 			
-	if get_tree().get_unique_id() != 1:
+	if multiplayer.get_unique_id() != 1:
 		for top in range(10):
 			for bottom in range(top+1):
 				dominos.append([bottom, top])
@@ -265,14 +265,14 @@ func unregister_player(id):
 
 # tell host we're ready to start
 @rpc("any_peer") func ready_to_start(id):
-	assert(get_tree().is_server())
+	assert(multiplayer.is_server())
 
 	if not id in players_ready:
 		players_ready.append(id)
 
 	if players_ready.size() == players.size()-1:
 		for p in players:
-			if p != get_tree().get_unique_id():
+			if p != multiplayer.get_unique_id():
 				rpc_id(p, "post_start_game")
 		post_start_game()
 
@@ -280,9 +280,9 @@ func host_game(new_player_name):
 	player_name = new_player_name
 	peer = ENetMultiplayerPeer.new()
 	peer.create_server(DEFAULT_PORT, MAX_PEERS)
-	get_tree().multiplayer.multiplayer_peer = peer
+	multiplayer.multiplayer_peer = peer
 	
-	var id = get_tree().get_unique_id()
+	var id = multiplayer.get_unique_id()
 	
 	rpc("register_player", player_name, 0)
 
@@ -290,7 +290,7 @@ func join_game(ip, new_player_name):
 	player_name = new_player_name
 	peer = ENetMultiplayerPeer.new()
 	peer.create_client(ip, DEFAULT_PORT)
-	get_tree().set_multiplayer_peer(peer)
+	multiplayer.multiplayer_peer = peer
 	
 # host sends level to player who asked
 @rpc("any_peer") func get_level():
@@ -322,11 +322,11 @@ func begin_game():
 	if tutorial_mode:
 		start_tutorial()
 	else:
-		assert(get_tree().is_server())
+		assert(multiplayer.is_server())
 
 		# Call to pre-start game with the spawn points.
 		for p in players:
-			if p != get_tree().get_unique_id():
+			if p != multiplayer.get_unique_id():
 				rpc_id(p, "pre_start_game")
 
 		pre_start_game()

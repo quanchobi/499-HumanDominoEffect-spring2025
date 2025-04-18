@@ -32,11 +32,11 @@ func handle_choice(area):
 		
 	# if we're at the end of the choice list, tell host we're done
 	if choice_ind == len(choices) - 1:
-		if not get_tree().is_server():
+		if not multiplayer.is_server():
 			# Tell server we are ready to start.
-			rpc_id(1, "ready_to_start", get_tree().get_unique_id())
+			rpc_id(1, "ready_to_start", multiplayer.get_unique_id())
 		else:
-			ready_to_start(get_tree().get_unique_id())
+			ready_to_start(multiplayer.get_unique_id())
 		
 	# correct choice
 	elif choices[choice_ind][0] == area:
@@ -118,7 +118,7 @@ func _on_Button_pressed() -> void:
 	get_parent().change_level(next_scene)
 
 @rpc("any_peer") func ready_to_start(id):
-	assert(get_tree().is_server())
+	assert(multiplayer.is_server())
 
 	if not id in players_ready:
 		players_ready.append(id)
