@@ -5,8 +5,8 @@ class_name DominoUnitTest
 extends GdUnitTestSuite
 
 # TestSuite generated from
-const __source = "res://Domino.gd"
-const __prefab_source = "res://Domino.tscn"
+const __source = "res://Scripts/Domino.gd"
+const __prefab_source = "res://Scenes/Domino.tscn"
 
 var test_domino: Domino
 var domino_spy

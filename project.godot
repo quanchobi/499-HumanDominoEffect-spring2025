@@ -27,6 +27,7 @@ SaveManager="*res://Autoloads/SaveManager.gd"
 MusicController="*res://Autoloads/MusicController.tscn"
 SFXController="*res://Autoloads/SFXController.tscn"
 ReferenceManager="*res://Autoloads/ReferenceManager.gd"
+LogManager="*res://Autoloads/LogManager.gd"
 
 [display]
 
@@ -134,10 +135,6 @@ Interact={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":69,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
-
-[mono]
-
-project/assembly_name="The Domino Effect"
 
 [physics]
 
