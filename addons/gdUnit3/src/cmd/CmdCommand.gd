@@ -1,21 +1,21 @@
 class_name CmdCommand
-extends Reference
+extends RefCounted
 
 var _name :String
-var _arguments :PoolStringArray
+var _arguments :PackedStringArray
 
-func _init(name :String, arguments := PoolStringArray()):
+func _init(name :String, arguments := PackedStringArray()):
 	_name = name
 	_arguments = arguments
 
 func name() -> String:
 	return _name
 
-func arguments() -> PoolStringArray:
+func arguments() -> PackedStringArray:
 	return _arguments
 
 func add_argument(arg :String) -> void:
 	_arguments.append(arg)
 
 func _to_string():
-	return "%s:%s" % [_name, _arguments.join(", ")]
+	return "%s:%s" % [_name, ", ".join(_arguments)]

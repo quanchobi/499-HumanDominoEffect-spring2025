@@ -39,7 +39,7 @@ func __verify_interactions(args :Array):
 		var expected_summary = {args : __expected_interactions}
 		var error_message :String
 		# if no interactions macht collect not verified interactions for failure report
-		if summary.empty():
+		if summary.is_empty():
 			var current_summary = __verify_no_more_interactions()
 			error_message = GdAssertMessages.error_validate_interactions(current_summary, expected_summary)
 		else:
@@ -51,7 +51,7 @@ func __verify_interactions(args :Array):
 
 func __verify_no_interactions() -> Dictionary:
 	var summary := Dictionary()
-	if not __saved_interactions.empty():
+	if not __saved_interactions.is_empty():
 		for func_call in __saved_interactions.keys():
 			summary[func_call] = __saved_interactions[func_call]
 	return summary

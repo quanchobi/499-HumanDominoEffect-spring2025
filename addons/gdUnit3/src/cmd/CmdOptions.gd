@@ -1,5 +1,5 @@
 class_name CmdOptions
-extends Reference
+extends RefCounted
 
 
 var _default_options :Array

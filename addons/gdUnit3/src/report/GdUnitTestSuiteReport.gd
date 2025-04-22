@@ -6,7 +6,7 @@ var _time_stamp :int
 func _init(resource_path :String, name :String):
 	_resource_path = resource_path
 	_name = name
-	_time_stamp = OS.get_unix_time()
+	_time_stamp = Time.get_unix_time_from_system()
 
 func create_record(report_link :String) -> String:
 	return GdUnitHtmlPatterns.build(GdUnitHtmlPatterns.TABLE_RECORD_TESTSUITE, self, report_link)
@@ -20,17 +20,17 @@ func path_as_link() -> String:
 func write(report_dir :String) -> String:
 	var template := GdUnitHtmlPatterns.load_template("res://addons/gdUnit3/src/report/template/suite_report.html")
 	template = GdUnitHtmlPatterns.build(template, self, "")\
-		.replace(GdUnitHtmlPatterns.BREADCRUMP_PATH_LINK, path_as_link())
+		super.replace(GdUnitHtmlPatterns.BREADCRUMP_PATH_LINK, path_as_link())
 		
 	var report_output_path := output_path(report_dir)
-	var test_report_table := PoolStringArray()
+	var test_report_table := PackedStringArray()
 	for test_report in _reports:
 		test_report_table.append(test_report.create_record(report_output_path))
 	
-	template = template.replace(GdUnitHtmlPatterns.TABLE_BY_TESTCASES, test_report_table.join("\n"))
+	template = template.replace(GdUnitHtmlPatterns.TABLE_BY_TESTCASES, "\n".join(test_report_table))
 	
 	var dir := report_output_path.get_base_dir()
-	var dest_dir := Directory.new()
+	var dest_dir := DirAccess.new()
 	if not dest_dir.dir_exists(dir):
 		dest_dir.make_dir_recursive(dir)
 	

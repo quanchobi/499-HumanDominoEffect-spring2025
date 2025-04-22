@@ -1,5 +1,5 @@
 class_name GdUnitTask
-extends Reference
+extends RefCounted
 
 const TASK_NAME = "task_name"
 const TASK_ARGS = "task_args"
@@ -17,6 +17,6 @@ func name() -> String:
 	return _task_name
 
 func execute(args :Array) -> Result:
-	if args.empty():
+	if args.is_empty():
 		return _fref.call_func()
 	return _fref.call_funcv(args)

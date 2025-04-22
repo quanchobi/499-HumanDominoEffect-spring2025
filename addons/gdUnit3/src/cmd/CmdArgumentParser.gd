@@ -1,5 +1,5 @@
 class_name CmdArgumentParser
-extends Reference
+extends RefCounted
 
 var _options :CmdOptions
 var _tool_name :String
@@ -13,16 +13,16 @@ func parse(args :Array, ignore_unknown_cmd := false) -> Result:
 	_parsed_commands.clear()
 	
 	# parse until first program argument
-	while not args.empty():
+	while not args.is_empty():
 		var arg :String = args.pop_front()
 		if arg.find(_tool_name) != -1:
 			break
 	
-	if args.empty():
-		return Result.empty()
+	if args.is_empty():
+		return Result.is_empty()
 	
 	# now parse all arguments
-	while not args.empty():
+	while not args.is_empty():
 		var cmd :String = args.pop_front()
 		var option := _options.get_option(cmd)
 		
@@ -41,7 +41,7 @@ func _parse_cmd_arguments(option :CmdOption, args :Array) -> int:
 	var command :CmdCommand = _parsed_commands.get(command_name, CmdCommand.new(command_name))
 	
 	if option.has_argument():
-		if not option.is_argument_optional() and args.empty():
+		if not option.is_argument_optional() and args.is_empty():
 			return -1
 		if _is_next_value_argument(args):
 			command.add_argument(args.pop_front())
@@ -51,6 +51,6 @@ func _parse_cmd_arguments(option :CmdOption, args :Array) -> int:
 	return 0
 
 func _is_next_value_argument(args :Array) -> bool:
-	if args.empty():
+	if args.is_empty():
 		return false
 	return _options.get_option(args[0]) == null

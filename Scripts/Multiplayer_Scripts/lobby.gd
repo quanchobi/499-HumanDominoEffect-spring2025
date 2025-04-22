@@ -2,15 +2,14 @@
 class_name Lobby
 extends Control
 
-
 func _ready():
 	# Called every time the node is added to the scene.
-	gamestate.connect("connection_failed", self, "_on_connection_failed")
-	gamestate.connect("connection_succeeded", self, "_on_connection_success")
-	gamestate.connect("player_list_changed", self, "refresh_lobby")
-	gamestate.connect("game_ended", self, "_on_game_ended")
-	gamestate.connect("game_error", self, "_on_game_error")
-	SaveManager.connect("load_save_scene",self,"handle_level")
+	gamestate.connect("connection_failed", Callable(self, "_on_connection_failed"))
+	gamestate.connect("connection_succeeded", Callable(self, "_on_connection_success"))
+	gamestate.connect("player_list_changed", Callable(self, "refresh_lobby"))
+	gamestate.connect("game_ended", Callable(self, "_on_game_ended"))
+	gamestate.connect("game_error", Callable(self, "_on_game_error"))
+	SaveManager.connect("load_save_scene", Callable(self, "handle_level"))
 	# Set the player name according to the system username. Fallback to the path.
 	if OS.has_environment("USERNAME"):
 		set_name_text(OS.get_environment("USERNAME"))
@@ -18,6 +17,7 @@ func _ready():
 		var desktop_path = OS.get_system_dir(0).replace("\\", "/").split("/")
 		set_name_text(desktop_path[desktop_path.size() - 2])
 
+#test commit push
 	
 	$LoadButton.visible = false
 	
@@ -38,7 +38,7 @@ func _on_host_pressed():
 
 	$Connect.hide()
 	$TitleBox/Title.visible = false
-	$LevelSelect/Popup.visible = true
+	$LevelSelect/Popup.visible = false
 	$LoadButton.visible = true
 	set_error_text("")
 	#$Players/FindPublicIP.text = "IP: " + $Connect/JoinBox/IPAddress.text
@@ -92,7 +92,7 @@ func _on_game_ended():
 
 func _on_game_error(errtxt):
 	$ErrorDialog.dialog_text = errtxt
-	$ErrorDialog.popup_centered_minsize()
+	$ErrorDialog.popup_centered_clamped()
 	$Connect/StartBox/Host.disabled = false
 	$Connect/JoinBox/Join.disabled = false
 
@@ -104,7 +104,7 @@ func refresh_lobby():
 	for p in players:
 		$Players/List.add_item(p)
 
-	$Players/Start.disabled = not get_tree().is_network_server()
+	$Players/Start.disabled = not get_tree().is_server()
 
 
 func _on_start_pressed():
@@ -129,7 +129,7 @@ func handle_level(level):
 
 	gamestate.dominos.shuffle()
 	$LoadButton.visible = false
-	$LevelSelect/Popup.visible = false
+	$LevelSelect/Popup.visible = true
 	$Players.show()
 	$TitleBox/Title.visible = true
 	var player_name = $Connect/StartBox/Name.text
@@ -163,4 +163,3 @@ func get_name_text() -> String:
 
 func set_error_text(new_error: String):
 	$Connect/ErrorLabel.set_text(new_error)
-

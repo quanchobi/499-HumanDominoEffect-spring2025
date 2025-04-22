@@ -2,10 +2,10 @@ class_name GdUnitTestCaseDto
 extends GdUnitResourceDto
 
 var _line_number :int = -1
-var _test_case_names :PoolStringArray = []
+var _test_case_names :PackedStringArray = []
 
 func serialize(test_case) -> Dictionary:
-	var serialized := .serialize(test_case)
+	var serialized := super.serialize(test_case)
 	if test_case.has_method("line_number"):
 		serialized["line_number"] = test_case.line_number()
 	else:
@@ -15,7 +15,7 @@ func serialize(test_case) -> Dictionary:
 	return serialized
 
 func deserialize(data :Dictionary) -> GdUnitResourceDto:
-	.deserialize(data)
+	super.deserialize(data)
 	_line_number = data.get("line_number", -1)
 	_test_case_names = data.get("test_case_names", [])
 	return self
@@ -23,5 +23,5 @@ func deserialize(data :Dictionary) -> GdUnitResourceDto:
 func line_number() -> int:
 	return _line_number
 
-func test_case_names() -> PoolStringArray:
+func test_case_names() -> PackedStringArray:
 	return _test_case_names

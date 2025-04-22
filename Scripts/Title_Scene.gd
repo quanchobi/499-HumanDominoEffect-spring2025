@@ -17,7 +17,7 @@ func handleChangeToMenuScene():
 	# Play animation
 	SFXController.playSFX(ReferenceManager.get_reference("next.wav"))
 	$Title_Container/AnimationPlayer.play("Transition")
-	yield($Title_Container/AnimationPlayer, "animation_finished")
+	await $Title_Container/AnimationPlayer.animation_finished
 	
 	if parent and parent.has_method("loadForegroundScene"):
 		parent.loadForegroundScene(ReferenceManager.get_reference("Menu_Scene.tscn"))

@@ -1,5 +1,5 @@
 class_name GdAssertReports
-extends Reference
+extends RefCounted
 
 const LAST_ERROR = "last_assert_error_message"
 const LAST_ERROR_LINE = "last_assert_error_line"

@@ -11,6 +11,6 @@ func _init(from: Vector2, to: Vector2):
 	_to = to
 
 func next_value() -> Vector2:
-	var x = rand_range(_from.x, _to.x)
-	var y = rand_range(_from.y, _to.y)
+	var x = randf_range(_from.x, _to.x)
+	var y = randf_range(_from.y, _to.y)
 	return Vector2(x, y)

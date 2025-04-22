@@ -2,7 +2,7 @@ extends Node
 
 var loaded_data = false
 #Path to save the save file at.
-var SavePath = "res://Saves/Save1.json"
+var SavePath = "user://Saves/Save1.json"
 #Variable to contain save file while opening
 var SaveFile
 #Variable containing the save Data
@@ -42,6 +42,12 @@ func _ready():
 func save_button_pressed():
 	print("Save Button Pressed!")
 	SFXController.playSFX("res://audio/effects/select.wav")
+	
+	# Make sure directory exists
+	var dir = DirAccess.open("user://")
+	if not dir.dir_exists("Saves"):
+		dir.make_dir("Saves")
+	
 	Save["0"] = {
 			"Players": gamestate.players,
 			"Points": gamestate.total_points,
@@ -56,17 +62,22 @@ func save_button_pressed():
 			"Current_Level": Save["0"].Current_Level,
 			"Current_Round": Save["0"].Current_Round
 		}
-	SaveFile = File.new()
-	SaveFile.open(SavePath, File.WRITE)
-	SaveFile.store_string(JSON.print(Save, "\t"))
+	
+	SaveFile = FileAccess.open(SavePath, FileAccess.WRITE)
+	if SaveFile == null:
+		print("Failed to open save file: ", FileAccess.get_open_error())
+		return
+	
+	SaveFile.store_string(JSON.stringify(Save, "\t"))
 	SaveFile.close()
 
 func load_button_pressed():
 	print("Load Button Pressed")
 	loaded_data = true
-	SaveFile = File.new()
-	SaveFile.open(SavePath, File.READ)
-	Save = parse_json(SaveFile.get_as_text())
+	SaveFile = FileAccess.open(SavePath, FileAccess.READ)
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(SaveFile.get_as_text())
+	Save = test_json_conv.get_data()
 	if(Save["0"].Current_Level == "World"):
 		Save["0"].Current_Level = "DominoWorld"
 	emit_signal("load_save_scene", Save["0"].Current_Level)

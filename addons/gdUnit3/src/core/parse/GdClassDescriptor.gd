@@ -1,5 +1,5 @@
 class_name GdClassDescriptor
-extends Reference
+extends RefCounted
 
 
 var _name :String

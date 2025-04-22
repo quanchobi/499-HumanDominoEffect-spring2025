@@ -1,5 +1,5 @@
 class_name GdUnitReportSummary
-extends Reference
+extends RefCounted
 
 var _resource_path :String
 var _name :String

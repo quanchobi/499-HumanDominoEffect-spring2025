@@ -48,22 +48,22 @@ func delete_history(max_reports :int) -> int:
 
 static func apply_path_reports(report_dir :String, template :String, reports :Array) -> String:
 	var path_report_mapping := GdUnitByPathReport.sort_reports_by_path(reports)
-	var table_records := PoolStringArray()
+	var table_records := PackedStringArray()
 	var paths := path_report_mapping.keys()
 	paths.sort()
 	for path in paths:
 		var report := GdUnitByPathReport.new(path, path_report_mapping.get(path))
 		var report_link :String = report.write(report_dir).replace(report_dir, ".")
 		table_records.append(report.create_record(report_link))
-	return template.replace(GdUnitHtmlPatterns.TABLE_BY_PATHS, table_records.join("\n"))
+	return template.replace(GdUnitHtmlPatterns.TABLE_BY_PATHS, "\n".join(table_records))
 
 static func apply_testsuite_reports(report_dir :String, template :String, reports :Array) -> String:
-	var table_records := PoolStringArray()
+	var table_records := PackedStringArray()
 
 	for report in reports:
 		var report_link :String = report.write(report_dir).replace(report_dir, ".")
 		table_records.append(report.create_record(report_link))
-	return template.replace(GdUnitHtmlPatterns.TABLE_BY_TESTSUITES, table_records.join("\n"))
+	return template.replace(GdUnitHtmlPatterns.TABLE_BY_TESTSUITES, "\n".join(table_records))
 
 func iteration() -> int:
 	return _iteration

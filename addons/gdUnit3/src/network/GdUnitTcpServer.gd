@@ -1,4 +1,4 @@
-tool
+@tool
 class_name GdUnitTcpServer
 extends Node
 
@@ -6,13 +6,13 @@ signal client_connected(client_id)
 signal client_disconnected(client_id)
 signal rpc_data(rpc_data)
 
-var _server :TCP_Server
+var _server :TCPServer
 
 class TcpConnection extends Node:
 	var _id :int
 	var _stream : StreamPeerTCP
 	
-	func _init(server :TCP_Server):
+	func _init(server :TCPServer):
 		_stream = server.take_connection()
 		_stream.set_big_endian(true)
 		_id = _stream.get_instance_id()
@@ -43,11 +43,11 @@ class TcpConnection extends Node:
 				push_error("Error getting data from stream: %s " % data[0])
 				return
 			else:
-				var data_package :PoolByteArray = data[1]
+				var data_package :PackedByteArray = data[1]
 				var json_array := data_package.get_string_from_ascii().split(GdUnitServerConstants.JSON_RESPONSE_DELIMITER)
 				for json in json_array:
 					# ignore empty jsons
-					if json.empty():
+					if json.is_empty():
 						continue
 					var rpc = RPC.deserialize(json)
 					if rpc is RPCClientDisconnect:
@@ -55,9 +55,9 @@ class TcpConnection extends Node:
 					get_parent().emit_signal("rpc_data", rpc)
 
 func _ready():
-	_server = TCP_Server.new()
-	connect("client_connected", self, "_on_client_connected")
-	connect("client_disconnected", self, "_on_client_disconnected")
+	_server = TCPServer.new()
+	connect("client_connected", Callable(self, "_on_client_connected"))
+	connect("client_disconnected", Callable(self, "_on_client_disconnected"))
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:

@@ -1,9 +1,5 @@
 extends Control
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 #var parallax_backgrounds = [
 #	"res://Scenes/Parallax_Scenes/Parallax1.tscn",
 #	"res://Scenes/Parallax_Scenes/Parallax2.tscn",
@@ -28,7 +24,7 @@ func _ready():
 	
 	# Load an instance of scene as a child of GAME_START
 	var bg_scene = load(bg_path)
-	var bg_instance = bg_scene.instance()
+	var bg_instance = bg_scene.instantiate()
 	add_child(bg_instance)
 	
 	if gamestate.title_screen_click_flag == false:
@@ -45,5 +41,5 @@ func loadForegroundScene(path_to_scene):
 		foreGroundScene.queue_free()
 		
 	var scene = load(path_to_scene)
-	foreGroundScene = scene.instance()
+	foreGroundScene = scene.instantiate()
 	add_child(foreGroundScene)

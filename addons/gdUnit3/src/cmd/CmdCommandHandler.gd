@@ -1,5 +1,5 @@
 class_name CmdCommandHandler
-extends Reference
+extends RefCounted
 
 const CB_SINGLE_ARG = 0
 const CB_MULTI_ARGS = 1
@@ -42,7 +42,7 @@ func register_cbv(cmd_name :String, fr :FuncRef) -> CmdCommandHandler:
 	return self
 
 func _validate() -> Result:
-	var errors := PoolStringArray()
+	var errors := PackedStringArray()
 	var registers_func_cbs := Dictionary()
 	
 	for cmd_name in _command_func_refs.keys():
@@ -63,10 +63,10 @@ func _validate() -> Result:
 			else:
 				registers_func_cbs[func_cb_name] = cmd_name
 	
-	if errors.empty():
+	if errors.is_empty():
 		return Result.success(true)
 	else:
-		return Result.error(errors.join("\n"))
+		return Result."\n".join(error(errors))
 
 func execute(commands :Array) -> Result:
 	var result := _validate()
@@ -80,7 +80,7 @@ func execute(commands :Array) -> Result:
 		if _command_func_refs.has(cmd_name):
 			var fr_s :FuncRef = _command_func_refs.get(cmd_name)[CB_SINGLE_ARG]
 			var fr_m :FuncRef = _command_func_refs.get(cmd_name)[CB_MULTI_ARGS]
-			if cmd.arguments().empty():
+			if cmd.arguments().is_empty():
 				if fr_s == null:
 					return Result.error("Invalid command callback for cmd '%s'" % cmd_name)
 				fr_s.call_func()

@@ -9,7 +9,7 @@ func simulate(frames: int, delta_peer_frame :float) -> GdUnitSceneRunner:
 
 func wait_emit_signal(instance :Object, signal_name :String, args := [], timeout := 2000, expeced := GdUnitAssert.EXPECT_SUCCESS) -> GDScriptFunctionState:
 	push_warning("DEPRECATED!: 'wait_emit_signal(<instance>, <signal_name>, <timeout>)' is deprecated. Use  'await_signal_on(<source>, <signal_name>, <timeout>) instead.'")
-	return yield(await_signal_on(instance, signal_name, args, timeout), "completed")
+	return await await_signal_on(instance, signal_name, args, timeout).completed
 
 func wait_func(source :Object, func_name :String, args := [], expeced := GdUnitAssert.EXPECT_SUCCESS) -> GdUnitFuncAssert:
 	push_warning("DEPRECATED!: 'wait_func(<source>, <func_name>, <args>)' is deprecated. Use  'await_func(<func_name>, <args>)' or 'await_func_on(<source>, <func_name>, <args>)' instead.")
@@ -142,7 +142,7 @@ func invoke(name :String, arg0=NO_ARG, arg1=NO_ARG, arg2=NO_ARG, arg3=NO_ARG, ar
 # name: the name of the node to find
 # recursive: enables/disables seraching recursive
 # return: the node if find otherwise null
-func find_node(name :String, recursive :bool = true, owned :bool = false) -> Node:
+func find_child(name :String, recursive :bool = true, owned :bool = false) -> Node:
 	return null
 
 # Access to current running scene

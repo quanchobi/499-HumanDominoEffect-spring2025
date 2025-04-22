@@ -1,5 +1,5 @@
 class_name Result
-extends Reference
+extends RefCounted
 
 enum {
 	SUCCESS,
@@ -24,7 +24,7 @@ static func success(value) -> Result:
 	return result
 
 static func warn(warn_message :String, value = null) -> Result:
-	assert(not warn_message.empty(), "The message must not be empty")
+	assert(not warn_message.is_empty(), "The message must not be empty")
 	var result := __instance()
 	result._value = value
 	result._warn_message = warn_message
@@ -32,14 +32,14 @@ static func warn(warn_message :String, value = null) -> Result:
 	return result
 
 static func error(error_message :String, error :int = 0) -> Result:
-	assert(not error_message.empty(), "The message must not be empty")
+	assert(not error_message.is_empty(), "The message must not be empty")
 	var result := __instance()
 	result._value = null
 	result._error_message = error_message
 	result._state = ERROR
 	return result
 
-static func empty() -> Result:
+static func is_empty() -> Result:
 	var result := __instance()
 	result._state = EMPTY
 	return result
@@ -79,14 +79,14 @@ static func serialize(result :Result) -> Dictionary:
 		push_error("Can't serialize a Null object from type Result")
 	return {
 		"state" : result._state,
-		"value" : var2str(result._value),
+		"value" : var_to_str(result._value),
 		"warn_msg" : result._warn_message,
 		"err_msg" : result._error_message
 	}
 
 static func deserialize(config :Dictionary) -> Result:
 	var result := __instance()
-	result._value = str2var(config.get("value", ""))
+	result._value = str_to_var(config.get("value", ""))
 	result._warn_message = config.get("warn_msg", null)
 	result._error_message = config.get("err_msg", null)
 	result._state = config.get("state")

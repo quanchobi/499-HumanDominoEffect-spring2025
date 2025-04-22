@@ -77,14 +77,14 @@ const _objects_to_delete := {
 const _files_to_close :Array = []
 
 static func temp_dir() -> String:
-	var dir := Directory.new()
+	var dir := DirAccess.new()
 	if not dir.dir_exists(GDUNIT_TEMP):
 		dir.make_dir_recursive(GDUNIT_TEMP)
 	return GDUNIT_TEMP
 
 static func create_temp_dir(folder_name :String) -> String:
 	var new_folder = temp_dir() + "/" + folder_name
-	var dir := Directory.new()
+	var dir := DirAccess.new()
 	if not dir.dir_exists(new_folder):
 		dir.make_dir_recursive(new_folder)
 	return new_folder
@@ -109,30 +109,30 @@ static func current_dir() -> String:
 
 
 static func delete_directory(path :String, only_content := false) -> void:
-	var dir := Directory.new()
+	var dir := DirAccess.new()
 	if dir.open(path) == OK:
-		dir.list_dir_begin()
+		dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var file_name := "."
 		while file_name != "":
 			file_name = dir.get_next()
-			if file_name.empty() or file_name == "." or file_name == "..":
+			if file_name.is_empty() or file_name == "." or file_name == "..":
 				continue
 			var next := path + "/" +file_name
 			if dir.current_is_dir():
 				delete_directory(next)
 			else:
 				# delete file
-				var err = Directory.new().remove(next)
+				var err = DirAccess.new().remove(next)
 				if err:
 					push_error("Delete %s failed: %s" % [next, error_as_string(err)])
 		if not only_content:
-			var err := Directory.new().remove(path)
+			var err := DirAccess.new().remove(path)
 			if err:
 				push_error("Delete %s failed: %s" % [path, error_as_string(err)])
 
 
 static func copy_file(from_file :String, to_dir :String) -> Result:
-	var dir := Directory.new()
+	var dir := DirAccess.new()
 	if dir.open(to_dir) == OK:
 		var to_file := to_dir + "/" + from_file.get_file()
 		prints("Copy %s to %s" % [from_file, to_file])
@@ -140,17 +140,17 @@ static func copy_file(from_file :String, to_dir :String) -> Result:
 		if error != OK:
 			return Result.error("Can't copy file form '%s' to '%s'. Error: '%s'" % [from_file, to_file, error_as_string(error)])
 		return Result.success(to_file)
-	return Result.error("Directory not found: " + to_dir)
+	return Result.error("DirAccess not found: " + to_dir)
 
 
 static func copy_directory(from_dir :String, to_dir :String, recursive :bool = false) -> bool:
-	var source_dir := Directory.new()
+	var source_dir := DirAccess.new()
 	if not source_dir.dir_exists(from_dir):
 		push_error("Source directory not found '%s'" % from_dir)
 		return false
 		
 	# check if destination exists 
-	var dest_dir := Directory.new()
+	var dest_dir := DirAccess.new()
 	if not dest_dir.dir_exists(to_dir):
 		# create it
 		var err := dest_dir.make_dir_recursive(to_dir)
@@ -160,7 +160,7 @@ static func copy_directory(from_dir :String, to_dir :String, recursive :bool = f
 	dest_dir.open(to_dir)
 	
 	if source_dir.open(from_dir) == OK:
-		source_dir.list_dir_begin()
+		source_dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var next := "."
 		
 		while next != "":
@@ -180,22 +180,22 @@ static func copy_directory(from_dir :String, to_dir :String, recursive :bool = f
 		
 		return true
 	else:
-		push_error("Directory not found: " + from_dir)
+		push_error("DirAccess not found: " + from_dir)
 		return false
 
 # scans given path for sub directories by given prefix and returns the highest index numer
 # e.g. <prefix_%d>
 static func find_last_path_index(path :String, prefix :String) -> int:
-	var dir := Directory.new()
+	var dir := DirAccess.new()
 	if not dir.dir_exists(path):
 		return 0
 	var last_iteration := 0
 	if dir.open(path) == OK:
-		dir.list_dir_begin()
+		dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var next := "."
 		while next != "":
 			next = dir.get_next()
-			if next.empty() or next == "." or next == "..":
+			if next.is_empty() or next == "." or next == "..":
 				continue
 			if next.begins_with(prefix):
 				var iteration := int(next.split("_")[1])
@@ -204,16 +204,16 @@ static func find_last_path_index(path :String, prefix :String) -> int:
 	return last_iteration
 
 static func delete_path_index_lower_equals_than(path :String, prefix :String, index :int) -> int:
-	var dir := Directory.new()
+	var dir := DirAccess.new()
 	if not dir.dir_exists(path):
 		return 0
 	var deleted := 0
 	if dir.open(path) == OK:
-		dir.list_dir_begin()
+		dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var next := "."
 		while next != "":
 			next = dir.get_next()
-			if next.empty() or next == "." or next == "..":
+			if next.is_empty() or next == "." or next == "..":
 				continue
 			if next.begins_with(prefix):
 				var current_index := int(next.split("_")[1])
@@ -223,12 +223,12 @@ static func delete_path_index_lower_equals_than(path :String, prefix :String, in
 	return deleted
 
 
-static func _list_installed_tar_paths() -> PoolStringArray:
+static func _list_installed_tar_paths() -> PackedStringArray:
 	var stdout = Array()
 	OS.execute("where", ["tar"], true, stdout)
 	if stdout.size() > 0:
-		return PoolStringArray(stdout[0].split("\n"))
-	return PoolStringArray()
+		return PackedStringArray(stdout[0].split("\n"))
+	return PackedStringArray()
 
 static func _find_tar_path(os_name :String) -> String:
 	if os_name.to_upper() != "WINDOWS":
@@ -256,28 +256,28 @@ static func extract_package(source :String, dest:String) -> Result:
 	return Result.success(dest)
 
 
-static func scan_dir(path :String) -> PoolStringArray:
-	var dir := Directory.new()
+static func scan_dir(path :String) -> PackedStringArray:
+	var dir := DirAccess.new()
 	if not dir.dir_exists(path):
-		return PoolStringArray()
-	var content := PoolStringArray()
+		return PackedStringArray()
+	var content := PackedStringArray()
 	if dir.open(path) == OK:
-		dir.list_dir_begin()
+		dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var next := "."
 		while next != "":
 			next = dir.get_next()
-			if next.empty() or next == "." or next == "..":
+			if next.is_empty() or next == "." or next == "..":
 				continue
 			content.append(next)
 	return content
 
-static func resource_as_array(resource_path :String) -> PoolStringArray:
+static func resource_as_array(resource_path :String) -> PackedStringArray:
 	var file := File.new()
 	var err := file.open(resource_path, File.READ)
 	if err != OK:
 		push_error("ERROR: Can't read resource '%s'. %s" % [resource_path, error_as_string(err)])
-		return PoolStringArray()
-	var file_content := PoolStringArray()
+		return PackedStringArray()
+	var file_content := PackedStringArray()
 	while not file.eof_reached():
 		file_content.append(file.get_line())
 	file.close()
@@ -309,7 +309,7 @@ static func free_instance(instance :Object):
 	# needs to manually exculde JavaClass
 	# see https://github.com/godotengine/godot/issues/44932
 	if is_instance_valid(instance) and not(instance is JavaClass):
-		if not instance is Reference:
+		if not instance is RefCounted:
 			release_double(instance)
 			release_connections(instance)
 			if instance is Timer:
@@ -328,7 +328,7 @@ static func release_connections(instance :Object):
 		var source = connection["source"]
 		var method = connection["method_name"]
 		if source == instance:
-			source.disconnect(signal_name, instance, method)
+			source.disconnect(signal_name, Callable(instance, method))
 
 
 # if instance an mock or spy we need manually freeing the self reference
@@ -356,7 +356,7 @@ static func register_auto_free(obj, pool :int):
 static func run_auto_free(pool :int):
 	var obj_pool := _objects_to_delete[pool] as Array
 	#prints("run_auto_free on Pool:", pool, obj_pool.size())
-	while not obj_pool.empty():
+	while not obj_pool.is_empty():
 		var obj = obj_pool.pop_front()
 		free_instance(obj)
 
@@ -384,7 +384,7 @@ static func is_mono_supported() -> bool:
 
 # runs over all registered files and closes it
 static func run_auto_close():
-	while not _files_to_close.empty():
+	while not _files_to_close.is_empty():
 		var file := _files_to_close.pop_front() as File
 		if file != null and file.is_open():
 			#prints("auto close %s" % file.get_path_absolute())
@@ -413,7 +413,7 @@ static func clear_push_errors() -> void:
 		runner.clear_push_errors()
 
 static func register_expect_interupted_by_timeout(test_suite :Node, test_case_name :String) -> void:
-	var test_case = test_suite.find_node(test_case_name, false, false)
+	var test_case = test_suite.find_child(test_case_name, false, false)
 	test_case.expect_to_interupt()
 
 static func append_array(array, append :Array) -> void:

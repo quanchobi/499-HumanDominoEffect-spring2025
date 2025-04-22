@@ -1,13 +1,13 @@
-tool
+@tool
 extends Control
 
 const TITLE = "gdUnit3 ${version} Console"
 
-onready var header := $VBoxContainer/Header
-onready var title :RichTextLabel = $VBoxContainer/Header/header_title
-onready var output :RichTextLabel = $VBoxContainer/Console/TextEdit
+@onready var header := $VBoxContainer/Header
+@onready var title :RichTextLabel = $VBoxContainer/Header/header_title
+@onready var output :RichTextLabel = $VBoxContainer/Console/TextEdit
 
-onready var _signal_handler:SignalHandler = GdUnitSingleton.get_singleton(SignalHandler.SINGLETON_NAME)
+@onready var _signal_handler:SignalHandler = GdUnitSingleton.get_singleton(SignalHandler.SINGLETON_NAME)
 
 var _text_color :Color
 var _function_color :Color
@@ -66,7 +66,7 @@ func _on_event_test_suite(event :GdUnitEvent):
 			_summary["total_count"] = 0
 		GdUnitEvent.STOP:
 			output.newline()
-			output.push_color(Color.lightgreen.to_html())
+			output.push_color(Color.LIGHT_GREEN.to_html())
 			output.append_bbcode("Test Run Summary:")
 			output.pop()
 			output.push_color(_text_color.to_html())
@@ -81,11 +81,11 @@ func _on_event_test_suite(event :GdUnitEvent):
 			output.newline()
 		GdUnitEvent.TESTSUITE_AFTER:
 			if event.is_success():
-				output.push_color(Color.lightgreen.to_html())
+				output.push_color(Color.LIGHT_GREEN.to_html())
 				output.append_bbcode("[wave]PASSED[/wave]")
 				output.pop()
 			else:
-				output.push_color(Color.firebrick.to_html())
+				output.push_color(Color.FIREBRICK.to_html())
 				output.append_bbcode("[shake rate=5 level=10][b]FAILED[/b][/shake]")
 				output.pop()
 			output.append_bbcode(" %+12s" % LocalTime.elapsed(event.elapsed_time()))
@@ -104,7 +104,7 @@ func _on_event_test_suite(event :GdUnitEvent):
 			var reports := event.reports()
 			update_statistics(event)
 			if event.is_success():
-				output.push_color(Color.lightgreen.to_html())
+				output.push_color(Color.LIGHT_GREEN.to_html())
 				output.append_bbcode("PASSED")
 				output.pop()
 				output.append_bbcode(" %+12s" % LocalTime.elapsed(event.elapsed_time()))
@@ -112,17 +112,17 @@ func _on_event_test_suite(event :GdUnitEvent):
 				output.pop_indent(1)
 			else:
 				if event.is_skipped():
-					output.push_color(Color.goldenrod.to_html())
+					output.push_color(Color.GOLDENROD.to_html())
 					output.append_bbcode("SKIPPED")
 					output.pop()
 				if event.is_error() or event.is_failed():
-					output.push_color(Color.firebrick.to_html())
+					output.push_color(Color.FIREBRICK.to_html())
 					output.append_bbcode("FAILED")
 					output.pop()
 				output.append_bbcode(" %+12s" % LocalTime.elapsed(event.elapsed_time()))
 				output.newline()
 				output.push_color(_text_color.to_html())
-				var report :GdUnitReport = null if reports.empty() else reports[0]
+				var report :GdUnitReport = null if reports.is_empty() else reports[0]
 				if report:
 					output.push_indent(1)
 					output.append_bbcode("line %d %s" % [report._line_number, report._message])

@@ -1,5 +1,5 @@
 class_name GdUnitHtmlPatterns
-extends Reference
+extends RefCounted
 
 const TABLE_RECORD_TESTSUITE = """
 								<tr>
@@ -59,26 +59,26 @@ const BUILD_DATE = "${buid_date}"
 
 
 static func current_date2() -> String:
-	return "{day}.{month}.{year}   {hour}:{minute}:{second}".format(OS.get_datetime())
+	return "{day}.{month}.{year}   {hour}:{minute}:{second}".format(Time.get_datetime_dict_from_system())
 
 static func current_date() -> String:
-	var date := OS.get_datetime()
+	var date := Time.get_datetime_dict_from_system()
 	return "%02d.%02d.%04d   %02d:%02d:%02d" % [date["day"], date["month"], date["year"], date["hour"], date["minute"], date["second"]]
 
 static func build(template :String, report :GdUnitReportSummary, report_link :String) -> String:
 	return template\
-		.replace(PATH, report.path())\
-		.replace(TESTSUITE_NAME, report.name())\
-		.replace(TESTSUITE_COUNT, str(report.suite_count()))\
-		.replace(TESTCASE_COUNT, str(report.test_count()))\
-		.replace(FAILURE_COUNT, str(report.error_count() + report.failure_count()))\
-		.replace(SKIPPED_COUNT, str(report.skipped_count()))\
-		.replace(ORPHAN_COUNT, str(report.orphan_count()))\
-		.replace(DURATION, LocalTime.elapsed(report.duration()))\
-		.replace(SUCCESS_PERCENT, report.calculate_succes_rate(report.test_count(), report.error_count(), report.failure_count()))\
-		.replace(REPORT_STATE, report.report_state())\
-		.replace(REPORT_LINK, report_link)\
-		.replace(BUILD_DATE, current_date())\
+		super.replace(PATH, report.path())\
+		super.replace(TESTSUITE_NAME, report.name())\
+		super.replace(TESTSUITE_COUNT, str(report.suite_count()))\
+		super.replace(TESTCASE_COUNT, str(report.test_count()))\
+		super.replace(FAILURE_COUNT, str(report.error_count() + report.failure_count()))\
+		super.replace(SKIPPED_COUNT, str(report.skipped_count()))\
+		super.replace(ORPHAN_COUNT, str(report.orphan_count()))\
+		super.replace(DURATION, LocalTime.elapsed(report.duration()))\
+		super.replace(SUCCESS_PERCENT, report.calculate_succes_rate(report.test_count(), report.error_count(), report.failure_count()))\
+		super.replace(REPORT_STATE, report.report_state())\
+		super.replace(REPORT_LINK, report_link)\
+		super.replace(BUILD_DATE, current_date())\
 
 static func load_template(template_name :String) -> String:
 	var file := File.new()

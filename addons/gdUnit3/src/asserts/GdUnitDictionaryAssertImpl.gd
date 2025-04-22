@@ -60,8 +60,8 @@ func is_equal(expected) -> GdUnitDictionaryAssert:
 	if current == null:
 		return report_error(GdAssertMessages.error_equal(null, expected))
 	if not GdObjects.equals(current, expected):
-		var c = var2str(current)
-		var e = var2str(expected)
+		var c = var_to_str(current)
+		var e = var_to_str(expected)
 		var diff := GdDiffTool.string_diff(c, e)
 		return report_error(GdAssertMessages.error_equal(diff[1], diff[0]))
 	return report_success()
@@ -71,8 +71,8 @@ func is_not_equal(expected) -> GdUnitDictionaryAssert:
 	var current := __current()
 	expected = __expected(expected)
 	if GdObjects.equals(current, expected):
-		var c = var2str(current)
-		var e = var2str(expected)
+		var c = var_to_str(current)
+		var e = var_to_str(expected)
 		var diff := GdDiffTool.string_diff(c, e)
 		return report_error(GdAssertMessages.error_equal(diff[1], diff[0]))
 	return report_success()
@@ -80,14 +80,14 @@ func is_not_equal(expected) -> GdUnitDictionaryAssert:
 # Verifies that the current dictionary is empty, it has a size of 0.
 func is_empty() -> GdUnitDictionaryAssert:
 	var current := __current()
-	if current == null or not current.empty():
+	if current == null or not current.is_empty():
 		return report_error(GdAssertMessages.error_is_empty(current))
 	return report_success()
 
 # Verifies that the current dictionary is not empty, it has a size of minimum 1.
 func is_not_empty() -> GdUnitDictionaryAssert:
 	var current := __current()
-	if current == null or current.empty():
+	if current == null or current.is_empty():
 		return report_error(GdAssertMessages.error_is_not_empty())
 	return report_success()
 
@@ -111,7 +111,7 @@ func contains_keys(expected :Array) -> GdUnitDictionaryAssert:
 	for key in current.keys():
 		keys_not_found.erase(key)
 		
-	if not keys_not_found.empty():
+	if not keys_not_found.is_empty():
 		return report_error(GdAssertMessages.error_contains_keys(current.keys(), expected, keys_not_found))
 	return report_success()
 
@@ -128,7 +128,7 @@ func contains_not_keys(expected :Array) -> GdUnitDictionaryAssert:
 		if current_keys.has(do_not_contain_key):
 			keys_found.append(do_not_contain_key)
 		
-	if not keys_found.empty():
+	if not keys_found.is_empty():
 		return report_error(GdAssertMessages.error_not_contains_keys(current.keys(), expected, keys_found))
 	return report_success()
 

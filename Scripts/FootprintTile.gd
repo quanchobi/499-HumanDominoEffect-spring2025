@@ -19,9 +19,9 @@ func _init(index: int = 0, in_ring: bool = false) -> void:
 # warning-ignore:integer_division
 	self.round_num = index / gamestate.tiles_per_round
 	
-	var ShapeSprite = Sprite.new()
-	var RoundSprite = Sprite.new()
-	var NumberSprite = Sprite.new()
+	var ShapeSprite = Sprite2D.new()
+	var RoundSprite = Sprite2D.new()
+	var NumberSprite = Sprite2D.new()
 	
 	add_child(ShapeSprite)
 	add_child(RoundSprite)
@@ -34,9 +34,9 @@ func _init(index: int = 0, in_ring: bool = false) -> void:
 	if in_ring:
 		var collision2d = CollisionPolygon2D.new()
 		collision2d.polygon = shape_collisions[self.shape_index()]
-		if connect("mouse_entered", self, "_mouse_entered"):
+		if connect("mouse_entered", Callable(self, "_mouse_entered")):
 			print("Connect failed for mouse_entered")
-		if connect("mouse_exited", self, "_mouse_exited"):
+		if connect("mouse_exited", Callable(self, "_mouse_exited")):
 			print("Connect failed for mouse_exited")
 		add_child(collision2d)
 	
@@ -112,7 +112,7 @@ var shape_sprites = [
 # each element is a PoolVector2Array which contain coordinates for a CollisionPolygon2D Node
 # this array is ordered to correspond to the shape_sprites const above.
 const shape_collisions = [
-	PoolVector2Array([
+	[
 		Vector2(67, 82),
 		Vector2(70, -57),
 		Vector2(9, -87),
@@ -121,21 +121,21 @@ const shape_collisions = [
 		Vector2(-70, -40),
 		Vector2(-68, 99),
 		Vector2(0, 44)
-	]),
-	PoolVector2Array([
+	],
+	[
 		Vector2(70, -87),
 		Vector2(-71, -27),
 		Vector2(-55, 45),
 		Vector2(55, 89)
-	]),
-	PoolVector2Array([
+	],
+	[
 		Vector2(-49, 86),
 		Vector2(-73, -33),
 		Vector2(1, -89),
 		Vector2(71, -47),
 		Vector2(42, 92),
 		Vector2(-9, 58)
-	])
+	]
 ]
 
 const shape_scales_for_ring = [

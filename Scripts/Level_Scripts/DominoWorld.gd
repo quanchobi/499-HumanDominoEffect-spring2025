@@ -2,7 +2,7 @@
 class_name DominoWorld
 extends Node2D
 
-export(PackedScene) var Domino
+@export var Domino: PackedScene
 # NOTE: If domino game performance is low, try switching to preload
 #const FootprintTile = preload("res://Scripts/FootprintTile.gd")
 var FootprintTile = load(ReferenceManager.get_reference("FootprintTile.gd"))
@@ -68,34 +68,34 @@ func _init_players() -> void:
 			load(ReferenceManager.get_reference("back_hair/" + str(gamestate.hair[player_id]) + ".png"))
 		)
 		# initialize character looks in popup
-		get_node(current + "/Score/Button/PopupDialog/front_hair").set_texture(
+		get_node(current + "/Score/Button/Popup/front_hair").set_texture(
 			load(ReferenceManager.get_reference("front_hair/" + str(gamestate.hair[player_id]) + ".png"))
 		)
-		get_node(current + "/Score/Button/PopupDialog/back_hair").set_texture(
+		get_node(current + "/Score/Button/Popup/back_hair").set_texture(
 			load(ReferenceManager.get_reference("back_hair/" + str(gamestate.hair[player_id]) + ".png"))
 		)
 		print(gamestate.hair[player_id])
-		get_node(current + "/Score/Button/PopupDialog/body").set_texture(
+		get_node(current + "/Score/Button/Popup/body").set_texture(
 			load(ReferenceManager.get_reference("bodies/" + str(gamestate.body[player_id]) + ".png"))
 		)
 		print(gamestate.body[player_id])
-		get_node(current + "/Score/Button/PopupDialog/clothes").set_texture(
+		get_node(current + "/Score/Button/Popup/clothes").set_texture(
 			load(ReferenceManager.get_reference("clothes/" + str(gamestate.clothes[player_id]) + ".png"))
 		)
 		print(gamestate.clothes[player_id])
-		get_node(current + "/Score/Button/PopupDialog/Name_text").set_text(
+		get_node(current + "/Score/Button/Popup/Name_text").set_text(
 			gamestate.players[player_id]
 		)
 
 		# initalize elcitraps
 		for i in range(len(gamestate.elcitraps[player_id])):
-			get_node(current + "/Score/Button/PopupDialog/elcitrap" + str(i)).init(
+			get_node(current + "/Score/Button/Popup/elcitrap" + str(i)).init(
 				(gamestate.elcitraps[player_id])[i]
 			)
 
 		# initalize loaded scores if data is loaded
 		if(SaveManager.loaded_data):
-			var path = current + "/Score/Button/PopupDialog/"
+			var path = current + "/Score/Button/Popup/"
 			print(gamestate.lydia_lion.keys().find(player_id))
 			if(gamestate.lydia_lion.keys().find(player_id) == -1):
 				get_node(path + "Lydia_number").text == "0"
@@ -114,11 +114,20 @@ func _init_players() -> void:
 			else:
 				get_node(path + "Footprint_number").text = str(gamestate.footprint_tiles[player_id])
 		# set self number and make own path bubble visible
-		if player_id == get_tree().get_network_unique_id():
+		if player_id == multiplayer.get_unique_id():
 			self_num = ind - 1
-			get_node("Path" + str(ind)).visible = true
+			#get_node("Path2D" + str(ind)).visible = true
+			var path_node = get_node("Path" + str(ind))
+			if path_node:
+				path_node.visible = true
+				print("Found and made visible: Path" + str(ind))
+			else:
+				print("Could not find node: Path" + str(ind))
+				# Print all child nodes to see what's actually available
+				for child in get_children():
+					print("Found child node: ", child.name)
 		else:
-			get_node("Path" + str(ind)).temp = true
+			get_node("Path2D" + str(ind)).temp = true
 
 		ind += 1
 
@@ -129,7 +138,7 @@ func _init_players() -> void:
 	MusicController.playMusic(ReferenceManager.get_reference("main.ogg"))
 
 	# add start game and next round buttons to host screen
-	if get_tree().get_network_unique_id() == 1:
+	if multiplayer.get_unique_id() == 1:
 		$Start.visible = true
 
 	$Turn.text = gamestate.players[1] + "'s\nTurn"
@@ -159,7 +168,7 @@ func setup_dominos():
 			rpc_id(p, "get_starting_hand")
 
 
-remote func get_starting_hand():
+@rpc("any_peer") func get_starting_hand():
 	draw_7()
 
 
@@ -168,17 +177,25 @@ func draw_7():
 	for i in range(7):
 		# get domino info
 		var domino_nums = draw_domino()
-		var domino = Domino.instance()
+		var domino = Domino.instantiate()
 		var domino_title = str(domino_nums[1]) + str(domino_nums[0])
-		domino.get_node("Sprite").texture = load(ReferenceManager.get_reference("dominos/" + domino_title + ".png"))
+		domino.get_node("Sprite2D").texture = load(ReferenceManager.get_reference("dominos/" + domino_title + ".png"))
 		add_child(domino)
 
 		# set domino position
+		#if i < 4:
+		#	domino.position = Vector2(2000, 400 * i - 600)
+		#else:
+		#	domino.position = Vector2(2250, 400 * (i - 4) - 600)
+		
+		# Scaled down Domino position
 		if i < 4:
-			domino.position = Vector2(2000, 400 * i - 600)
+			domino.position = Vector2(100, 96 * i - 144)
+			domino.scale = Vector2(0.55, 0.55)  # Adjust this as needed, this scales the dominos in hand
 		else:
-			domino.position = Vector2(2250, 400 * (i - 4) - 600)
-
+			domino.position = Vector2(150, 96 * (i - 4) - 144)
+			domino.scale = Vector2(0.55, 0.55) 
+		
 		# initialize domino
 		domino.init(
 			domino_nums[0],
@@ -197,7 +214,7 @@ func draw_domino():
 	var nums = dominos.pop_front()
 	# print("len: ", len(dominos))
 	if nums[0] < nums[1]:
-		nums.invert()
+		nums.reverse()
 	# print(nums, len(dominos))
 
 	# update every player's deck to stay in sync
@@ -218,7 +235,7 @@ func select_domino(domino) -> bool:
 	return selected_domino == domino
 
 # update deck from other player's drawing a domino
-remote func update_deck():
+@rpc("any_peer") func update_deck():
 	var _nums = dominos.pop_front()
 
 # handles placing of domino onto a path
@@ -246,7 +263,7 @@ func place_domino(num):
 					selected_domino.bottom_element,
 					false
 				)
-				selected_domino.get_node("Sprite").rotation_degrees = 180
+				selected_domino.get_node("Sprite2D").rotation_degrees = 180
 				flip = true
 			# check for alloy
 			if end_dominos[num] and end_dominos[num].top_element != selected_domino.bottom_element:
@@ -283,16 +300,21 @@ func place_domino(num):
 			selected_domino.position = position_table[num] + placed_domino_offset[num]  # handles where the domnio is placed
 			path_ends[num] = selected_domino.top_num
 			end_dominos[num] = selected_domino
-
-			placed_domino_offset[num] = placed_domino_offset[num] + Vector2(160, -176)
-
+			
+			# Original
+			#placed_domino_offset[num] = placed_domino_offset[num] + Vector2(160, -176)
+			
+			# CS499 Feb 2025 Scaled Down .4x
+			placed_domino_offset[num] = placed_domino_offset[num] + Vector2(64, -70)
+			
 			num_placed += 1
 
 			turn = (turn + 1) % len(gamestate.players)
 			$Turn.text = gamestate.players[sorted_players[turn]] + "'s\nTurn"
 
 			# if helped another player on their path, get a wellness bead
-			if num < 6 and get_node("Path" + str(num + 1)).temp == true:
+			var path_node = get_node_or_null("Path2D" + str(num + 1))
+			if num < 6 and (path_node and path_node.temp == true):
 				increment_wellness_beads(self_num + 1)
 				rpc("increment_wellness_beads", self_num + 1)
 				display_wellness_prompt()
@@ -324,7 +346,7 @@ func place_domino(num):
 
 # increment total score for player
 func increment_total(num):
-	var path = "Character Bubble" + str(num) + "/Score/Button/PopupDialog/Lydia_number"
+	var path = "Character Bubble" + str(num) + "/Score/Button/Popup/Lydia_number"
 	get_node(path).text = str(int(get_node(path).text) + 1)
 	gamestate.lydia_lion[num] = int(get_node(path).text)
 	$Acquire.playing = true
@@ -339,16 +361,16 @@ func display_wellness_prompt():
 
 
 # increment wellness beads for player denoted by num
-remote func increment_wellness_beads(num):
-	var path = "Character Bubble" + str(num) + "/Score/Button/PopupDialog/Wellness_number"
+@rpc("any_peer") func increment_wellness_beads(num):
+	var path = "Character Bubble" + str(num) + "/Score/Button/Popup/Wellness_number"
 	get_node(path).text = str(int(get_node(path).text) + 1)
 	gamestate.wellness_beads[num] = get_node(path).text
 	increment_total(num)
 
 
 # increment alloys earned for player denoted by num
-remote func increment_alloys(num, alloy):
-	var path = "Character Bubble" + str(num) + "/Score/Button/PopupDialog/Alloy_number"
+@rpc("any_peer") func increment_alloys(num, alloy):
+	var path = "Character Bubble" + str(num) + "/Score/Button/Popup/Alloy_number"
 	get_node(path).text = str(int(get_node(path).text) + 1)
 	gamestate.alloys[num] = int(get_node(path).text)
 	increment_total(num)
@@ -360,8 +382,8 @@ remote func increment_alloys(num, alloy):
 
 
 # increment footprint tiles earned for player denoted by player_num
-remote func increment_footprint_tiles(player_num, round_num, footprint_num):
-	var path = "Character Bubble" + str(player_num) + "/Score/Button/PopupDialog/Footprint_number"
+@rpc("any_peer") func increment_footprint_tiles(player_num, round_num, footprint_num):
+	var path = "Character Bubble" + str(player_num) + "/Score/Button/Popup/Footprint_number"
 	get_node(path).text = str(int(get_node(path).text) + 1)
 	gamestate.footprint_tiles[player_num] = int(get_node(path).text)
 	increment_total(player_num)
@@ -387,20 +409,20 @@ func display_footprint_tile(round_num: int, footprint_num: int) -> void:
 		$FootprintTilePopup.visible = true
 
 # update domino path for all players after a player places a domino
-remote func update_domino_path(domino_nums, domino_elms, pos, path_num, flip):
+@rpc("any_peer") func update_domino_path(domino_nums, domino_elms, pos, path_num, flip):
 	# remove old domino if exists
 	#if end_dominos[path_num]:
 	#	end_dominos[path_num].queue_free()
 
 	# create new placed domino
-	var domino = Domino.instance()
+	var domino = Domino.instantiate()
 	add_child(domino)
 	domino.position = pos + placed_domino_offset[path_num]
 	var domino_title = (
 		str(min(domino_nums[0], domino_nums[1]))
 		+ str(max(domino_nums[0], domino_nums[1]))
 	)
-	domino.get_node("Sprite").texture = load(ReferenceManager.get_reference("dominos/" + domino_title + ".png"))
+	domino.get_node("Sprite2D").texture = load(ReferenceManager.get_reference("dominos/" + domino_title + ".png"))
 	domino.init(domino_nums[0], domino_nums[1], domino_elms[0], domino_elms[1], true)
 	domino.placed = true
 
@@ -410,7 +432,7 @@ remote func update_domino_path(domino_nums, domino_elms, pos, path_num, flip):
 
 	# flip domino sprite if necessary
 	if flip:
-		domino.get_node("Sprite").rotation_degrees = 180
+		domino.get_node("Sprite2D").rotation_degrees = 180
 
 	# change turn
 	turn = (turn + 1) % len(gamestate.players)
@@ -421,9 +443,9 @@ remote func update_domino_path(domino_nums, domino_elms, pos, path_num, flip):
 func replace_domino():
 	var domino_nums = draw_domino()
 	if domino_nums:
-		var domino = Domino.instance()
+		var domino = Domino.instantiate()
 		var domino_title = str(domino_nums[1]) + str(domino_nums[0])
-		domino.get_node("Sprite").texture = load(ReferenceManager.get_reference("dominos/" + domino_title + ".png"))
+		domino.get_node("Sprite2D").texture = load(ReferenceManager.get_reference("dominos/" + domino_title + ".png"))
 		add_child(domino)
 		domino.position = selected_domino.original_pos
 		domino.init(
@@ -438,7 +460,7 @@ func replace_domino():
 
 
 # go to next round of play
-remote func next_round():
+@rpc("any_peer") func next_round():
 	# show all footprint tiles from this round
 	footprint_tile_ring.show_round(center_num)
 	
@@ -486,12 +508,20 @@ remote func next_round():
 
 	# load center domino
 	var domino_title = ReferenceManager.get_reference("dominos/" + str(center_num) + str(center_num) + ".png")
-	$CentralDomino.get_node("Sprite").texture = load(domino_title)
+	$CentralDomino.get_node("Sprite2D").texture = load(domino_title)
 
 	# reset path visibility
 	for i in range(1, 7):
 		if i != self_num + 1:
-			get_node("Path" + str(i)).visible = false
+			var path_node = get_node("Path" + str(i))
+			if path_node:
+				path_node.visible = true
+				print("Found and made visible: Path" + str(i))
+			else:
+				print("Could not find node: Path" + str(i))
+				# Print all child nodes to see what's actually available
+				for child in get_children():
+					print("Found child node: ", child.name)
 
 # handle when next round button pressed by host
 func _on_Next_pressed() -> void:
@@ -510,40 +540,40 @@ func _on_Next_pressed() -> void:
 		
 #intialize tower as not seen
 func intialize_tower():
-	$Tower/Sprite/Energy.visible = false
-	$Tower/Sprite/Stability.visible = false
-	$Tower/Sprite/Prepared_Enviroment.visible = false
-	$Tower/Sprite/Ability.visible = false
-	$Tower/Sprite/Responsibility.visible = false
-	$Tower/Sprite/Perception.visible = false
-	$Tower/Sprite/Resilience.visible = false
-	$Tower/Sprite/Relationship.visible = false
-	$Tower/Sprite/Discernment.visible = false
-	$Tower/Sprite/Arts.visible = false
-	$Tower/Sprite/Sciences.visible = false
-	$Tower/Sprite/Humanities.visible = false
-	$Tower/Sprite/Diamond.visible = false
+	$Tower/Sprite2D/Energy.visible = false
+	$Tower/Sprite2D/Stability.visible = false
+	$Tower/Sprite2D/Prepared_Enviroment.visible = false
+	$Tower/Sprite2D/Ability.visible = false
+	$Tower/Sprite2D/Responsibility.visible = false
+	$Tower/Sprite2D/Perception.visible = false
+	$Tower/Sprite2D/Resilience.visible = false
+	$Tower/Sprite2D/Relationship.visible = false
+	$Tower/Sprite2D/Discernment.visible = false
+	$Tower/Sprite2D/Arts.visible = false
+	$Tower/Sprite2D/Sciences.visible = false
+	$Tower/Sprite2D/Humanities.visible = false
+	$Tower/Sprite2D/Diamond.visible = false
 
 # Display tower
 func add_tower(round_num):
 	if round_num == 6:
-		$Tower/Sprite/Energy.visible = true
-		$Tower/Sprite/Stability.visible = true
-		$Tower/Sprite/Prepared_Enviroment.visible = true
+		$Tower/Sprite2D/Energy.visible = true
+		$Tower/Sprite2D/Stability.visible = true
+		$Tower/Sprite2D/Prepared_Enviroment.visible = true
 	elif round_num == 7:
-		$Tower/Sprite/Ability.visible = true
-		$Tower/Sprite/Responsibility.visible = true
-		$Tower/Sprite/Perception.visible = true
+		$Tower/Sprite2D/Ability.visible = true
+		$Tower/Sprite2D/Responsibility.visible = true
+		$Tower/Sprite2D/Perception.visible = true
 	elif round_num == 8:
-		$Tower/Sprite/Resilience.visible = true
-		$Tower/Sprite/Relationship.visible = true
-		$Tower/Sprite/Discernment.visible = true
+		$Tower/Sprite2D/Resilience.visible = true
+		$Tower/Sprite2D/Relationship.visible = true
+		$Tower/Sprite2D/Discernment.visible = true
 	elif round_num ==9:
-		$Tower/Sprite/Arts.visible = true
-		$Tower/Sprite/Sciences.visible = true
-		$Tower/Sprite/Humanities.visible = true
+		$Tower/Sprite2D/Arts.visible = true
+		$Tower/Sprite2D/Sciences.visible = true
+		$Tower/Sprite2D/Humanities.visible = true
 	elif round_num == 10:
-		$Tower/Sprite/Diamond.visible = true
+		$Tower/Sprite2D/Diamond.visible = true
 
 # if player cannot play a domino on their paths
 func _on_Help_pressed() -> void:
@@ -556,15 +586,15 @@ func _on_Help_pressed() -> void:
 		SFXController.playSFX(ReferenceManager.get_reference("next.wav"))
 
 # add player's path denoted by num to all player's screens
-remote func add_path(num):
+@rpc("any_peer") func add_path(num):
 	turn = (turn + 1) % len(gamestate.players)
 	$Turn.text = gamestate.players[sorted_players[turn]] + "'s\nTurn"
-	get_node("Path" + str(num)).visible = true
+	get_node("Path2D" + str(num)).visible = true
 
 # remove player's path denoted by num from all player's screens
-remote func remove_path(num):
-	if get_node("Path" + str(num)).temp:
-		get_node("Path" + str(num)).visible = false
+@rpc("any_peer") func remove_path(num):
+	if get_node("Path2D" + str(num)).temp:
+		get_node("Path2D" + str(num)).visible = false
 
 func _close_WellnessBead_popup() -> void:
 	$WellnessBeadPopup.visible = false
@@ -580,7 +610,7 @@ func determine_winner():
 	var best_score = -1
 	var winners = []
 	for i in range(1, len(sorted_players) + 1):
-		var current_player = get_node("Character Bubble" + str(i) + "/Score/Button/PopupDialog")
+		var current_player = get_node("Character Bubble" + str(i) + "/Score/Button/Popup")
 		if int(current_player.get_node("Lydia_number").text) > best_score:
 			winners = [current_player.get_node("Name_text").text]
 			best_score = int(current_player.get_node("Lydia_number").text)
@@ -642,23 +672,32 @@ var grey = Color("aaaaaa")
 # Set label color back to grey when mouse leaves.
 
 func _on_EnterCode_mouse_entered():
-	$Code/MarginContainer/Label.set("custom_colors/font_color", green)
+	$Code/MarginContainer/Label.set("theme_override_colors/font_color", green)
 func _on_EnterCode_mouse_exited():
-	$Code/MarginContainer/Label.set("custom_colors/font_color", grey)
+	$Code/MarginContainer/Label.set("theme_override_colors/font_color", grey)
 
 func _on_Next_mouse_entered():
-	$Next/MarginContainer/Label.set("custom_colors/font_color", green)
+	$Next/MarginContainer/Label.set("theme_override_colors/font_color", green)
 func _on_Next_mouse_exited():
-	$Next/MarginContainer/Label.set("custom_colors/font_color", grey)
+	$Next/MarginContainer/Label.set("theme_override_colors/font_color", grey)
 
 func _on_Help_mouse_entered():
-	$Help/MarginContainer/Label.set("custom_colors/font_color", green)
+	$Help/MarginContainer/Label.set("theme_override_colors/font_color", green)
 func _on_Help_mouse_exited():
-	$Help/MarginContainer/Label.set("custom_colors/font_color", grey)
+	$Help/MarginContainer/Label.set("theme_override_colors/font_color", grey)
 
 func _on_Start_mouse_entered():
-	$Start/MarginContainer/Label.set("custom_colors/font_color", green)
+	$Start/MarginContainer/Label.set("theme_override_colors/font_color", green)
 func _on_Start_mouse_exited():
-	$Start/MarginContainer/Label.set("custom_colors/font_color", grey)
+	$Start/MarginContainer/Label.set("theme_override_colors/font_color", grey)
 	
 #### ^^^^ END BUTTON HOVER HANDLERS ^^^^ ####
+
+
+
+func _on_HelpButton_pressed():
+	$HelpMenu/HelpImage.visible = true
+	$HelpMenu.move_to_front()
+	
+func _on_CloseButton_pressed():
+	$HelpMenu/HelpImage.visible = false

@@ -10,7 +10,7 @@ func _ready():
 	Root = get_tree().get_root()
 	Manager = Root.get_node("Manager")
 	SaveManager.Save["0"].Current_Level = Manager.current_level.to_string().split(':')[0]
-	self.connect("pressed",SaveManager,"save_button_pressed")
+	self.connect("pressed", Callable(SaveManager, "save_button_pressed"))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,8 +23,8 @@ var grey = Color("aaaaaa")
 
 
 func _on_TextureButton_mouse_entered():
-	$MarginContainer/Label.set("custom_colors/font_color", green)
+	$MarginContainer/Label.set("theme_override_colors/font_color", green)
 
 
 func _on_TextureButton_mouse_exited():
-	$MarginContainer/Label.set("custom_colors/font_color", grey)
+	$MarginContainer/Label.set("theme_override_colors/font_color", grey)

@@ -73,7 +73,7 @@ const SPY_VOID_TEMPLATE_VARARG_ONLY =\
 class SpyFunctionDoubler extends GdFunctionDoubler:
 	
 	
-	func double(func_descriptor :GdFunctionDescriptor) -> PoolStringArray:
+	func double(func_descriptor :GdFunctionDescriptor) -> PackedStringArray:
 		var func_signature := func_descriptor.typeless()
 		var is_static := func_descriptor.is_static()
 		var is_engine := func_descriptor.is_engine()
@@ -86,26 +86,27 @@ class SpyFunctionDoubler extends GdFunctionDoubler:
 		
 		# save original constructor arguments
 		if func_name == "_init":
-			var constructor_args := extract_constructor_args(args).join(",")
-			var constructor := "func _init(%s).(%s):\n	pass\n" % [constructor_args, arg_names.join(",")]
-			return PoolStringArray([constructor])
+			var constructor_args := ",".join(extract_constructor_args(args))
+			var constructor := "func _init(%s)]
+				super(%s):\n	pass\n" % [constructor_args, ",".join(arg_names)
+			return PackedStringArray([constructor])
 		
 		var double := func_signature + "\n"
-		var func_template := get_template(func_descriptor.return_type(), is_vararg, not arg_names.empty())
+		var func_template := get_template(func_descriptor.return_type(), is_vararg, not arg_names.is_empty())
 		# fix to  unix format, this is need when the template is edited under windows than the template is stored with \r\n
 		func_template = GdScriptParser.to_unix_format(func_template)
 		double += func_template\
-			.replace("$(args)", str(arg_names))\
-			.replace("$(varargs)", str(vararg_names)) \
-			.replace("$(func_name)", func_name )\
-			.replace("$(func_arg)", arg_names.join(", "))
+			super.replace("$(args)", str(arg_names))\
+			super.replace("$(varargs)", str(vararg_names)) \
+			super.replace("$(func_name)", func_name )\
+			super.replace("$(func_arg)", ", ".join(arg_names))
 		
 		if is_static:
 			double = double.replace("", "__self[0].__instance_delegator" if is_engine else "")\
-				.replace("$(instance)", "__self[0].")
+				super.replace("$(instance)", "__self[0].")
 		else:
 			double = double.replace("", "__instance_delegator" if is_engine else "")\
-				.replace("$(instance)", "")
+				super.replace("$(instance)", "")
 		var source_code := double.split("\n")
 		# we do not call the original implementation for _ready and all input function, this is actualy done by the engine
 		if func_name in ["_ready", "_input", "_gui_input", "_input_event", "_unhandled_input"]:
@@ -130,7 +131,7 @@ static func build(caller :Object, to_spy, push_errors :bool = true, debug_write 
 		to_spy = load(to_spy)
 	# spy on PackedScene
 	if GdObjects.is_scene(to_spy):
-		return spy_on_scene(caller, to_spy.instance(), memory_pool, debug_write)
+		return spy_on_scene(caller, to_spy.instantiate(), memory_pool, debug_write)
 	# spy on a scene instance
 	if GdObjects.is_instance_scene(to_spy):
 		return spy_on_scene(caller, to_spy, memory_pool, debug_write)
@@ -145,7 +146,7 @@ static func build(caller :Object, to_spy, push_errors :bool = true, debug_write 
 	spy_instance.__set_caller(caller)
 	return GdUnitTools.register_auto_free(spy_instance, memory_pool)
 
-static func spy_on_script(instance, function_excludes :PoolStringArray, debug_write) -> GDScript:
+static func spy_on_script(instance, function_excludes :PackedStringArray, debug_write) -> GDScript:
 	var result := GdObjects.extract_class_name(instance)
 	if result.is_error():
 		push_error("Internal ERROR: %s" % result.error_message())
@@ -167,13 +168,13 @@ static func spy_on_script(instance, function_excludes :PoolStringArray, debug_wr
 	lines += double_functions(instance, extends_clazz, clazz_path, SpyFunctionDoubler.new(), function_excludes)
 	
 	var spy := GDScript.new()
-	spy.source_code = lines.join("\n")
+	spy.source_code = "\n".join(lines)
 	spy.resource_name = "Spy%s.gd" % extends_clazz
 	
 	if debug_write:
 		GdUnitTools.create_temp_dir("mocked")
 		spy.resource_path = GdUnitTools.create_temp_dir("spy") + "/Spy%s.gd" % extends_clazz
-		Directory.new().remove(spy.resource_path)
+		DirAccess.new().remove(spy.resource_path)
 		ResourceSaver.save(spy.resource_path, spy)
 	var error = spy.reload(true)
 	if error != OK:
@@ -184,7 +185,7 @@ static func spy_on_script(instance, function_excludes :PoolStringArray, debug_wr
 static func spy_on_scene(caller :Object, scene :Node, memory_pool, debug_write) -> Object:
 	if scene.get_script() == null:
 		if GdUnitSettings.is_verbose_assert_errors():
-			push_error("Can't create a spy on a scene without script '%s'" % scene.get_filename())
+			push_error("Can't create a spy on a scene without script '%s'" % scene.get_scene_file_path())
 		return null
 	# buils spy on original script
 	var scene_script = scene.get_script().new()
@@ -197,7 +198,7 @@ static func spy_on_scene(caller :Object, scene :Node, memory_pool, debug_write) 
 	scene.__set_caller(caller)
 	return GdUnitTools.register_auto_free(scene, memory_pool)
 
-const EXCLUDE_PROPERTIES_TO_COPY = ["script", "type", "get_global_transform", "rect_global_position"]
+const EXCLUDE_PROPERTIES_TO_COPY = ["script", "type", "get_global_transform", "global_position"]
 
 static func copy_properties(source :Object, dest :Object) -> void:
 	for property in source.get_property_list():

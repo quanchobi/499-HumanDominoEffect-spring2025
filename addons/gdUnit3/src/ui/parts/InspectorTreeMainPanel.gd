@@ -1,30 +1,30 @@
-tool
+@tool
 extends VSplitContainer
 
 signal run_testcase(test_suite_resource_path, test_case, test_param_index, run_debug)
 signal run_testsuite
 
 
-onready var _tree :Tree = $Panel/Tree
-onready var _report_list :Node = $report/ScrollContainer/list
-onready var _report_template :RichTextLabel = $report/report_template
+@onready var _tree :Tree = $Panel/Tree
+@onready var _report_list :Node = $report/ScrollContainer/list
+@onready var _report_template :RichTextLabel = $report/report_template
 
-onready var _context_menu :PopupPanel = $contextMenu
-onready var _context_menu_run := $contextMenu/items/run
-onready var _context_menu_debug := $contextMenu/items/debug
+@onready var _context_menu :PopupPanel = $contextMenu
+@onready var _context_menu_run := $contextMenu/items/run
+@onready var _context_menu_debug := $contextMenu/items/debug
 
 # tree icons
-onready var ICON_SPINNER = load("res://addons/gdUnit3/src/ui/assets/spinner.tres")
-onready var ICON_TEST_DEFAULT = load_resized_texture("res://addons/gdUnit3/src/ui/assets/TestCase.svg")
-onready var ICON_TEST_SUCCESS = load_resized_texture("res://addons/gdUnit3/src/ui/assets/TestCaseSuccess.svg")
-onready var ICON_TEST_FAILED = load_resized_texture("res://addons/gdUnit3/src/ui/assets/TestCaseFailed.svg")
-onready var ICON_TEST_ERROR = load_resized_texture("res://addons/gdUnit3/src/ui/assets/TestCaseError.svg")
+@onready var ICON_SPINNER = load("res://addons/gdUnit3/src/ui/assets/spinner.tres")
+@onready var ICON_TEST_DEFAULT = load_resized_texture("res://addons/gdUnit3/src/ui/assets/TestCase.svg")
+@onready var ICON_TEST_SUCCESS = load_resized_texture("res://addons/gdUnit3/src/ui/assets/TestCaseSuccess.svg")
+@onready var ICON_TEST_FAILED = load_resized_texture("res://addons/gdUnit3/src/ui/assets/TestCaseFailed.svg")
+@onready var ICON_TEST_ERROR = load_resized_texture("res://addons/gdUnit3/src/ui/assets/TestCaseError.svg")
 
-onready var ICON_TEST_SUCCESS_ORPHAN = load("res://addons/gdUnit3/src/ui/assets/TestCase_success_orphan.tres")
-onready var ICON_TEST_FAILED_ORPHAN = load("res://addons/gdUnit3/src/ui/assets/TestCase_failed_orphan.tres")
-onready var ICON_TEST_ERRORS_ORPHAN = load("res://addons/gdUnit3/src/ui/assets/TestCase_error_orphan.tres")
+@onready var ICON_TEST_SUCCESS_ORPHAN = load("res://addons/gdUnit3/src/ui/assets/TestCase_success_orphan.tres")
+@onready var ICON_TEST_FAILED_ORPHAN = load("res://addons/gdUnit3/src/ui/assets/TestCase_failed_orphan.tres")
+@onready var ICON_TEST_ERRORS_ORPHAN = load("res://addons/gdUnit3/src/ui/assets/TestCase_error_orphan.tres")
 
-onready var _signal_handler :SignalHandler = GdUnitSingleton.get_singleton(SignalHandler.SINGLETON_NAME)
+@onready var _signal_handler :SignalHandler = GdUnitSingleton.get_singleton(SignalHandler.SINGLETON_NAME)
 
 enum GdUnitType {
 	TEST_SUITE,
@@ -76,7 +76,7 @@ static func _find_item(parent :TreeItem, resource_path :String, test_case :Strin
 	var item = _find_by_resource_path(parent, resource_path)
 	if not item:
 		return null
-	if test_case.empty():
+	if test_case.is_empty():
 		return item
 	return _find_by_name(item, test_case)
 
@@ -119,13 +119,13 @@ static func is_test_suite(item :TreeItem) -> bool:
 
 func _ready():
 	init_tree()
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		_editor = Engine.get_meta("GdUnitEditorPlugin")
 	_signal_handler.register_on_test_suite_added(self, "_on_test_suite_added")
 	_signal_handler.register_on_gdunit_events(self, "_on_event")
 
-static func load_resized_texture(path :String, width :int = 16, height :int = 16) -> Texture:
-	var texture :Texture = load(path)
+static func load_resized_texture(path :String, width :int = 16, height :int = 16) -> Texture2D:
+	var texture :Texture2D = load(path)
 	var image = texture.get_data()
 	if width > 0 && height > 0:
 		image.resize(width, height)
@@ -164,7 +164,7 @@ func select_item(item :TreeItem) -> void:
 		_tree.ensure_cursor_is_visible()
 
 func set_state_running(item :TreeItem) -> void:
-	item.set_custom_color(0, Color.darkgreen)
+	item.set_custom_color(0, Color.DARK_GREEN)
 	item.set_icon(0, ICON_SPINNER)
 	item.set_tooltip(0, "")
 	item.set_meta(META_GDUNIT_STATE, STATE.RUNNING)
@@ -176,32 +176,32 @@ func set_state_running(item :TreeItem) -> void:
 
 func set_state_succeded(item :TreeItem) -> void:
 	item.set_meta(META_GDUNIT_STATE, STATE.SUCCESS)
-	item.set_custom_color(0, Color.green)
+	item.set_custom_color(0, Color.GREEN)
 	item.set_icon(0, ICON_TEST_SUCCESS)
 	item.collapsed = GdUnitSettings.is_inspector_node_collapse()
 
 func set_state_skipped(item :TreeItem) -> void:
 	item.set_meta(META_GDUNIT_STATE, STATE.SKIPPED)
 	item.set_suffix(0, "(skipped)")
-	item.set_custom_color(0, Color.darkgray)
+	item.set_custom_color(0, Color.DARK_GRAY)
 	item.set_icon(0, ICON_TEST_DEFAULT)
 	item.collapsed = false
 
 func set_state_warnings(item :TreeItem) -> void:
 	item.set_meta(META_GDUNIT_STATE, STATE.WARNING)
-	item.set_custom_color(0, Color.yellow)
+	item.set_custom_color(0, Color.YELLOW)
 	item.set_icon(0, ICON_TEST_SUCCESS)
 	item.collapsed = false
 
 func set_state_failed(item :TreeItem) -> void:
 	item.set_meta(META_GDUNIT_STATE, STATE.FAILED)
-	item.set_custom_color(0, Color.lightblue)
+	item.set_custom_color(0, Color.LIGHT_BLUE)
 	item.set_icon(0, ICON_TEST_FAILED)
 	item.collapsed = false
 
 func set_state_error(item :TreeItem) -> void:
 	item.set_meta(META_GDUNIT_STATE, STATE.ERROR)
-	item.set_custom_color(0, Color.darkred)
+	item.set_custom_color(0, Color.DARK_RED)
 	item.set_suffix(0, "timeout! " + item.get_suffix(0))
 	item.set_icon(0, ICON_TEST_ERROR)
 	item.collapsed = false
@@ -209,7 +209,7 @@ func set_state_error(item :TreeItem) -> void:
 func set_state_aborted(item :TreeItem) -> void:
 	item.set_meta(META_GDUNIT_STATE, STATE.ABORDED)
 	item.set_icon(0, ICON_TEST_ERROR)
-	item.set_custom_color(0, Color.darkred)
+	item.set_custom_color(0, Color.DARK_RED)
 	item.set_suffix(0, "(aborted)")
 	item.clear_custom_bg_color(0)
 	item.collapsed = false
@@ -224,7 +224,7 @@ func set_state_orphan(item :TreeItem, event: GdUnitEvent) -> void:
 	if item.has_meta(META_GDUNIT_ORPHAN):
 		orphan_count += item.get_meta(META_GDUNIT_ORPHAN)
 	item.set_meta(META_GDUNIT_ORPHAN, orphan_count)
-	item.set_custom_color(0, Color.yellow)
+	item.set_custom_color(0, Color.YELLOW)
 	item.set_tooltip(0, "Total <%d> orphan nodes detected." % orphan_count)
 	if is_state_warning(item):
 		item.set_icon(0, ICON_TEST_SUCCESS_ORPHAN)
@@ -264,11 +264,11 @@ func abort_running(item := _tree_root.get_children()) -> void:
 		item = item.get_next()
 
 func select_first_failure() -> void:
-	if not _current_failures.empty():
+	if not _current_failures.is_empty():
 		select_item(_current_failures[0])
 
 func select_last_failure() -> void:
-	if not _current_failures.empty():
+	if not _current_failures.is_empty():
 		select_item(_current_failures[-1])
 
 func clear_failures() -> void:
@@ -287,7 +287,7 @@ func select_next_failure() -> void:
 	if current_selected == null:
 		select_first_failure()
 		return
-	if _current_failures.empty():
+	if _current_failures.is_empty():
 		return
 	var index := _current_failures.find(current_selected)
 	if index == -1 or index == _current_failures.size()-1:
@@ -300,7 +300,7 @@ func select_previous_failure() -> void:
 	if current_selected == null:
 		select_last_failure()
 		return
-	if _current_failures.empty():
+	if _current_failures.is_empty():
 		return
 	var index := _current_failures.find(current_selected)
 	if index == -1 or index == 0:
@@ -407,7 +407,7 @@ func add_test(parent :TreeItem, test_case :GdUnitTestCaseDto) -> void:
 	add_tree_item_to_cache(parent.get_meta(META_RESOURCE_PATH), test_name, item)
 	
 	var test_case_names := test_case.test_case_names()
-	if not test_case_names.empty():
+	if not test_case_names.is_empty():
 		item.set_meta(META_GDUNIT_TOTAL_TESTS, test_case_names.size())
 		item.set_meta(META_GDUNIT_SUCCESS_TESTS, 0)
 		_update_item_counter(item)
@@ -431,7 +431,7 @@ func add_test_cases(parent :TreeItem, test_case_names :Array) -> void:
 # Tree signal receiver
 ################################################################################
 func _on_Tree_item_rmb_selected(position :Vector2) -> void:
-	_context_menu.rect_position = position + _tree.get_global_position()
+	_context_menu.position = position + _tree.get_global_position()
 	_context_menu.popup()
 
 func _on_run_pressed(run_debug :bool) -> void:

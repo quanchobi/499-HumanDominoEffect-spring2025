@@ -9,7 +9,7 @@ const VALUE_COLOR = "#1E90FF"
 static func input_event_as_text(event :InputEvent) -> String:
 	var text := ""
 	if event is InputEventKey:
-		text += "InputEventKey : key='%s', pressed=%s, scancode=%d, physical_scancode=%s" % [event.as_text(), event.pressed, event.scancode, event.physical_scancode]
+		text += "InputEventKey : key='%s', pressed=%s, keycode=%d, physical_keycode=%s" % [event.as_text(), event.pressed, event.keycode, event.physical_keycode]
 	else:
 		text += event.as_text()
 	if event is InputEventMouse:
@@ -28,7 +28,7 @@ static func _nerror(number) -> String:
 	match typeof(number):
 		TYPE_INT:
 			return "[color=%s]%d[/color]" % [ERROR_COLOR, number]
-		TYPE_REAL:
+		TYPE_FLOAT:
 			return "[color=%s]%f[/color]" % [ERROR_COLOR, number]
 		_:
 			return "[color=%s]%s[/color]" % [ERROR_COLOR, str(number)]
@@ -39,7 +39,7 @@ static func _current(value, delimiter ="\n") -> String:
 			return "'[color=%s]%s[/color]'" % [VALUE_COLOR, colorDiff(value)]
 		TYPE_INT:
 			return "'[color=%s]%d[/color]'" % [VALUE_COLOR, value]
-		TYPE_REAL:
+		TYPE_FLOAT:
 			return "'[color=%s]%f[/color]'" % [VALUE_COLOR, value]
 		TYPE_OBJECT:
 			if value == null:
@@ -60,7 +60,7 @@ static func _expected(value, delimiter ="\n") -> String:
 			return "'[color=%s]%s[/color]'" % [VALUE_COLOR, colorDiff(value)]
 		TYPE_INT:
 			return "'[color=%s]%d[/color]'" % [VALUE_COLOR, value]
-		TYPE_REAL:
+		TYPE_FLOAT:
 			return "'[color=%s]%f[/color]'" % [VALUE_COLOR, value]
 		TYPE_OBJECT:
 			if value == null:
@@ -241,32 +241,32 @@ static func error_has_length(current, expected: int, compare_operator) -> String
 # - ArrayAssert specific messgaes ---------------------------------------------------
 static func error_arr_contains(current, expected :Array, not_expect :Array, not_found :Array) -> String:
 	var error := "%s\n %s\n do contains (in any order)\n %s" % [_error("Expecting contains elements:"), _current(current, ", "), _expected(expected, ", ")]
-	if not not_expect.empty():
+	if not not_expect.is_empty():
 		error += "\nbut some elements where not expected:\n %s" % _expected(not_expect, ", ")
-	if not not_found.empty():
-		var prefix = "but" if not_expect.empty() else "and"
+	if not not_found.is_empty():
+		var prefix = "but" if not_expect.is_empty() else "and"
 		error += "\n%s could not find elements:\n %s" % [prefix, _expected(not_found, ", ")]
 	return error
 
 static func error_arr_contains_exactly(current, expected :Array, not_expect :Array, not_found :Array) -> String:
-	if not_expect.empty() and not_found.empty():
+	if not_expect.is_empty() and not_found.is_empty():
 		var diff := _find_first_diff(current, expected)
 		return "%s\n %s\n do contains (in same order)\n %s\n but has different order %s"  % [_error("Expecting contains exactly elements:"), _current(current, ", "), _expected(expected, ", "), diff]
 	
 	var error := "%s\n %s\n do contains (in same order)\n %s" % [_error("Expecting contains exactly elements:"), _current(current, ", "), _expected(expected, ", ")]
-	if not not_expect.empty():
+	if not not_expect.is_empty():
 		error += "\nbut some elements where not expected:\n %s" % _expected(not_expect, ", ")
-	if not not_found.empty():
-		var prefix = "but" if not_expect.empty() else "and"
+	if not not_found.is_empty():
+		var prefix = "but" if not_expect.is_empty() else "and"
 		error += "\n%s could not find elements:\n %s" % [prefix, _expected(not_found, ", ")]
 	return error
 
 static func error_arr_contains_exactly_in_any_order(current, expected :Array, not_expect :Array, not_found :Array) -> String:
 	var error := "%s\n %s\n do contains exactly (in any order)\n %s" % [_error("Expecting contains exactly elements:"), _current(current, ", "), _expected(expected, ", ")]
-	if not not_expect.empty():
+	if not not_expect.is_empty():
 		error += "\nbut some elements where not expected:\n %s" % _expected(not_expect, ", ")
-	if not not_found.empty():
-		var prefix = "but" if not_expect.empty() else "and"
+	if not not_found.is_empty():
+		var prefix = "but" if not_expect.is_empty() else "and"
 		error += "\n%s could not find elements:\n %s" % [prefix, _expected(not_found, ", ")]
 	return error
 
@@ -318,12 +318,12 @@ static func error_interrupted(func_name :String, expected, elapsed :String) -> S
 	return "%s %s %s but timed out after %s" % [_error("Expected:"), func_name, _current(expected), elapsed]
 
 static func error_wait_signal(signal_name :String, args :Array, elapsed :String) -> String:
-	if args.empty():
+	if args.is_empty():
 		return "%s %s but timed out after %s" % [_error("Expecting emit signal:"), _current(signal_name + "()"), elapsed]
 	return "%s %s but timed out after %s" % [_error("Expecting emit signal:"), _current(signal_name + "(" + str(args) + ")"), elapsed]
 
 static func error_signal_emitted(signal_name :String, args :Array, elapsed :String) -> String:
-	if args.empty():
+	if args.is_empty():
 		return "%s %s but is emitted after %s" % [_error("Expecting do not emit signal:"), _current(signal_name + "()"), elapsed]
 	return "%s %s but is emitted after %s" % [_error("Expecting do not emit signal:"), _current(signal_name + "(" + str(args) + ")"), elapsed]
 
@@ -349,25 +349,25 @@ static func result_message(result :Result) -> String:
 
 # - Spy|Mock specific errors ----------------------------------------------------
 static func error_no_more_interactions(summary :Dictionary) -> String:
-	var interactions := PoolStringArray()
+	var interactions := PackedStringArray()
 	for args in summary.keys():
 		var times :int = summary[args]
 		interactions.append(_format_arguments(args, times))
-	return "%s\n%s\n%s" % [_error("Expecting no more interactions!"), _error("But found interactions on:"), interactions.join("\n")]
+	return "%s\n%s\n%s" % [_error("Expecting no more interactions!"), _error("But found interactions on:"), "\n".join(interactions)]
 
 static func error_validate_interactions(current_interactions :Dictionary, expected_interactions :Dictionary) -> String:
-	var interactions := PoolStringArray()
+	var interactions := PackedStringArray()
 	for args in current_interactions.keys():
 		var times :int = current_interactions[args]
 		interactions.append(_format_arguments(args, times))
 	var expected_interaction := _format_arguments(expected_interactions.keys()[0], expected_interactions.values()[0])
-	return "%s\n%s\n%s\n%s" % [_error("Expecting interaction on:"), expected_interaction, _error("But found interactions on:"), interactions.join("\n")]
+	return "%s\n%s\n%s\n%s" % [_error("Expecting interaction on:"), expected_interaction, _error("But found interactions on:"), "\n".join(interactions)]
 
 static func _format_arguments(args :Array, times :int) -> String:
 	var fname :String = args[0]
 	var fargs := args.slice(1, -1) as Array
 	var typed_args := _to_typed_args(fargs)
-	var fsignature := _current("%s(%s)" % [fname, typed_args.join(", ")])
+	var fsignature := _current("%s(%s)" % [fname, ", ".join(typed_args)])
 	return "	%s	%d time's" % [fsignature, times]
 
 static func _format_arg(arg) -> String:
@@ -375,8 +375,8 @@ static func _format_arg(arg) -> String:
 		return input_event_as_text(arg)
 	return str(arg)
 
-static func _to_typed_args(args :Array) -> PoolStringArray:
-	var typed := PoolStringArray()
+static func _to_typed_args(args :Array) -> PackedStringArray:
+	var typed := PackedStringArray()
 	for arg in args:
 		typed.append(_format_arg(arg) + " :" + GdObjects.type_as_string(typeof(arg)))
 	return typed
@@ -396,14 +396,14 @@ static func error_has_size(current, expected: int) -> String:
 static func error_contains_exactly(current: Array, expected: Array) -> String:
 	return "%s\n %s\n but was\n %s" % [_error("Expecting exactly equal:"), _expected(expected), _current(current)]
 
-const SUB_COLOR :=  Color.red
-const ADD_COLOR :=  Color.green
+const SUB_COLOR :=  Color.RED
+const ADD_COLOR :=  Color.GREEN
 static func colorDiff(value :String) -> String:
-	var result = PoolByteArray()
-	var characters := value.to_ascii()
+	var result = PackedByteArray()
+	var characters := value.to_ascii_buffer()
 	var index = 0
-	var missing_chars := PoolByteArray()
-	var additional_chars := PoolByteArray()
+	var missing_chars := PackedByteArray()
+	var additional_chars := PackedByteArray()
 	
 	while index < characters.size():
 		var character = characters[index]
@@ -417,8 +417,8 @@ static func colorDiff(value :String) -> String:
 			_:
 				result.append_array(format_chars(missing_chars, SUB_COLOR))
 				result.append_array(format_chars(additional_chars, ADD_COLOR))
-				missing_chars = PoolByteArray()
-				additional_chars = PoolByteArray()
+				missing_chars = PackedByteArray()
+				additional_chars = PackedByteArray()
 				result.append(character)
 		index += 1
 	
@@ -426,14 +426,14 @@ static func colorDiff(value :String) -> String:
 	result.append_array(format_chars(additional_chars, ADD_COLOR))
 	return result.get_string_from_ascii()
 
-static func format_chars(characters :PoolByteArray, type :Color) -> PoolByteArray:
-	var result := PoolByteArray()
+static func format_chars(characters :PackedByteArray, type :Color) -> PackedByteArray:
+	var result := PackedByteArray()
 	if characters.size() == 0:
 		return result
 	if characters.size() == 1 and characters[0] == 10:
-		result.append_array(("[bg color=#%s]<NL>[/bg]" % type.to_html()).to_utf8())
+		result.append_array(("[bg color=#%s]<NL>[/bg]" % type.to_html()).to_utf8_buffer())
 		return result
-	result.append_array(("[bg color=#%s]%s[/bg]" % [type.to_html(), characters.get_string_from_ascii()]).to_utf8())
+	result.append_array(("[bg color=#%s]%s[/bg]" % [type.to_html(), characters.get_string_from_ascii()]).to_utf8_buffer())
 	return result
 
 static func humanized(value :String) -> String:

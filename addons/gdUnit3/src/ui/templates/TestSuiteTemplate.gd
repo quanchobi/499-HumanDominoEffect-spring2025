@@ -1,13 +1,13 @@
-tool
+@tool
 extends MarginContainer
 
-onready var _template_editor :TextEdit = $ScrollContainer/VBoxContainer/Editor
-onready var _tags_editor :TextEdit = $Tags/MarginContainer/TextEdit
-onready var _title_bar :Panel = $ScrollContainer/VBoxContainer/sub_category
-onready var _save_button :Button = $ScrollContainer/VBoxContainer/Panel/HBoxContainer/Save
-onready var _tag_container :Container = $ScrollContainer/VBoxContainer/Editor/MarginContainer
-onready var _selected_type :OptionButton = $ScrollContainer/VBoxContainer/Editor/MarginContainer/HBoxContainer/SelectType
-onready var _show_tags :Popup = $Tags
+@onready var _template_editor :TextEdit = $ScrollContainer/VBoxContainer/Editor
+@onready var _tags_editor :TextEdit = $Tags/MarginContainer/TextEdit
+@onready var _title_bar :Panel = $ScrollContainer/VBoxContainer/sub_category
+@onready var _save_button :Button = $ScrollContainer/VBoxContainer/Panel/HBoxContainer/Save
+@onready var _tag_container :Container = $ScrollContainer/VBoxContainer/Editor/MarginContainer
+@onready var _selected_type :OptionButton = $ScrollContainer/VBoxContainer/Editor/MarginContainer/HBoxContainer/SelectType
+@onready var _show_tags :Popup = $Tags
 
 var gd_key_words := ["extends", "class_name", "const", "var", "onready", "func", "void", "pass"]
 var gdunit_key_words := ["GdUnitTestSuite", "before", "after", "before_test", "after_test"]
@@ -39,12 +39,12 @@ func setup_editor_colors() -> void:
 	
 	for e in [_template_editor, _tags_editor]:
 		var editor :TextEdit = e
-		editor.add_color_override("background_color", background_color)
-		editor.add_color_override("font_color", text_color)
-		editor.add_color_override("font_color_readonly", text_color)
-		editor.add_color_override("font_color_selected", selection_color)
+		editor.add_theme_color_override("background_color", background_color)
+		editor.add_theme_color_override("font_color", text_color)
+		editor.add_theme_color_override("font_color_readonly", text_color)
+		editor.add_theme_color_override("font_color_selected", selection_color)
 		editor.add_color_region("#", "", comment_color, true)
-		editor.add_color_region("${", "}", Color.yellow)
+		editor.add_color_region("${", "}", Color.YELLOW)
 		
 		for word in gd_key_words:
 			editor.add_keyword_color(word, keyword_color)
@@ -55,9 +55,9 @@ func setup_fonts() -> void:
 	if _template_editor:
 		GdUnitFonts.init_fonts(_template_editor)
 		var font_size = GdUnitFonts.init_fonts(_tags_editor)
-		_title_bar.rect_size.y = font_size + 16
-		_title_bar.rect_min_size.y = font_size + 16
-		_tag_container.rect_position.y = 400-font_size*2
+		_title_bar.size.y = font_size + 16
+		_title_bar.custom_minimum_size.y = font_size + 16
+		_tag_container.position.y = 400-font_size*2
 
 func setup_supported_types() -> void:
 	_selected_type.clear()

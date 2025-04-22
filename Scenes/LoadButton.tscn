@@ -5,7 +5,7 @@
 [node name="LoadButton" type="Node2D"]
 
 [node name="Button" type="Button" parent="."]
-margin_right = 110.0
-margin_bottom = 33.0
+offset_right = 110.0
+offset_bottom = 33.0
 text = "Load"
 script = ExtResource( 1 )

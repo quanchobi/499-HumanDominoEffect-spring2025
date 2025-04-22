@@ -1,16 +1,16 @@
-tool
+@tool
 extends PanelContainer
 
 signal jump_to_orphan_nodes
 
-onready var ICON_GREEN = load("res://addons/gdUnit3/src/ui/assets/orphan/orphan_green.svg")
-onready var ICON_RED = load("res://addons/gdUnit3/src/ui/assets/orphan/orphan_animated_icon.tres")
+@onready var ICON_GREEN = load("res://addons/gdUnit3/src/ui/assets/orphan/orphan_green.svg")
+@onready var ICON_RED = load("res://addons/gdUnit3/src/ui/assets/orphan/orphan_animated_icon.tres")
 
-onready var _time = $GridContainer/Time/value
-onready var _orphans = $GridContainer/Orphan/value
-onready var _orphan_button := $GridContainer/Orphan/ToolButton
+@onready var _time = $GridContainer/Time/value
+@onready var _orphans = $GridContainer/Orphan/value
+@onready var _orphan_button := $GridContainer/Orphan/Button
 
-onready var _signal_handler :SignalHandler = GdUnitSingleton.get_singleton(SignalHandler.SINGLETON_NAME)
+@onready var _signal_handler :SignalHandler = GdUnitSingleton.get_singleton(SignalHandler.SINGLETON_NAME)
 
 var total_elapsed_time := 0
 var total_orphans := 0

@@ -44,7 +44,7 @@ func _call_func(value, func_name :String):
 	# for array types we need to call explicit by function name, using funcref is only supported for Objects
 	# TODO extend to all array functions
 	if GdObjects.is_array_type(value) and func_name == "empty":
-		return value.empty()
+		return value.is_empty()
 	
 	if not (value is Object):
 		if GdUnitSettings.is_verbose_assert_warnings():
@@ -52,7 +52,7 @@ func _call_func(value, func_name :String):
 		return "n.a."
 	var extract := funcref(value, func_name)
 	if extract.is_valid():
-		return value.call(func_name) if args().empty() else value.callv(func_name, args())
+		return value.call(func_name) if args().is_empty() else value.callv(func_name, args())
 	else:
 		if GdUnitSettings.is_verbose_assert_warnings():
 			push_warning("Extracting value from element '%s' by func '%s' failed! Converting to \"n.a.\"" % [value, func_name])

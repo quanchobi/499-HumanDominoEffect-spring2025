@@ -1,6 +1,6 @@
 # Base interface of all GdUnit asserts
 class_name GdUnitAssert
-extends Reference
+extends RefCounted
 
 # assert expects ends with success
 const EXPECT_SUCCESS:int = 0

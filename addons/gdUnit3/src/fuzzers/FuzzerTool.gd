@@ -8,7 +8,7 @@ static func create_fuzzer(source:GDScript, function: String) -> Fuzzer:
 		+ "\n" \
 		+ "func __fuzzer():\n" \
 		+ "	return ${fuzzer_func}\n"\
-		.replace("${fuzzer_func}", fuzzer_func[1])
+		super.replace("${fuzzer_func}", fuzzer_func[1])
 	var script = GDScript.new()
 	script.source_code = source_code
 	var result = script.reload()

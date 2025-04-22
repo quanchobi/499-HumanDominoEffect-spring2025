@@ -14,4 +14,4 @@ func _init(instance :Object, func_name :String, args :Array = Array(), force_err
 func get_value():
 	if not _fr.is_valid():
 		return null
-	return _fr.call_func() if _args.empty() else _fr.call_funcv(_args)
+	return _fr.call_func() if _args.is_empty() else _fr.call_funcv(_args)

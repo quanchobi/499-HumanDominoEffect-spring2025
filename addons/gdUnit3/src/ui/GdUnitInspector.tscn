@@ -11,8 +11,8 @@
 use_parent_material = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 220, 0 )
-rect_clip_content = true
+custom_minimum_size = Vector2( 220, 0 )
+clip_contents = true
 focus_mode = 2
 size_flags_horizontal = 11
 size_flags_vertical = 3
@@ -25,20 +25,20 @@ __meta__ = {
 use_parent_material = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_clip_content = true
+clip_contents = true
 size_flags_vertical = 11
-custom_constants/separation = 0
+theme_override_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Header" type="VBoxContainer" parent="VBoxContainer"]
 use_parent_material = true
-margin_right = 1024.0
-margin_bottom = 90.0
+offset_right = 1024.0
+offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
-rect_clip_content = true
+clip_contents = true
 size_flags_horizontal = 9
 __meta__ = {
 "_edit_use_anchors_": false
@@ -47,38 +47,38 @@ __meta__ = {
 [node name="ToolBar" parent="VBoxContainer/Header" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1024.0
-margin_bottom = 24.0
+offset_right = 1024.0
+offset_bottom = 24.0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 
 [node name="ProgressBar" parent="VBoxContainer/Header" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 28.0
-margin_right = 1024.0
-margin_bottom = 48.0
+offset_top = 28.0
+offset_right = 1024.0
+offset_bottom = 48.0
 size_flags_horizontal = 5
 
 [node name="StatusBar" parent="VBoxContainer/Header" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 52.0
-margin_right = 1024.0
-margin_bottom = 90.0
+offset_top = 52.0
+offset_right = 1024.0
+offset_bottom = 90.0
 size_flags_horizontal = 11
 
 [node name="MainPanel" parent="VBoxContainer" instance=ExtResource( 7 )]
-margin_top = 90.0
-rect_clip_content = true
+offset_top = 90.0
+clip_contents = true
 size_flags_horizontal = 3
 
 [node name="Monitor" parent="VBoxContainer" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 564.0
-margin_right = 1024.0
-margin_bottom = 600.0
+offset_top = 564.0
+offset_right = 1024.0
+offset_bottom = 600.0
 
 [connection signal="gdunit_runner_start" from="." to="VBoxContainer/Header/ToolBar" method="_on_GdUnit_gdunit_runner_start"]
 [connection signal="gdunit_runner_start" from="." to="VBoxContainer/MainPanel" method="_on_GdUnit_gdunit_runner_start"]

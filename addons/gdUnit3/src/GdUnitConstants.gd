@@ -1,4 +1,4 @@
 class_name GdUnitConstants
-extends Reference
+extends RefCounted
 
 const NO_ARG = "<--null-->"

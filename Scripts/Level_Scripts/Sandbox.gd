@@ -1,12 +1,12 @@
-extends Spatial
+extends Node3D
 
 # NOTE: If domino game performance is low, try switching to preload
 #var chunk_scene = preload("res://Scenes/Chunk.tscn")
 var chunk_scene = load(ReferenceManager.get_reference("Chunk.tscn"))
 
 var load_radius = 5
-onready var chunks = $Chunks
-onready var player = $Player
+@onready var chunks = $Chunks
+@onready var player = $Player
 
 var load_thread = Thread.new()
 
@@ -19,16 +19,16 @@ func _ready():
 	# Create chunks around the player's initial load radius
 	for i in range(radius_offset, load_radius+radius_offset):
 		for j in range(radius_offset, load_radius+radius_offset):
-			var chunk = chunk_scene.instance()
+			var chunk = chunk_scene.instantiate()
 			chunk.set_chunk_position(Vector2(i, j))
 
 			chunks.add_child(chunk)
 	
-	load_thread.start(self, "_thread_process", null)
+	load_thread.start(Callable(self, "_thread_process").bind(null))
 
 	# Connect signals to handlers
-	player.connect("place_block", self, "_on_Player_place_block")
-	player.connect("break_block", self, "_on_Player_break_block")
+	player.connect("place_block", Callable(self, "_on_Player_place_block"))
+	player.connect("break_block", Callable(self, "_on_Player_break_block"))
 
 # Thread process for updating chunks
 # Watches if any chunks need to be rerendered and moved
@@ -42,8 +42,8 @@ func _thread_process(_userdata):
 			var cz = c.chunk_position.y
 
 			# Get player position
-			var px = floor(player.translation.x / gamestate.DIMENSION.x)
-			var pz = floor(player.translation.z / gamestate.DIMENSION.z)
+			var px = floor(player.position.x / gamestate.DIMENSION.x)
+			var pz = floor(player.position.z / gamestate.DIMENSION.z)
 
 			# Locate new position of chunk if outside player view radius
 			var new_x = posmod(cx - px + load_radius/2, load_radius) + px - load_radius/2

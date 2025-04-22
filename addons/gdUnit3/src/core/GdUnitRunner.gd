@@ -4,8 +4,8 @@ const GDUNIT_RUNNER = "GdUnitRunner"
 
 signal sync_rpc_id_result_received
 
-onready var _client :GdUnitTcpClient = $GdUnitTcpClient
-onready var _executor :GdUnitExecutor = $GdUnitExecutor
+@onready var _client :GdUnitTcpClient = $GdUnitTcpClient
+@onready var _executor :GdUnitExecutor = $GdUnitExecutor
 
 enum {
 	INIT,
@@ -25,8 +25,8 @@ var _result :Result
 func _init():
 	# minimize scene window on debug mode
 	if OS.get_cmdline_args().size() == 1:
-		OS.set_window_title("GdUnit3 Runner (Debug)")
-		OS.set_window_minimized(true)
+		get_window().set_title("GdUnit3 Runner (Debug)")
+		get_window().mode = Window.MODE_MINIMIZED if (true) else Window.MODE_WINDOWED
 	_signal_handler = GdUnitSingleton.get_or_create_singleton(SignalHandler.SINGLETON_NAME, "res://addons/gdUnit3/src/core/event/SignalHandler.gd")
 	# store current runner instance to engine meta data to can be access in as a singleton
 	Engine.set_meta(GDUNIT_RUNNER, self)
@@ -38,8 +38,8 @@ func _ready():
 		push_error(config_result.error_message())
 		_state = EXIT
 		return
-	_client.connect("connection_failed", self, "_on_connection_failed")
-	var result := _client.start("127.0.0.1", _config.server_port())
+	_client.connect("connection_failed", Callable(self, "_on_connection_failed"))
+	var result := _client.start(Callable("127.0.0.1", _config.server_port()))
 	if result.is_error():
 		push_error(result.error_message())
 		return
@@ -67,7 +67,7 @@ func _process(delta):
 				_state = RUN
 		RUN:
 			# all test suites executed
-			if _test_suites_to_process.empty():
+			if _test_suites_to_process.is_empty():
 				_state = STOP
 			else:
 				# process next test suite
@@ -76,19 +76,19 @@ func _process(delta):
 				add_child(test_suite)
 				var executor = _cs_executor if GdObjects.is_cs_test_suite(test_suite) else _executor
 				executor.Execute(test_suite)
-				yield(executor, "ExecutionCompleted")
+				await executor.ExecutionCompleted
 				set_process(true)
 		STOP:
 			_state = EXIT
 			# give the engine small amount time to finish the rpc
 			_on_Executor_send_event(GdUnitStop.new())
-			yield(get_tree().create_timer(0.1), "timeout")
-			yield(get_tree(), "idle_frame")
+			await get_tree().create_timer(0.1).timeout
+			await get_tree().idle_frame
 			get_tree().quit(0)
 
 func load_test_suits() -> Array:
 	var to_execute := _config.to_execute()
-	if to_execute.empty():
+	if to_execute.is_empty():
 		prints("No tests selected to execute!")
 		_state = EXIT
 		return []
@@ -112,7 +112,7 @@ func gdUnitInit() -> void:
 		send_test_suite(test_suite)
 
 func _filter_test_case(test_suites :Array, included_tests :Array) -> void:
-	if included_tests.empty():
+	if included_tests.is_empty():
 		return
 	for test_suite in test_suites:
 		for test_case in test_suite.get_children():
@@ -120,7 +120,7 @@ func _filter_test_case(test_suites :Array, included_tests :Array) -> void:
 
 func _do_filter_test_case(test_suite :Node, test_case :Node, included_tests :Array) -> void:
 	for included_test in included_tests:
-		var test_meta :PoolStringArray = included_test.split(":")
+		var test_meta :PackedStringArray = included_test.split(":")
 		var test_name := test_meta[0]
 		if test_case.get_name() == test_name:
 			# we have a paremeterized test selection
@@ -170,10 +170,10 @@ func PublishEvent(data) -> void:
 # task_args: optional task arugments as Dictionary key:value
 #
 # returns a Result with state SUCCESS or ERROR
-sync func sync_rpc_id(peer_id :int, task_name :String, task_args :Array = Array()) -> Result:
+@rpc("any_peer", "call_local") func sync_rpc_id(peer_id :int, task_name :String, task_args :Array = Array()) -> Result:
 	rpc_id(peer_id, "sync_rpc_id_request",  { GdUnitTask.TASK_NAME: task_name, GdUnitTask.TASK_ARGS: task_args})
 	# wait until the responce is received
-	yield(self, "sync_rpc_id_result_received")
+	await self.sync_rpc_id_result_received
 	return _result
 
 # sends an asyncronized rpc call to <peer_id> and returns without status
@@ -182,11 +182,11 @@ sync func sync_rpc_id(peer_id :int, task_name :String, task_args :Array = Array(
 # task_name: the name of remote task to execute
 # task_args: optional task arugments as Dictionary key:value
 #
-sync func async_rpc_id(peer_id :int, task_name :String, task_args :Array = Array()) -> void:
+@rpc("any_peer", "call_local") func async_rpc_id(peer_id :int, task_name :String, task_args :Array = Array()) -> void:
 	rpc_id(peer_id, "async_rpc_id_request",  { GdUnitTask.TASK_NAME: task_name, GdUnitTask.TASK_ARGS: task_args})
 
 # responce the result form 'sync_rpc_id'
-remote func sync_rpc_id_request_response(value :Dictionary):
+@rpc("any_peer") func sync_rpc_id_request_response(value :Dictionary):
 	_result = Result.deserialize(value)
 	# emit signal result successfully received
 	emit_signal("sync_rpc_id_result_received")
@@ -212,7 +212,7 @@ class PollTread extends Node:
 	
 	func start(scene_tree :SceneTree):
 		scene_tree.set_multiplayer_poll_enabled(false)
-		var error = _poll_thread.start(self, "_poll", scene_tree.multiplayer, Thread.PRIORITY_LOW)
+		var error = _poll_thread.start(Callable(self, "_poll").bind(scene_tree.multiplayer), Thread.PRIORITY_LOW)
 		if error != OK:
 			push_error("faild to run network poll thread")
 			_poll_thread = null	

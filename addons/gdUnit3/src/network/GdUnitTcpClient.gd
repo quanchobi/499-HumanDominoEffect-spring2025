@@ -21,7 +21,7 @@ func _ready():
 	_timer = Timer.new()
 	add_child(_timer)
 	_timer.set_one_shot(true)
-	var _x = _timer.connect('timeout', self, '_connecting_timeout')
+	var _x = _timer.connect('timeout', Callable(self, '_connecting_timeout'))
 
 func stop() -> void:
 	console("Client: disconnect from server")
@@ -57,7 +57,7 @@ func _process(_delta):
 			for retry in 10:
 				console("wait to connect ..")
 				if _stream.get_status() == StreamPeerTCP.STATUS_CONNECTING:
-					yield(get_tree().create_timer(0.500), "timeout")
+					await get_tree().create_timer(0.500).timeout
 				if _stream.get_status() == StreamPeerTCP.STATUS_CONNECTED:
 					set_process(true)
 					return
@@ -71,7 +71,7 @@ func _process(_delta):
 				var rpc
 				set_process(false)
 				while rpc == null:
-					yield(get_tree().create_timer(0.500), "timeout")
+					await get_tree().create_timer(0.500).timeout
 					rpc = rpc_receive()
 				set_process(true)
 				_client_id = rpc.client_id()
@@ -98,14 +98,14 @@ func process_rpc() -> void:
 func rpc_send(rpc :RPC) -> void:
 	if _stream != null:
 		var data := GdUnitServerConstants.JSON_RESPONSE_DELIMITER + rpc.serialize() + GdUnitServerConstants.JSON_RESPONSE_DELIMITER
-		_stream.put_data(data.to_ascii())
+		_stream.put_data(data.to_ascii_buffer())
 
 func rpc_receive() -> RPC:
 	if _stream != null:
 		while _stream.get_available_bytes() > 0:
 			var available_bytes := _stream.get_available_bytes()
 			var data = _stream.get_data(available_bytes);
-			var received_data := data[1] as PoolByteArray
+			var received_data := data[1] as PackedByteArray
 			# data send by Godot has this magic header of 12 bytes
 			var header := Array(received_data.subarray(0,3))
 			if header == [0, 0, 0, 112]:

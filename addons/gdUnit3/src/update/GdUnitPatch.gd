@@ -1,5 +1,5 @@
 class_name GdUnitPatch
-extends Reference
+extends RefCounted
 
 const PATCH_VERSION = "patch_version"
 

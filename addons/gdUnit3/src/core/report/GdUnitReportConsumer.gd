@@ -1,6 +1,6 @@
 # Report consumer interace to collect reports 
 class_name GdUnitReportConsumer
-extends Reference
+extends RefCounted
 
 const META_PARAM := "gdunit.report.consumer"
 

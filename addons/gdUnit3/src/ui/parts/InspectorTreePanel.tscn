@@ -21,9 +21,9 @@ border_color = Color( 0.2, 0.227451, 0.309804, 1 )
 use_parent_material = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -924.0
-rect_min_size = Vector2( 60, 0 )
-rect_clip_content = true
+offset_right = -924.0
+custom_minimum_size = Vector2( 60, 0 )
+clip_contents = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 split_offset = 200
@@ -33,20 +33,20 @@ __meta__ = {
 }
 
 [node name="Panel" type="PanelContainer" parent="."]
-margin_right = 100.0
-margin_bottom = 494.0
+offset_right = 100.0
+offset_bottom = 494.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 1 )
+theme_override_styles/panel = SubResource( 1 )
 
 [node name="Tree" type="Tree" parent="Panel"]
 use_parent_material = true
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 492.0
+offset_top = 2.0
+offset_right = 100.0
+offset_bottom = 492.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/bg = SubResource( 2 )
+theme_override_styles/bg = SubResource( 2 )
 allow_rmb_select = true
 hide_root = true
 select_mode = 1
@@ -55,25 +55,25 @@ __meta__ = {
 }
 
 [node name="report" type="PanelContainer" parent="."]
-margin_top = 506.0
-margin_right = 100.0
-margin_bottom = 600.0
-rect_min_size = Vector2( 0, 80 )
-rect_clip_content = true
+offset_top = 506.0
+offset_right = 100.0
+offset_bottom = 600.0
+custom_minimum_size = Vector2( 0, 80 )
+clip_contents = true
 size_flags_horizontal = 11
 size_flags_vertical = 11
-custom_styles/panel = SubResource( 3 )
+theme_override_styles/panel = SubResource( 3 )
 
 [node name="report_template" type="RichTextLabel" parent="report"]
 use_parent_material = true
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 92.0
-rect_min_size = Vector2( 48, 19 )
+offset_top = 2.0
+offset_right = 100.0
+offset_bottom = 92.0
+custom_minimum_size = Vector2( 48, 19 )
 focus_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 11
-custom_constants/line_separation = 2
+theme_override_constants/line_separation = 2
 bbcode_enabled = true
 fit_content_height = true
 selection_enabled = true
@@ -84,9 +84,9 @@ __meta__ = {
 
 [node name="ScrollContainer" type="ScrollContainer" parent="report"]
 use_parent_material = true
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 92.0
+offset_top = 2.0
+offset_right = 100.0
+offset_bottom = 92.0
 size_flags_horizontal = 3
 size_flags_vertical = 11
 __meta__ = {
@@ -94,10 +94,10 @@ __meta__ = {
 }
 
 [node name="list" type="VBoxContainer" parent="report/ScrollContainer"]
-margin_right = 600.0
-margin_bottom = 78.0
-rect_min_size = Vector2( 600, 0 )
-rect_clip_content = true
+offset_right = 600.0
+offset_bottom = 78.0
+custom_minimum_size = Vector2( 600, 0 )
+clip_contents = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -105,19 +105,19 @@ __meta__ = {
 }
 
 [node name="contextMenu" type="PopupPanel" parent="."]
-margin_right = 92.0
-margin_bottom = 52.0
+offset_right = 92.0
+offset_bottom = 52.0
 size_flags_horizontal = 3
 
 [node name="items" type="VBoxContainer" parent="contextMenu"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 88.0
-margin_bottom = 48.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 88.0
+offset_bottom = 48.0
 
 [node name="debug" type="MenuButton" parent="contextMenu/items"]
-margin_right = 84.0
-margin_bottom = 20.0
+offset_right = 84.0
+offset_bottom = 20.0
 size_flags_horizontal = 11
 size_flags_vertical = 9
 keep_pressed_outside = true
@@ -126,9 +126,9 @@ align = 0
 switch_on_hover = true
 
 [node name="run" type="MenuButton" parent="contextMenu/items"]
-margin_top = 24.0
-margin_right = 84.0
-margin_bottom = 44.0
+offset_top = 24.0
+offset_right = 84.0
+offset_bottom = 44.0
 size_flags_horizontal = 11
 size_flags_vertical = 9
 keep_pressed_outside = true
@@ -138,7 +138,7 @@ switch_on_hover = true
 
 [connection signal="column_title_pressed" from="Panel/Tree" to="." method="_on_Tree_column_title_pressed"]
 [connection signal="item_activated" from="Panel/Tree" to="." method="_on_Tree_item_activated"]
-[connection signal="item_double_clicked" from="Panel/Tree" to="." method="_on_Tree_item_double_clicked"]
+[connection signal="item_icon_double_clicked" from="Panel/Tree" to="." method="_on_Tree_item_double_clicked"]
 [connection signal="item_rmb_selected" from="Panel/Tree" to="." method="_on_Tree_item_rmb_selected"]
 [connection signal="item_selected" from="Panel/Tree" to="." method="_on_Tree_item_selected"]
 [connection signal="focus_exited" from="contextMenu" to="." method="_on_contextMenu_focus_exited"]

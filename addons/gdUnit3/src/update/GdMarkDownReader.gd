@@ -1,4 +1,4 @@
-tool
+@tool
 class_name GdMarkDownReader
 extends Node
 
@@ -78,7 +78,7 @@ func set_http_client(client :GdUnitUpdateClient) -> void:
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		# finally remove the downloaded images
-		var dir := Directory.new()
+		var dir := DirAccess.new()
 		for image in _image_urls:
 			dir.remove(image)
 			dir.remove(image + ".import")
@@ -108,7 +108,7 @@ func code_block(replace :String, border :bool = false) -> String:
 	return code_block
 
 func to_bbcode(input :String) -> String:
-	yield(get_tree(), "idle_frame")
+	await get_tree().idle_frame
 	var bbcode := Array()
 	
 	input = input.replace("\r", "")
@@ -120,7 +120,7 @@ func to_bbcode(input :String) -> String:
 		if bb_replace is FuncRef:
 			var fs = bb_replace.call_func(regex, input)
 			if GdUnitTools.is_yielded(fs):
-				input = yield(fs, "completed")
+				input = await fs.completed
 			else:
 				input = fs
 		else:
@@ -130,27 +130,27 @@ func to_bbcode(input :String) -> String:
 func process_tables(input :String) -> String:
 	var bbcode := Array()
 	var lines := Array(input.split("\n"))
-	while not lines.empty():
+	while not lines.is_empty():
 		if is_table(lines[0]):
 			GdUnitTools.append_array(bbcode, parse_table(lines))
 			continue
 		bbcode.append(lines.pop_front())
-	return PoolStringArray(bbcode).join("\n")
+	return "\n".join(PackedStringArray(bbcode))
 
 class Table:
 	var _columns : int
 	var _rows := Array()
 	
 	class Row:
-		var _cells := PoolStringArray()
+		var _cells := PackedStringArray()
 		
-		func _init(cells :PoolStringArray, columns :int):
+		func _init(cells :PackedStringArray, columns :int):
 			_cells = cells
 			for i in range(_cells.size(), columns):
 				_cells.append("")
 		
-		func to_bbcode(cell_sizes :PoolIntArray, bold :bool) -> String:
-			var cells := PoolStringArray()
+		func to_bbcode(cell_sizes :PackedInt32Array, bold :bool) -> String:
+			var cells := PackedStringArray()
 			for cell_index in _cells.size():
 				var cell :String = _cells[cell_index]
 				if cell.strip_edges() == "--":
@@ -158,7 +158,7 @@ class Table:
 				if bold:
 					cell = "[b]%s[/b]" % cell
 				cells.append("[cell]%s[/cell]" % cell)
-			return cells.join("|")
+			return "|".join(cells)
 		
 		func create_line(length :int) -> String:
 			var line := "" 
@@ -176,8 +176,8 @@ class Table:
 		_rows.append(Row.new(line.split("|"), _columns))
 		return true
 	
-	func calculate_max_cell_sizes() -> PoolIntArray:
-		var cells_size := PoolIntArray()
+	func calculate_max_cell_sizes() -> PackedInt32Array:
+		var cells_size := PackedInt32Array()
 		for column in _columns:
 			cells_size.append(0)
 		
@@ -190,9 +190,9 @@ class Table:
 					cells_size[cell_index] = size
 		return cells_size
 	
-	func to_bbcode() -> PoolStringArray:
+	func to_bbcode() -> PackedStringArray:
 		var cell_sizes := calculate_max_cell_sizes()
-		var bb_code := PoolStringArray()
+		var bb_code := PackedStringArray()
 		
 		bb_code.append("[table=%d]" % _columns)
 		for row_index in _rows.size():
@@ -200,10 +200,10 @@ class Table:
 		bb_code.append("[/table]\n")
 		return bb_code
 
-func parse_table(lines :Array) -> PoolStringArray:
+func parse_table(lines :Array) -> PackedStringArray:
 	var line :String = lines[0]
 	var table := Table.new(line.count("|") + 1)
-	while not lines.empty():
+	while not lines.is_empty():
 		line = lines.pop_front()
 		if not table.parse_row(line):
 			break
@@ -229,11 +229,11 @@ func extract_cells(line :String, bold := false) -> String:
 	return cells
 
 func process_image_references(regex :RegEx, input :String) -> String:
-	var to_replace := PoolStringArray()
-	var tool_tips :=  PoolStringArray()
+	var to_replace := PackedStringArray()
+	var tool_tips :=  PackedStringArray()
 	# exists references?
 	var matches := regex.search_all(input)
-	if matches.empty():
+	if matches.is_empty():
 		return input
 	# collect image references and remove it
 	var references := Dictionary()
@@ -259,11 +259,11 @@ func process_image_references(regex :RegEx, input :String) -> String:
 	return extracted_references
 
 func process_image(regex :RegEx, input :String) -> String:
-	var to_replace := PoolStringArray()
-	var tool_tips :=  PoolStringArray()
+	var to_replace := PackedStringArray()
+	var tool_tips :=  PackedStringArray()
 	# find all matches
 	var matches := regex.search_all(input)
-	if matches.empty():
+	if matches.is_empty():
 		return input
 	for reg_match in matches:
 		# grap the parts to replace and store temporay because a direct replace will distort the offsets
@@ -277,7 +277,7 @@ func process_image(regex :RegEx, input :String) -> String:
 	
 	var fs = _process_external_image_resources(input)
 	if GdUnitTools.is_yielded(fs):
-		return yield(fs, "completed")
+		return await fs.completed
 	return fs
 
 func _process_external_image_resources(input :String) -> String:
@@ -288,7 +288,7 @@ func _process_external_image_resources(input :String) -> String:
 			# if not a local resource we need to download it
 			if image_url.begins_with("http"):
 				prints("download immage:", image_url)
-				var response = yield(_client.request_image(image_url), "completed")
+				var response = await _client.request_image(image_url).completed
 				if response.code() == 200:
 					var image = Image.new()
 					var error = image.load_png_from_buffer(response.body())

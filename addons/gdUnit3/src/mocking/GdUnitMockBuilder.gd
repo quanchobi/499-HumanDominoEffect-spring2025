@@ -102,7 +102,7 @@ class MockFunctionDoubler extends GdFunctionDoubler:
 	func _init(push_errors :bool):
 		_push_errors = "true" if push_errors else "false"
 	
-	func double(func_descriptor :GdFunctionDescriptor) -> PoolStringArray:
+	func double(func_descriptor :GdFunctionDescriptor) -> PackedStringArray:
 		var func_signature := func_descriptor.typeless()
 		var is_virtual := func_descriptor.is_virtual()
 		var is_static := func_descriptor.is_static()
@@ -116,22 +116,23 @@ class MockFunctionDoubler extends GdFunctionDoubler:
 		
 		# save original constructor arguments
 		if func_name == "_init":
-			var constructor_args := extract_constructor_args(args).join(",")
-			var constructor := "func _init(%s).(%s):\n	pass\n" % [constructor_args, arg_names.join(",")]
-			return PoolStringArray([constructor])
+			var constructor_args := ",".join(extract_constructor_args(args))
+			var constructor := "func _init(%s)]
+				super(%s):\n	pass\n" % [constructor_args, ",".join(arg_names)
+			return PackedStringArray([constructor])
 		
 		var double := func_signature + "\n"
-		var func_template := get_template(default_return_value, is_vararg, not arg_names.empty())
+		var func_template := get_template(default_return_value, is_vararg, not arg_names.is_empty())
 		# fix to  unix format, this is need when the template is edited under windows than the template is stored with \r\n
 		func_template = GdScriptParser.to_unix_format(func_template)
 		double += func_template\
-			.replace("$(args)", str(arg_names)) \
-			.replace("$(varargs)", str(vararg_names)) \
-			.replace("$(is_virtual)", str(is_virtual).to_lower()) \
-			.replace("$(func_name)", func_name )\
-			.replace("$(func_arg)", arg_names.join(", "))\
-			.replace("${default_return_value}", default_return_value)\
-			.replace("$(push_errors)", _push_errors)
+			super.replace("$(args)", str(arg_names)) \
+			super.replace("$(varargs)", str(vararg_names)) \
+			super.replace("$(is_virtual)", str(is_virtual).to_lower()) \
+			super.replace("$(func_name)", func_name )\
+			super.replace("$(func_arg)", ", ".join(arg_names))\
+			super.replace("${default_return_value}", default_return_value)\
+			super.replace("$(push_errors)", _push_errors)
 		if is_static:
 			double = double.replace("$(instance)", "__self[0].")
 		else:
@@ -181,7 +182,7 @@ static func build(caller :Object, clazz, mock_mode :String, debug_write = false)
 
 static func mock_on_scene(caller :Object, scene :PackedScene, memory_pool :int, debug_write :bool) -> Object:
 	var push_errors := is_push_error_enabled()
-	if not scene.can_instance():
+	if not scene.can_instantiate():
 		if push_errors:
 			push_error("Can't instanciate scene '%s'" % scene.resource_path)
 		return null
@@ -203,7 +204,7 @@ static func mock_on_scene(caller :Object, scene :PackedScene, memory_pool :int, 
 	scene_instance.__set_caller(caller)
 	return GdUnitTools.register_auto_free(scene_instance, memory_pool)
 
-static func mock_on_script(clazz, function_excludes :PoolStringArray, debug_write :bool) -> GDScript:
+static func mock_on_script(clazz, function_excludes :PackedStringArray, debug_write :bool) -> GDScript:
 	var clazz_path := GdObjects.extract_class_path(clazz)
 	var	clazz_name = GdObjects.extract_class_name(clazz).value()
 	
@@ -213,12 +214,12 @@ static func mock_on_script(clazz, function_excludes :PoolStringArray, debug_writ
 	lines += double_functions(null, clazz_name, clazz_path, function_doubler, function_excludes)
 	
 	var mock := GDScript.new()
-	mock.source_code = lines.join("\n")
+	mock.source_code = "\n".join(lines)
 	mock.resource_name = "Mock%s.gd" % clazz_name
 	
 	if debug_write:
 		mock.resource_path = GdUnitTools.create_temp_dir("mock") + "/Mock%s.gd" % clazz_name
-		Directory.new().remove(mock.resource_path)
+		DirAccess.new().remove(mock.resource_path)
 		ResourceSaver.save(mock.resource_path, mock)
 	var error = mock.reload(true)
 	if error != OK:
@@ -242,7 +243,7 @@ static func is_mockable(clazz, push_errors :bool=false) -> bool:
 				push_error("It is not allowed to mock an instance '%s', use class name instead, Read 'Mocker' documentation for details" % clazz)
 			return false
 
-		if not GdObjects.can_instance(clazz):
+		if not GdObjects.can_instantiate(clazz):
 			if push_errors:
 				push_error("Can't create a mockable instance for class '%s'" % clazz)
 			return false
@@ -254,7 +255,7 @@ static func is_mockable(clazz, push_errors :bool=false) -> bool:
 			if push_errors:
 				push_error("Mocking a singelton class '%s' is not allowed!  Read 'Mocker' documentation for details" % clazz_name)
 			return false
-		if not ClassDB.can_instance(clazz_name):
+		if not ClassDB.can_instantiate(clazz_name):
 			if push_errors:
 				push_error("Mocking class '%s' is not allowed it cannot be instantiated!" % clazz_name)
 			return false

@@ -1,5 +1,5 @@
 class_name XmlElement 
-extends Reference
+extends RefCounted
 
 var _name :String
 var _attributes :Dictionary = {}
@@ -48,11 +48,11 @@ func to_xml() -> String:
 		childs += child.to_xml()
 	
 	return "{_indentation}<{name}{attributes}>\n{childs}{text}{_indentation}</{name}>\n"\
-		.format({"name": _name, 
+		super.format({"name": _name, 
 			"attributes": attributes, 
 			"childs": childs, 
 			"_indentation": _indentation(),
 			"text": cdata(_text)})
 
 func cdata(text :String) -> String:
-	return "" if text.empty() else "<![CDATA[\n{text}]]>\n".format({"text" : text})
+	return "" if text.is_empty() else "<![CDATA[\n{text}]]>\n".format({"text" : text})

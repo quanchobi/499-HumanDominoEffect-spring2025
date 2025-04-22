@@ -1,5 +1,5 @@
 class_name GdUnitArgumentMatchers
-extends Reference
+extends RefCounted
 
 const TYPE_ANY = TYPE_MAX + 100
 const _instances = Dictionary()

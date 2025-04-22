@@ -1,11 +1,11 @@
 # A tool to find differences between two objects
 class_name GdDiffTool
-extends Reference
+extends RefCounted
 
 const DIV_ADD = 243
 const DIV_SUB = 245
 
-static func _diff(lb: PoolByteArray, rb: PoolByteArray, lookup: Array, ldiff: Array, rdiff: Array):
+static func _diff(lb: PackedByteArray, rb: PackedByteArray, lookup: Array, ldiff: Array, rdiff: Array):
 	var loffset = lb.size()
 	var roffset = rb.size()
 	
@@ -36,7 +36,7 @@ static func _diff(lb: PoolByteArray, rb: PoolByteArray, lookup: Array, ldiff: Ar
 		break
 
 # lookup[i][j] stores the length of LCS of substring X[0..i-1], Y[0..j-1]
-static func _createLookUp(lb: PoolByteArray, rb: PoolByteArray) -> Array:
+static func _createLookUp(lb: PackedByteArray, rb: PackedByteArray) -> Array:
 	var lookup:Array = Array()
 	lookup.resize(lb.size() + 1)
 	for i in lookup.size():
@@ -45,7 +45,7 @@ static func _createLookUp(lb: PoolByteArray, rb: PoolByteArray) -> Array:
 		lookup[i] = x
 	return lookup
 
-static func _buildLookup(lb: PoolByteArray, rb: PoolByteArray) -> Array:
+static func _buildLookup(lb: PackedByteArray, rb: PackedByteArray) -> Array:
 	var lookup := _createLookUp(lb, rb)
 	# first column of the lookup table will be all 0
 	for i in lookup.size():
@@ -66,23 +66,23 @@ static func _buildLookup(lb: PoolByteArray, rb: PoolByteArray) -> Array:
 	return lookup
 
 static func string_diff(left, right) -> Array:
-	var lb := PoolByteArray() if left == null else str(left).to_ascii()
-	var rb := PoolByteArray() if right == null else str(right).to_ascii()
+	var lb := PackedByteArray() if left == null else str(left).to_ascii_buffer()
+	var rb := PackedByteArray() if right == null else str(right).to_ascii_buffer()
 	var ldiff := Array()
 	var rdiff := Array()
 	var lookup =  _buildLookup(lb, rb);
 	_diff(lb, rb, lookup, ldiff, rdiff)
-	return [PoolByteArray(ldiff).get_string_from_ascii(), PoolByteArray(rdiff).get_string_from_ascii()]
+	return [PackedByteArray(ldiff).get_string_from_ascii(), PackedByteArray(rdiff).get_string_from_ascii()]
 
 static func as_invalid(value) -> String:
 	var x := Array()
-	for c in str(value).to_ascii():
+	for c in str(value).to_ascii_buffer():
 		x.append(DIV_SUB)
 		x.append(c)
-	return PoolByteArray(x).get_string_from_ascii()
+	return PackedByteArray(x).get_string_from_ascii()
 
 # prototype
-static func longestCommonSubsequence(text1 :String, text2 :String) -> PoolStringArray:
+static func longestCommonSubsequence(text1 :String, text2 :String) -> PackedStringArray:
 	var text1Words := text1.split(" ")
 	var text2Words := text2.split(" ")
 	var text1WordCount := text1Words.size()
@@ -103,7 +103,7 @@ static func longestCommonSubsequence(text1 :String, text2 :String) -> PoolString
 	
 	var i = 0
 	var j = 0
-	var lcsResultList := PoolStringArray();
+	var lcsResultList := PackedStringArray();
 	while (i < text1WordCount && j < text2WordCount):
 		if text1Words[i] == text2Words[j]:
 			lcsResultList.append(text2Words[j])
@@ -115,7 +115,7 @@ static func longestCommonSubsequence(text1 :String, text2 :String) -> PoolString
 			j += 1
 	return lcsResultList
 
-static func markTextDifferences(text1 :String, text2 :String, lcsList :PoolStringArray, insertColor :Color, deleteColor:Color) -> String:
+static func markTextDifferences(text1 :String, text2 :String, lcsList :PackedStringArray, insertColor :Color, deleteColor:Color) -> String:
 	var stringBuffer = ""
 	if text1 == null and lcsList == null:
 		return stringBuffer

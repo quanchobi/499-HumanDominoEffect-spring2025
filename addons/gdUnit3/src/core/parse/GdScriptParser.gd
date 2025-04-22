@@ -1,5 +1,5 @@
 class_name GdScriptParser
-extends Reference
+extends RefCounted
 
 
 const ALLOWED_CHARACTERS := "0123456789_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\""
@@ -67,7 +67,7 @@ var _regex_func_args := prepare_regex("\\b[^()]+\\((.*)\\)")
 var _regex_argumentTags := prepare_regex("([^,]+\\(.+?\\))|([^,]+)");
 
 var _base_clazz :String
-var _scanned_inner_classes := PoolStringArray()
+var _scanned_inner_classes := PackedStringArray()
 
 static func prepare_regex(pattern :String) -> RegEx:
 	var regex := RegEx.new()
@@ -82,7 +82,7 @@ static func clean_up_row(row :String) -> String:
 static func to_unix_format(input :String) -> String:
 	return input.replace("\r\n", "\n")
 
-class Token extends Reference:
+class Token extends RefCounted:
 	var _token: String
 	var _consumed: int
 	var _is_operator: bool
@@ -120,14 +120,16 @@ class Token extends Reference:
 
 
 class Operator extends Token:
-	func _init(value: String).(value, true) -> void:
+	func _init(value: String) -> void:
+		super(value, true)
 		pass
 
 # Token to parse Fuzzers
 class FuzzerToken extends Token:
 	var _name: String
 
-	func _init(regex: RegEx).("", false, regex) -> void:
+	func _init(regex: RegEx) -> void:
+		super("", false, regex)
 		pass
 
 	func match(input: String, pos: int) -> bool:
@@ -152,7 +154,8 @@ class Variable extends Token:
 	var _typed_value
 	var _type := TYPE_NIL
 
-	func _init(value: String).(value) -> void:
+	func _init(value: String) -> void:
+		super(value)
 		_type = _scan_type(value)
 		_plain_value = value
 		_typed_value = _cast_to_type(value, _type)
@@ -163,10 +166,10 @@ class Variable extends Token:
 		var type := GdObjects.string_to_type(value)
 		if type != TYPE_NIL:
 			return type
-		if value.is_valid_integer():
+		if value.is_valid_int():
 			return TYPE_INT
 		if value.is_valid_float():
-			return TYPE_REAL
+			return TYPE_FLOAT
 		if value.is_valid_hex_number():
 			return TYPE_INT
 		return TYPE_OBJECT
@@ -177,7 +180,7 @@ class Variable extends Token:
 				return value#.substr(1, value.length() - 2)
 			TYPE_INT:
 				return int(value)
-			TYPE_REAL:
+			TYPE_FLOAT:
 				return float(value)
 		return value
 
@@ -198,11 +201,11 @@ class Variable extends Token:
 
 class TokenInnerClass extends Token:
 	var _clazz_name
-	var _content := PoolStringArray()
+	var _content := PackedStringArray()
 
 	static func _strip_leading_spaces(input :String) -> String:
-		var characters := input.to_ascii()
-		while not characters.empty():
+		var characters := input.to_ascii_buffer()
+		while not characters.is_empty():
 			if characters[0] != 0x20:
 				break
 			characters.remove(0)
@@ -211,16 +214,17 @@ class TokenInnerClass extends Token:
 	static func _consumed_bytes(row :String) -> int:
 		return row.replace(" ", "").replace("	", "").length()
 
-	func _init(clazz_name :String).("class") -> void:
+	func _init(clazz_name :String) -> void:
+		super("class")
 		_clazz_name = clazz_name
 
 	func is_class_name(clazz_name :String) -> bool:
 		return _clazz_name == clazz_name
 
-	func content() -> PoolStringArray:
+	func content() -> PackedStringArray:
 		return _content
 
-	func parse(source_rows :PoolStringArray, offset :int) -> void:
+	func parse(source_rows :PackedStringArray, offset :int) -> void:
 		# add class signature
 		_content.append(source_rows[offset])
 		# parse class content
@@ -228,18 +232,18 @@ class TokenInnerClass extends Token:
 			# scan until next non tab
 			var source_row := source_rows[row_index]
 			var row = _strip_leading_spaces(source_row)
-			if row.empty() or row.begins_with("\t") or row.begins_with("#"):
+			if row.is_empty() or row.begins_with("\t") or row.begins_with("#"):
 				# fold all line to left by removing leading tabs and spaces
 				if source_row.begins_with("\t"):
 					source_row.erase(0, 1)
 				# refomat invalid empty lines
-				if source_row.dedent().empty():
+				if source_row.dedent().is_empty():
 					_content.append("")
 				else:
 					_content.append(source_row)
 				continue
 			break
-		_consumed += _consumed_bytes(_content.join(""))
+		_consumed += "".join(_consumed_bytes(_content))
 
 func _init():
 	_regex_clazz_name = prepare_regex("(class)([a-zA-Z0-9]+)(extends[a-zA-Z]+:)|(class)([a-zA-Z0-9]+)(:)")
@@ -276,7 +280,7 @@ func tokenize_value(input: String, current: int, token: Token) -> Token:
 		# or is a float value
 		if (test_for_sign and next==0) \
 			or character in ALLOWED_CHARACTERS \
-			or (character == "." and current_token.is_valid_integer()):
+			or (character == "." and current_token.is_valid_int()):
 			current_token += character
 			next += 1
 			continue
@@ -290,7 +294,7 @@ func extract_clazz_name(value :String) -> String:
 	if result == null:
 		push_error("Can't extract class name from '%s'" % value)
 		return ""
-	if result.get_string(2).empty():
+	if result.get_string(2).is_empty():
 		return result.get_string(5)
 	else:
 		return result.get_string(2)
@@ -329,7 +333,7 @@ func parse_func_return_type(row: String) -> int:
 	return token.type()
 
 func parse_return_token(input: String) -> Token:
-	var index := input.find_last(TOKEN_FUNCTION_RETURN_TYPE._token)
+	var index := input.rfind(TOKEN_FUNCTION_RETURN_TYPE._token)
 	if index == -1:
 		return TOKEN_NOT_MATCH
 	index += TOKEN_FUNCTION_RETURN_TYPE._consumed
@@ -363,7 +367,7 @@ func _extract_arguments(input :String) -> String:
 # e.g. func foo(arg1 :int, arg2 = 20) -> [arg1, arg2]
 func parse_arguments(input: String) -> Array:
 	var arguments := _extract_arguments(input)
-	if arguments.empty():
+	if arguments.is_empty():
 		return []
 	arguments += ","
 	
@@ -443,7 +447,7 @@ func parse_arguments(input: String) -> Array:
 
 func build_argument(arg_name, arg_type, arg_value) -> GdFunctionArgument:
 	arg_value = arg_value.lstrip(" ")
-	if arg_type.empty() and arg_value != GdFunctionArgument.UNDEFINED:
+	if arg_type.is_empty() and arg_value != GdFunctionArgument.UNDEFINED:
 		var value_type := TYPE_STRING
 		if arg_value.begins_with("Color."):
 			value_type = TYPE_COLOR
@@ -458,8 +462,8 @@ func build_argument(arg_name, arg_type, arg_value) -> GdFunctionArgument:
 		elif arg_value.begins_with("{"):
 			value_type = TYPE_DICTIONARY
 		else:
-			value_type = typeof(str2var(arg_value))
-			if value_type == TYPE_STRING and arg_value.find_last(")") == arg_value.length()-1:
+			value_type = typeof(str_to_var(arg_value))
+			if value_type == TYPE_STRING and arg_value.rfind(")") == arg_value.length()-1:
 				value_type = GdObjects.TYPE_FUNC
 		arg_type = GdObjects.type_as_string(value_type)
 	return GdFunctionArgument.new(arg_name, arg_type, arg_value)
@@ -496,7 +500,7 @@ func _parse_end_function(input: String, remove_trailing_char := false) -> String
 	var current_index := 0
 	var bracket_count := 0
 	var in_array := 0
-	var end_of_func = false
+	var end_of()_func = false
 
 	while current_index < len(input) and not end_of_func:
 		var character = input[current_index]
@@ -522,7 +526,7 @@ func _parse_end_function(input: String, remove_trailing_char := false) -> String
 			return input.substr(0, current_index-1)
 	return input.substr(0, current_index)
 
-func extract_inner_class(source_rows: PoolStringArray, clazz_name :String) -> PoolStringArray:
+func extract_inner_class(source_rows: PackedStringArray, clazz_name :String) -> PackedStringArray:
 	for row_index in source_rows.size():
 		var input := clean_up_row(source_rows[row_index])
 		var token := next_token(input, 0)
@@ -530,12 +534,12 @@ func extract_inner_class(source_rows: PoolStringArray, clazz_name :String) -> Po
 			if token.is_class_name(clazz_name):
 				token.parse(source_rows, row_index)
 				return token.content()
-	return PoolStringArray()
+	return PackedStringArray()
 
-func extract_source_code(script_path :PoolStringArray) -> PoolStringArray:
-	if script_path.empty():
+func extract_source_code(script_path :PackedStringArray) -> PackedStringArray:
+	if script_path.is_empty():
 		push_error("Invalid script path '%s'" % script_path)
-		return PoolStringArray()
+		return PackedStringArray()
 	#load the source code
 	var resource_path := script_path[0]
 	var script :GDScript = load(resource_path)
@@ -546,7 +550,7 @@ func extract_source_code(script_path :PoolStringArray) -> PoolStringArray:
 		source_code += load_source_code(base_script, script_path)
 	return source_code
 
-func extract_func_signature(rows :PoolStringArray, index :int) -> String:
+func extract_func_signature(rows :PackedStringArray, index :int) -> String:
 	var signature = ""
 	for rowIndex in range(index, rows.size()):
 		signature += rows[rowIndex].strip_edges().replace("\t", "")
@@ -555,7 +559,7 @@ func extract_func_signature(rows :PoolStringArray, index :int) -> String:
 	push_error("Can't fully extract function signature of '%s'" % rows[index])
 	return ""
 
-func load_source_code(script :GDScript, script_path :PoolStringArray) -> PoolStringArray:
+func load_source_code(script :GDScript, script_path :PackedStringArray) -> PackedStringArray:
 	var map := script.get_script_constant_map()
 	for key in map.keys():
 		var value = map.get(key)
@@ -571,7 +575,7 @@ func load_source_code(script :GDScript, script_path :PoolStringArray) -> PoolStr
 	if script_path.size() > 1:
 		var inner_clazz = script_path[1]
 		source_rows = extract_inner_class(source_rows, inner_clazz)
-	return PoolStringArray(source_rows)
+	return PackedStringArray(source_rows)
 
 func get_class_name(script :GDScript) -> String:
 	var source_code := to_unix_format(script.source_code)
@@ -598,7 +602,7 @@ func parse_func_name(row :String) -> String:
 		current_index += token._consumed
 	return token._token
 
-func parse_functions(rows :PoolStringArray, clazz_name :String, clazz_path :PoolStringArray, included_functions :PoolStringArray = []) -> Array:
+func parse_functions(rows :PackedStringArray, clazz_name :String, clazz_path :PackedStringArray, included_functions :PackedStringArray = []) -> Array:
 	var func_descriptors := Array()
 	for rowIndex in rows.size():
 		var row = rows[rowIndex]
@@ -616,15 +620,15 @@ func parse_functions(rows :PoolStringArray, clazz_name :String, clazz_path :Pool
 				func_descriptors.append(parse_func_description(func_signature, clazz_name, clazz_path, rowIndex+1))
 	return func_descriptors
 
-func _is_func_included(row :String, included_functions :PoolStringArray) -> bool:
-	if included_functions.empty():
+func _is_func_included(row :String, included_functions :PackedStringArray) -> bool:
+	if included_functions.is_empty():
 		return true
 	for name in included_functions:
 		if row.find(name) != -1:
 			return true
 	return false
 
-func parse_func_description(func_signature :String, clazz_name :String, clazz_path :PoolStringArray, line_number :int) -> GdFunctionDescriptor:
+func parse_func_description(func_signature :String, clazz_name :String, clazz_path :PackedStringArray, line_number :int) -> GdFunctionDescriptor:
 	var name =  parse_func_name(func_signature)
 	var return_type :int
 	var return_clazz := ""
@@ -651,7 +655,7 @@ func parse_func_description(func_signature :String, clazz_name :String, clazz_pa
 # key: <clazz_name> value: a Array of virtual function names
 var _virtual_func_cache := Dictionary()
 
-func is_virtual_func(clazz_name :String, clazz_path :PoolStringArray, func_name :String) -> bool:
+func is_virtual_func(clazz_name :String, clazz_path :PackedStringArray, func_name :String) -> bool:
 	if _virtual_func_cache.has(clazz_name):
 		return _virtual_func_cache[clazz_name].has(func_name)
 
@@ -669,7 +673,7 @@ func is_static_func(func_signature :String) -> bool:
 	var token := next_token(input, 0)
 	return token == TOKEN_FUNCTION_STATIC_DECLARATION
 
-func is_inner_class(clazz_path :PoolStringArray) -> bool:
+func is_inner_class(clazz_path :PackedStringArray) -> bool:
 	return clazz_path.size() > 1
 
 
@@ -687,13 +691,13 @@ func _patch_inner_class_names(value :String, clazz_name :String) -> String:
 	return patch
 
 
-func extract_functions(script :GDScript, clazz_name :String, clazz_path :PoolStringArray) -> Array:
+func extract_functions(script :GDScript, clazz_name :String, clazz_path :PackedStringArray) -> Array:
 	var source_code := load_source_code(script, clazz_path)
 	return parse_functions(source_code, clazz_name, clazz_path)
 
-func parse(clazz_name :String, clazz_path :PoolStringArray) -> Result:
+func parse(clazz_name :String, clazz_path :PackedStringArray) -> Result:
 
-	if clazz_path.empty():
+	if clazz_path.is_empty():
 		return Result.error("Invalid script path '%s'" % clazz_path)
 
 	var is_inner_class := is_inner_class(clazz_path)

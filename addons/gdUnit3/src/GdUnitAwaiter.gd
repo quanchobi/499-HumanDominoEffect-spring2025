@@ -1,5 +1,5 @@
 class_name GdUnitAwaiter
-extends Reference
+extends RefCounted
 
 
 # Waits for a specified signal in an interval of 50ms sent from the <source>, and terminates with an error after the specified timeout has elapsed.
@@ -12,10 +12,10 @@ static func await_signal_on(test_suite :WeakRef, source :Object, signal_name :St
 	# fail fast if the given source instance invalid
 	if not is_instance_valid(source):
 		GdUnitAssertImpl.new(test_suite.get_ref(), signal_name)\
-			.report_error(GdAssertMessages.error_await_signal_on_invalid_instance(source, signal_name, args), line_number)
+			super.report_error(GdAssertMessages.error_await_signal_on_invalid_instance(source, signal_name, args), line_number)
 		return await_idle_frame()
 	var awaiter = GdUnitSignalAwaiter.new(timeout_millis)
-	var value = yield(awaiter.on_signal(source, signal_name, args), "completed")
+	var value = await awaiter.on_signal(source, signal_name, args).completed
 	if awaiter.is_interrupted():
 		var failure = "await_signal_on(%s, %s) timed out after %sms" % [signal_name, args, timeout_millis]
 		GdUnitAssertImpl.new(test_suite.get_ref(), signal_name).report_error(failure, line_number)
@@ -31,10 +31,10 @@ static func await_signal_idle_frames(test_suite :WeakRef, source :Object, signal
 	# fail fast if the given source instance invalid
 	if not is_instance_valid(source):
 		GdUnitAssertImpl.new(test_suite.get_ref(), signal_name)\
-			.report_error(GdAssertMessages.error_await_signal_on_invalid_instance(source, signal_name, args), line_number)
+			super.report_error(GdAssertMessages.error_await_signal_on_invalid_instance(source, signal_name, args), line_number)
 		return await_idle_frame()
 	var awaiter = GdUnitSignalAwaiter.new(timeout_millis, true)
-	yield(awaiter.on_signal(source, signal_name, args), "completed")
+	await awaiter.on_signal(source, signal_name, args).completed
 	if awaiter.is_interrupted():
 		var failure = "await_signal_idle_frames(%s, %s) timed out after %sms" % [signal_name, args, timeout_millis]
 		GdUnitAssertImpl.new(test_suite.get_ref(), signal_name).report_error(failure, line_number)
@@ -50,8 +50,8 @@ static func await_millis(parent: Node, milliSec :int) -> GDScriptFunctionState:
 	parent.add_child(timer)
 	timer.set_one_shot(true)
 	timer.start(milliSec * 0.001)
-	return yield(timer, "timeout")
+	return await timer.timeout
 
 # Waits until the next idle frame
 static func await_idle_frame() -> GDScriptFunctionState:
-	return yield(Engine.get_main_loop(), "idle_frame")
+	return await Engine.get_main_loop().idle_frame

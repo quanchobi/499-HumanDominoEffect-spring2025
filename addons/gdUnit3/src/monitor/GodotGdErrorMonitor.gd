@@ -6,7 +6,8 @@ var _file :File
 var _eof :int
 var _report_enabled := false
 
-func _init().("GodotGdErrorMonitor"):
+func _init():
+	super("GodotGdErrorMonitor")
 	_godot_log_file = GdUnitSettings.get_log_path().get_base_dir() + "/godot.log"
 	_report_enabled = is_reporting_enabled()
 
@@ -15,7 +16,7 @@ func start():
 		_file = File.new()
 		_file.open(_godot_log_file, File.READ)
 		_file.seek_end(0)
-		_eof = _file.get_len()
+		_eof = _file.get_length()
 		_file.close()
 
 func stop():

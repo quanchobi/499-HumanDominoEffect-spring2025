@@ -1,14 +1,14 @@
 class_name GdUnitProperty
-extends Reference
+extends RefCounted
 
 var _name :String
 var _help :String
 var _type :int
 var _value
-var _value_set :PoolStringArray
+var _value_set :PackedStringArray
 var _default
 
-func _init(name :String, type :int, value, default_value, help :="", value_set := PoolStringArray() ):
+func _init(name :String, type :int, value, default_value, help :="", value_set := PackedStringArray() ):
 	_name = name
 	_type = type
 	_value = value
@@ -25,11 +25,11 @@ func type() -> int:
 func value():
 	return _value
 
-func value_set() -> PoolStringArray:
+func value_set() -> PackedStringArray:
 	return _value_set
 
 func is_selectable_value() -> bool:
-	return not _value_set.empty()
+	return not _value_set.is_empty()
 
 func set_value(value) -> void:
 	match _type:
@@ -39,7 +39,7 @@ func set_value(value) -> void:
 			_value = bool(value)
 		TYPE_INT:
 			_value = int(value)
-		TYPE_REAL:
+		TYPE_FLOAT:
 			_value = float(value)
 
 func default():

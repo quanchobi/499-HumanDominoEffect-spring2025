@@ -1,18 +1,18 @@
-tool
+@tool
 extends HBoxContainer
 
 signal run_pressed
 signal stop_pressed
 
 
-onready var debug_icon_image :Texture = load("res://addons/gdUnit3/src/ui/assets/PlayDebug.svg")
-onready var _version_label := $Tools/CenterContainer/version
-onready var _button_wiki := $Tools/help
-onready var _tool_button := $Tools/tool
+@onready var debug_icon_image :Texture2D = load("res://addons/gdUnit3/src/ui/assets/PlayDebug.svg")
+@onready var _version_label := $Tools/CenterContainer/version
+@onready var _button_wiki := $Tools/help
+@onready var _tool_button := $Tools/tool
 
-onready var _button_run := $Tools/run
-onready var _button_run_debug := $Tools/debug
-onready var _button_stop := $Tools/stop
+@onready var _button_run := $Tools/run
+@onready var _button_run_debug := $Tools/debug
+@onready var _button_stop := $Tools/stop
 
 func _ready():
 	GdUnit3Version.init_version_label(_version_label)
@@ -26,7 +26,7 @@ func _ready():
 	var texture := ImageTexture.new()
 	texture.create_from_image(debug_icon_image.get_data())
 	_button_run_debug.icon = texture
-	texture.set_size_override(Vector2.ONE * scale * 16)
+	texture.set_size_2d_override(Vector2.ONE * scale * 16)
 
 func _on_run_pressed(debug :bool=false):
 	emit_signal("run_pressed", debug)
@@ -49,7 +49,7 @@ func _on_wiki_pressed():
 
 
 func _on_btn_tool_pressed():
-	var tool_popup = load("res://addons/gdUnit3/src/ui/GdUnitToolsDialog.tscn").instance()
+	var tool_popup = load("res://addons/gdUnit3/src/ui/GdUnitToolsDialog.tscn").instantiate()
 	#tool_popup.request_ready()
 	add_child(tool_popup)
 
